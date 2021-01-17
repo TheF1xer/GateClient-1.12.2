@@ -18,7 +18,7 @@ import org.lwjgl.input.Keyboard;
 public class KillAura extends Module {
 
     public KillAura() {
-        super("Kill Aura", EnumModuleCategory.COMBAT, Keyboard.KEY_Z);
+        super("Kill Aura", "killaura", EnumModuleCategory.COMBAT, Keyboard.KEY_Z);
     }
 
     @Override

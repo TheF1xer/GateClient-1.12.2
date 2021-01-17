@@ -9,7 +9,7 @@ public class FullBright extends Module {
     private float lastGamma;
 
     public FullBright() {
-        super("Full Bright", EnumModuleCategory.RENDER, Keyboard.KEY_N);
+        super("Full Bright", "fullbright", EnumModuleCategory.RENDER, Keyboard.KEY_N);
     }
 
     @Override

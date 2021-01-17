@@ -6,7 +6,5 @@ public abstract class GroupSetting extends Setting {
         super(name, id);
     }
 
-    public Setting[] getSettings() {
-        return null;
-    }
+    public abstract Setting[] getSettings();
 }

@@ -7,8 +7,12 @@ import org.lwjgl.input.Keyboard;
 
 public class HUDController extends Module {
     public HUDController() {
-        super("HUD", EnumModuleCategory.RENDER, Keyboard.KEY_B);
+        super("HUD", "hud", EnumModuleCategory.RENDER, Keyboard.KEY_B);
     }
+
+    /*
+    The rest happens on HUD.java
+     */
 
     @Override
     public void onEnabled() {

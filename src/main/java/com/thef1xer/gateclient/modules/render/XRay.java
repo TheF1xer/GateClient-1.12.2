@@ -6,6 +6,6 @@ import org.lwjgl.input.Keyboard;
 
 public class XRay extends Module {
     public XRay() {
-        super("XRay", EnumModuleCategory.RENDER, Keyboard.KEY_X);
+        super("XRay", "xray", EnumModuleCategory.RENDER, Keyboard.KEY_X);
     }
 }

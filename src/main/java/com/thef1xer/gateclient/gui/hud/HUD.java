@@ -15,7 +15,8 @@ import java.util.List;
 public class HUD {
     public List<Module> modulesSorted = new ArrayList<>();
     public boolean renderModules = false;
-    FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+    public FontRenderer fr;
+    public ScaledResolution sr;
 
     public void init() {
         modulesSorted = GateClient.moduleManager.moduleList;
@@ -26,7 +27,8 @@ public class HUD {
     public void onOverlayRender(RenderGameOverlayEvent event) {
         //Check if Text is being rendered
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-            ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+            sr = new ScaledResolution(Minecraft.getMinecraft());
+            fr = Minecraft.getMinecraft().fontRenderer;
             if (renderModules) {
                 int i = 0;
                 for (Module module : GateClient.moduleManager.moduleList) {

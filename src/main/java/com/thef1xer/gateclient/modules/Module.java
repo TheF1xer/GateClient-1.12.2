@@ -8,14 +8,16 @@ import java.util.List;
 
 public class Module {
     private final String name;
+    private final String id;
     private boolean enabled = false;
     private int keyBind;
     private final EnumModuleCategory moduleCategory;
     private boolean drawOnHud = true;
-    private List<Setting> settings = new ArrayList<>();
+    private final List<Setting> settings = new ArrayList<>();
 
-    public Module(String name, EnumModuleCategory category, int key) {
+    public Module(String name, String id, EnumModuleCategory category, int key) {
         this.name = name;
+        this.id = id;
         this.moduleCategory = category;
         this.keyBind = key;
     }
@@ -30,6 +32,10 @@ public class Module {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public boolean isEnabled() {

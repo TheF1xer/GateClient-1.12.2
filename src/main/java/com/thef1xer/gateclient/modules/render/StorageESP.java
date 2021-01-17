@@ -32,7 +32,7 @@ public class StorageESP extends Module {
     };
 
     public StorageESP() {
-        super("Storage ESP", EnumModuleCategory.RENDER, Keyboard.KEY_C);
+        super("Storage ESP", "storageesp", EnumModuleCategory.RENDER, Keyboard.KEY_C);
         this.addSettings(color);
     }
 

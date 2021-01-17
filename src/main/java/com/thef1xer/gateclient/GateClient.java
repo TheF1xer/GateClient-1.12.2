@@ -1,6 +1,7 @@
 package com.thef1xer.gateclient;
 
 import com.thef1xer.gateclient.gui.hud.HUD;
+import com.thef1xer.gateclient.managers.CommandManager;
 import com.thef1xer.gateclient.managers.ModuleManager;
 import com.thef1xer.gateclient.util.Reference;
 import com.thef1xer.gateclient.util.handlers.EventHandler;
@@ -13,11 +14,13 @@ public class GateClient {
 
     public EventHandler eventHandler = new EventHandler();
     public static ModuleManager moduleManager = new ModuleManager();
+    public static CommandManager commandManager = new CommandManager();
     public static HUD hud = new HUD();
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         moduleManager.init();
+        commandManager.init();
         hud.init();
 
         MinecraftForge.EVENT_BUS.register(eventHandler);

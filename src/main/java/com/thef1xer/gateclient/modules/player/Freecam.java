@@ -30,7 +30,7 @@ public class Freecam extends Module {
     };
 
     public Freecam() {
-        super("Freecam", EnumModuleCategory.PLAYER, Keyboard.KEY_R);
+        super("Freecam", "freecam", EnumModuleCategory.PLAYER, Keyboard.KEY_R);
         this.addSettings(speed);
     }
 
@@ -39,7 +39,7 @@ public class Freecam extends Module {
         lastThirdPerson = Minecraft.getMinecraft().gameSettings.thirdPersonView;
 
         camera = new EntityOtherPlayerMP(Minecraft.getMinecraft().world, Minecraft.getMinecraft().getSession().getProfile());
-        Minecraft.getMinecraft().world.addEntityToWorld(333333333, camera);
+        Minecraft.getMinecraft().world.addEntityToWorld(333393333, camera);
         camera.copyLocationAndAnglesFrom(Minecraft.getMinecraft().player);
         Minecraft.getMinecraft().setRenderViewEntity(camera);
         camera.noClip = true;

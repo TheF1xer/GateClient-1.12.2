@@ -10,7 +10,7 @@ import org.lwjgl.input.Keyboard;
 
 public class Sprint extends Module {
     public Sprint() {
-        super("Sprint", EnumModuleCategory.MOVEMENT, Keyboard.KEY_M);
+        super("Sprint", "sprint", EnumModuleCategory.MOVEMENT, Keyboard.KEY_M);
     }
 
     @Override

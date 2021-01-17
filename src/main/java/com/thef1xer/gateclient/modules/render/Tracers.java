@@ -36,7 +36,7 @@ public class Tracers extends Module {
     };
 
     public Tracers() {
-        super("Tracers", EnumModuleCategory.RENDER, Keyboard.KEY_P);
+        super("Tracers", "tracers", EnumModuleCategory.RENDER, Keyboard.KEY_P);
         this.addSettings(target, color);
 
     }
