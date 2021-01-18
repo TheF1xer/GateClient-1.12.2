@@ -60,7 +60,7 @@ public class Module {
         return this.keyBind;
     }
 
-    public void setKey(int key) {
+    public void setKeyBind(int key) {
         this.keyBind = key;
     }
 

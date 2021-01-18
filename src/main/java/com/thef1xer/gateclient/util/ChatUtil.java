@@ -6,6 +6,10 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
 public class ChatUtil {
+    public static void userMessage(String message) {
+        Minecraft.getMinecraft().player.sendMessage(new TextComponentString(message));
+    }
+
     public static void clientMessage(String message) {
         message = TextFormatting.BLUE + "[" + Reference.NAME + "] " + TextFormatting.RESET + message;
         Minecraft.getMinecraft().player.sendMessage(new TextComponentString(message));
