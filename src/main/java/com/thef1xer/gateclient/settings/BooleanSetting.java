@@ -1,7 +1,7 @@
 package com.thef1xer.gateclient.settings;
 
 public class BooleanSetting extends Setting{
-    public boolean value;
+    private boolean value;
 
     public BooleanSetting(String name, String id, boolean value) {
         super(name, id);

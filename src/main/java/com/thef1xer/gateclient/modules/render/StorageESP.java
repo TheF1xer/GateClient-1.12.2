@@ -20,11 +20,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
 
 public class StorageESP extends Module {
-    public ColorSetting chestColor = new ColorSetting("Chest Color", "chest", 255, 255, 255, 255);
-    public ColorSetting shulkerColor = new ColorSetting("Shulker Color", "shulker", 255, 255, 255, 255);
-    public ColorSetting enderChestColor = new ColorSetting("Ender Chest Color", "ender", 255, 255, 255, 255);
+    public ColorSetting chestColor = new ColorSetting("Chest Color", "chestcolor", 255, 255, 255, 255);
+    public ColorSetting shulkerColor = new ColorSetting("Shulker Color", "shulkercolor", 255, 255, 255, 255);
+    public ColorSetting enderChestColor = new ColorSetting("Ender Chest Color", "endercolor", 255, 255, 255, 255);
 
-    public GroupSetting color = new GroupSetting("Color", "color") {
+    public GroupSetting color = new GroupSetting("Colors") {
         @Override
         public Setting[] getSettings() {
             return new Setting[]{chestColor, shulkerColor, enderChestColor};

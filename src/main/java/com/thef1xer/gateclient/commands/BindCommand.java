@@ -3,6 +3,7 @@ package com.thef1xer.gateclient.commands;
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.util.ChatUtil;
+import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.input.Keyboard;
 
 public class BindCommand extends Command {
@@ -28,7 +29,7 @@ public class BindCommand extends Command {
                 ChatUtil.clientMessage("Key Bind List:");
                 for (Module module : GateClient.moduleManager.moduleList) {
                     if (module.getKeyBind() != Keyboard.KEY_NONE) {
-                        ChatUtil.clientMessage(module.getName() + " is bound to " + Keyboard.getKeyName(module.getKeyBind()));
+                        ChatUtil.userMessage(TextFormatting.GRAY + module.getName() + " is bound to " + Keyboard.getKeyName(module.getKeyBind()));
                     }
                 }
                 return;

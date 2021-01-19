@@ -1,5 +1,6 @@
 package com.thef1xer.gateclient.modules;
 
+import com.thef1xer.gateclient.settings.GroupSetting;
 import com.thef1xer.gateclient.settings.Setting;
 
 import java.util.ArrayList;
@@ -77,6 +78,18 @@ public class Module {
     }
 
     public List<Setting> getSettings() {
+        return settings;
+    }
+
+    public List<Setting> getStreamedSettings() {
+        List<Setting> settings = new ArrayList<>();
+        for (Setting setting : this.getSettings()) {
+            if (setting instanceof GroupSetting) {
+                settings.addAll(Arrays.asList(((GroupSetting) setting).getSettings()));
+            } else {
+                settings.add(setting);
+            }
+        }
         return settings;
     }
 

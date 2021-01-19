@@ -19,10 +19,10 @@ public class Freecam extends Module {
     public int lastThirdPerson;
     public EntityOtherPlayerMP camera;
 
-    public FloatSetting verticalSpeed = new FloatSetting("Vertical Speed", "vertical", 3F);
-    public FloatSetting horizontalSpeed = new FloatSetting("Horizontal Speed", "horizontal", 3F);
+    public FloatSetting verticalSpeed = new FloatSetting("Vertical Speed", "verticalspeed", 3F);
+    public FloatSetting horizontalSpeed = new FloatSetting("Horizontal Speed", "horizontalspeed", 3F);
 
-    public GroupSetting speed = new GroupSetting("Speed", "speed") {
+    public GroupSetting speed = new GroupSetting("Speed") {
         @Override
         public Setting[] getSettings() {
             return new Setting[]{verticalSpeed, horizontalSpeed};
