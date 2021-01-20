@@ -15,6 +15,7 @@ public class Module {
     private final EnumModuleCategory moduleCategory;
     private boolean drawOnHud = true;
     private final List<Setting> settings = new ArrayList<>();
+    private final List<Setting> streamedSettings = new ArrayList<>();
 
     public Module(String name, String id, EnumModuleCategory category, int key) {
         this.name = name;
@@ -82,18 +83,17 @@ public class Module {
     }
 
     public List<Setting> getStreamedSettings() {
-        List<Setting> settings = new ArrayList<>();
-        for (Setting setting : this.getSettings()) {
-            if (setting instanceof GroupSetting) {
-                settings.addAll(Arrays.asList(((GroupSetting) setting).getSettings()));
-            } else {
-                settings.add(setting);
-            }
-        }
-        return settings;
+        return streamedSettings;
     }
 
     public void addSettings(Setting... settings) {
         this.settings.addAll(Arrays.asList(settings));
+        for (Setting setting : settings) {
+            if (setting instanceof GroupSetting) {
+                streamedSettings.addAll(Arrays.asList(((GroupSetting) setting).getSettings()));
+            } else {
+                streamedSettings.add(setting);
+            }
+        }
     }
 }

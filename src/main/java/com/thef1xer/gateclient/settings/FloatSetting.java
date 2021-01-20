@@ -5,15 +5,15 @@ public class FloatSetting extends Setting{
     private float min;
     private float max;
 
-    public FloatSetting(String name, String id, float value) {
+    public FloatSetting(String name, String id, float value, float min, float max) {
         super(name, id);
         this.value = value;
-    }
-
-    public FloatSetting(String name, String id, float value, float min, float max) {
-        this(name, id, value);
         this.min = min;
         this.max = max;
+    }
+
+    public FloatSetting(String name, String id, float value) {
+        this(name, id, value, 0F, 100F);
     }
 
     public float getValue() {

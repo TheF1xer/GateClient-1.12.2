@@ -7,6 +7,7 @@ import com.thef1xer.gateclient.util.ChatUtil;
 import com.thef1xer.gateclient.util.MathUtil;
 import net.minecraft.util.text.TextFormatting;
 import org.apache.logging.log4j.core.util.Integers;
+import org.lwjgl.Sys;
 
 public class SetCommand extends Command{
     public Module module;
@@ -43,7 +44,9 @@ public class SetCommand extends Command{
                 if (!module.getSettings().isEmpty()) {
                     for (Setting setting : module.getStreamedSettings()) {
                         if (setting.getId().equalsIgnoreCase(args[2])) {
+
                             if (setting instanceof BooleanSetting) {
+
                                 if (args.length == 4) {
                                     if (args[3].equalsIgnoreCase("true")) {
                                         ((BooleanSetting)setting).setValue(true);
@@ -55,7 +58,9 @@ public class SetCommand extends Command{
                                 } else {
                                     this.syntaxError();
                                 }
+
                             } else if (setting instanceof ColorSetting) {
+
                                 if (args.length == 6) {
                                     if (MathUtil.isInteger(args[3]) && MathUtil.isInteger(args[4]) && MathUtil.isInteger(args[5])) {
                                         int red = Integers.parseInt(args[3]);
@@ -91,7 +96,23 @@ public class SetCommand extends Command{
                                 } else {
                                     this.syntaxError();
                                 }
+
                             } else if (setting instanceof FloatSetting) {
+                                if (args.length == 4) {
+                                    try {
+                                        float value = Float.parseFloat(args[3]);
+                                        if (value > ((FloatSetting) setting).getMin() && value < ((FloatSetting) setting).getMax()) {
+                                            ((FloatSetting) setting).setValue(value);
+                                            ChatUtil.clientMessage(setting.getName() + " set to " + value);
+                                        } else {
+                                            ChatUtil.clientMessage("The value must be between " + ((FloatSetting) setting).getMin() + " and " + ((FloatSetting) setting).getMax());
+                                        }
+                                    } catch (NumberFormatException e) {
+                                        ChatUtil.clientMessage("The number introduced is not valid");
+                                    }
+                                } else {
+                                    this.syntaxError();
+                                }
                             }
                             return;
                         }
