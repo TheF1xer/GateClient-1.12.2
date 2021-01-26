@@ -1,9 +1,6 @@
 package com.thef1xer.gateclient.managers;
 
-import com.thef1xer.gateclient.commands.BindCommand;
-import com.thef1xer.gateclient.commands.Command;
-import com.thef1xer.gateclient.commands.SetCommand;
-import com.thef1xer.gateclient.commands.ToggleCommand;
+import com.thef1xer.gateclient.commands.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +11,8 @@ public class CommandManager {
 
     public void init() {
         commandList.add(new BindCommand());
-        commandList.add(new ToggleCommand());
+        commandList.add(new HelpCommand());
         commandList.add(new SetCommand());
+        commandList.add(new ToggleCommand());
     }
 }

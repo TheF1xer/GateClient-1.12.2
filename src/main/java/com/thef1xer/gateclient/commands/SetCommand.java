@@ -7,7 +7,6 @@ import com.thef1xer.gateclient.util.ChatUtil;
 import com.thef1xer.gateclient.util.MathUtil;
 import net.minecraft.util.text.TextFormatting;
 import org.apache.logging.log4j.core.util.Integers;
-import org.lwjgl.Sys;
 
 public class SetCommand extends Command{
     public Module module;
