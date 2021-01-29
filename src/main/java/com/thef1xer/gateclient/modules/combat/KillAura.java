@@ -23,17 +23,22 @@ public class KillAura extends Module {
 
     @Override
     public void onEnabled() {
+        super.onEnabled();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
     public void onDisabled() {
+        super.onDisabled();
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onTick(TickEvent.ClientTickEvent event) {
+        if (Minecraft.getMinecraft().world == null || !Minecraft.getMinecraft().world.isRemote) {
+            return;
+        }
 
         Entity target = null;
         for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {

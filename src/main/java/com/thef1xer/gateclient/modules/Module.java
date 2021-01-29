@@ -1,6 +1,6 @@
 package com.thef1xer.gateclient.modules;
 
-import com.thef1xer.gateclient.settings.GroupSetting;
+import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.settings.Setting;
 
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ public class Module {
     private final EnumModuleCategory moduleCategory;
     private boolean drawOnHud = true;
     private final List<Setting> settings = new ArrayList<>();
-    private final List<Setting> streamedSettings = new ArrayList<>();
 
     public Module(String name, String id, EnumModuleCategory category, int key) {
         this.name = name;
@@ -56,6 +55,7 @@ public class Module {
 
     public void toggle() {
         setEnabled(!this.enabled);
+        GateClient.gateClient.presetManager.saveActivePreset(GateClient.gateClient.configManager.activePreset);
     }
 
     public int getKeyBind() {
@@ -82,18 +82,7 @@ public class Module {
         return settings;
     }
 
-    public List<Setting> getStreamedSettings() {
-        return streamedSettings;
-    }
-
     public void addSettings(Setting... settings) {
         this.settings.addAll(Arrays.asList(settings));
-        for (Setting setting : settings) {
-            if (setting instanceof GroupSetting) {
-                streamedSettings.addAll(Arrays.asList(((GroupSetting) setting).getSettings()));
-            } else {
-                streamedSettings.add(setting);
-            }
-        }
     }
 }

@@ -19,7 +19,7 @@ public class EventHandler {
     public void onKeyPressed(InputEvent.KeyInputEvent event) {
         if (Keyboard.isCreated() && Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().player != null) {
             if (Keyboard.getEventKeyState()) {
-                for (Module module : GateClient.moduleManager.moduleList) {
+                for (Module module : GateClient.gateClient.moduleManager.moduleList) {
                     if (Keyboard.getEventKey() == module.getKeyBind()) {
                         module.toggle();
                     }
@@ -33,11 +33,11 @@ public class EventHandler {
         String message = event.getOriginalMessage();
 
         //Commands
-        if (message.startsWith(GateClient.commandManager.prefix)) {
-            String[] args = message.substring(GateClient.commandManager.prefix.length()).split(" ");
+        if (message.startsWith(GateClient.gateClient.commandManager.prefix)) {
+            String[] args = message.substring(GateClient.gateClient.commandManager.prefix.length()).split(" ");
             boolean found = false;
 
-            for (Command command: GateClient.commandManager.commandList) {
+            for (Command command: GateClient.gateClient.commandManager.commandList) {
                 if (ChatUtil.isCommand(args[0], command)) {
                     command.onCommand(args);
                     found = true;

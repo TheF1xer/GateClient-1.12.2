@@ -4,8 +4,6 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.BooleanSetting;
 import com.thef1xer.gateclient.settings.ColorSetting;
-import com.thef1xer.gateclient.settings.GroupSetting;
-import com.thef1xer.gateclient.settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -28,26 +26,23 @@ public class Tracers extends Module {
     public BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", true);
     public ColorSetting color = new ColorSetting("Tracer Color", "color", 255, 255, 255, 255);
 
-    public GroupSetting target = new GroupSetting("Entities to Target") {
-        @Override
-        public Setting[] getSettings() {
-            return new Setting[]{targetPlayer, targetHostile};
-        }
-    };
-
     public Tracers() {
         super("Tracers", "tracers", EnumModuleCategory.RENDER, Keyboard.KEY_P);
-        this.addSettings(target, color);
+        targetPlayer.setParent("Entities to Target");
+        targetHostile.setParent("Entities to Target");
+        this.addSettings(targetPlayer, targetHostile, color);
 
     }
 
     @Override
     public void onEnabled() {
+        super.onEnabled();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
     public void onDisabled() {
+        super.onDisabled();
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 

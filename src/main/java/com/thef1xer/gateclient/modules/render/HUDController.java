@@ -16,11 +16,13 @@ public class HUDController extends Module {
 
     @Override
     public void onEnabled() {
-        GateClient.hud.renderModules = true;
+        super.onEnabled();
+        GateClient.gateClient.hud.renderModules = true;
     }
 
     @Override
     public void onDisabled() {
-        GateClient.hud.renderModules = false;
+        super.onDisabled();
+        GateClient.gateClient.hud.renderModules = false;
     }
 }

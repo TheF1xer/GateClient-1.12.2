@@ -3,6 +3,7 @@ package com.thef1xer.gateclient.settings;
 public abstract class Setting {
     private final String name;
     private final String id;
+    private String parent;
 
     public Setting(String name, String id) {
         this.name = name;
@@ -15,5 +16,13 @@ public abstract class Setting {
 
     public String getId() {
         return id;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    public String getParent() {
+        return parent;
     }
 }

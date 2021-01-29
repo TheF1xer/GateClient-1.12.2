@@ -3,8 +3,6 @@ package com.thef1xer.gateclient.modules.render;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.ColorSetting;
-import com.thef1xer.gateclient.settings.GroupSetting;
-import com.thef1xer.gateclient.settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -24,25 +22,23 @@ public class StorageESP extends Module {
     public ColorSetting shulkerColor = new ColorSetting("Shulker Color", "shulkercolor", 255, 255, 255, 255);
     public ColorSetting enderChestColor = new ColorSetting("Ender Chest Color", "endercolor", 255, 255, 255, 255);
 
-    public GroupSetting color = new GroupSetting("Colors") {
-        @Override
-        public Setting[] getSettings() {
-            return new Setting[]{chestColor, shulkerColor, enderChestColor};
-        }
-    };
-
     public StorageESP() {
         super("Storage ESP", "storageesp", EnumModuleCategory.RENDER, Keyboard.KEY_C);
-        this.addSettings(color);
+        chestColor.setParent("Color");
+        shulkerColor.setParent("Color");
+        enderChestColor.setParent("Color");
+        this.addSettings(chestColor, shulkerColor, enderChestColor);
     }
 
     @Override
     public void onEnabled() {
+        super.onEnabled();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
     public void onDisabled() {
+        super.onDisabled();
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 

@@ -19,7 +19,7 @@ public class HUD {
     public ScaledResolution sr;
 
     public void init() {
-        modulesSorted = GateClient.moduleManager.moduleList;
+        modulesSorted = GateClient.gateClient.moduleManager.moduleList;
         modulesSorted.sort(new ModuleComparator());
     }
 
@@ -31,7 +31,7 @@ public class HUD {
             fr = Minecraft.getMinecraft().fontRenderer;
             if (renderModules) {
                 int i = 0;
-                for (Module module : GateClient.moduleManager.moduleList) {
+                for (Module module : GateClient.gateClient.moduleManager.moduleList) {
                     if (module.isEnabled() && module.getDrawOnHud()) {
                         fr.drawStringWithShadow(module.getName(), sr.getScaledWidth() - fr.getStringWidth(module.getName()) - 4, 4 + i * fr.FONT_HEIGHT, 0xFFFFFF);
                         i++;

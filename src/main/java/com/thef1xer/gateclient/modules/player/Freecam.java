@@ -5,8 +5,6 @@ import com.thef1xer.gateclient.events.EventSetOpaqueCube;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.FloatSetting;
-import com.thef1xer.gateclient.settings.GroupSetting;
-import com.thef1xer.gateclient.settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.util.math.Vec3d;
@@ -22,40 +20,49 @@ public class Freecam extends Module {
     public FloatSetting verticalSpeed = new FloatSetting("Vertical Speed", "verticalspeed", 3F);
     public FloatSetting horizontalSpeed = new FloatSetting("Horizontal Speed", "horizontalspeed", 3F);
 
-    public GroupSetting speed = new GroupSetting("Speed") {
-        @Override
-        public Setting[] getSettings() {
-            return new Setting[]{verticalSpeed, horizontalSpeed};
-        }
-    };
-
     public Freecam() {
         super("Freecam", "freecam", EnumModuleCategory.PLAYER, Keyboard.KEY_R);
-        this.addSettings(speed);
+        verticalSpeed.setParent("Speed");
+        horizontalSpeed.setParent("Speed");
+        this.addSettings(verticalSpeed, horizontalSpeed);
     }
 
     @Override
     public void onEnabled() {
-        lastThirdPerson = Minecraft.getMinecraft().gameSettings.thirdPersonView;
-
-        camera = new EntityOtherPlayerMP(Minecraft.getMinecraft().world, Minecraft.getMinecraft().getSession().getProfile());
-        Minecraft.getMinecraft().world.addEntityToWorld(333393333, camera);
-        camera.copyLocationAndAnglesFrom(Minecraft.getMinecraft().player);
-        Minecraft.getMinecraft().setRenderViewEntity(camera);
-        camera.noClip = true;
+        super.onEnabled();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
     public void onDisabled() {
+        super.onDisabled();
+
         MinecraftForge.EVENT_BUS.unregister(this);
-        Minecraft.getMinecraft().setRenderViewEntity(Minecraft.getMinecraft().player);
-        Minecraft.getMinecraft().gameSettings.thirdPersonView = lastThirdPerson;
-        Minecraft.getMinecraft().world.removeEntity(camera);
+        if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().world.isRemote) {
+            Minecraft.getMinecraft().setRenderViewEntity(Minecraft.getMinecraft().player);
+            Minecraft.getMinecraft().gameSettings.thirdPersonView = lastThirdPerson;
+            Minecraft.getMinecraft().world.removeEntity(camera);
+        }
+        camera = null;
     }
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
+        if (Minecraft.getMinecraft().world == null || !Minecraft.getMinecraft().world.isRemote) {
+            camera = null;
+            return;
+        }
+
+        if (camera == null) {
+            lastThirdPerson = Minecraft.getMinecraft().gameSettings.thirdPersonView;
+
+            camera = new EntityOtherPlayerMP(Minecraft.getMinecraft().world, Minecraft.getMinecraft().getSession().getProfile());
+            Minecraft.getMinecraft().world.addEntityToWorld(333393333, camera);
+            camera.copyLocationAndAnglesFrom(Minecraft.getMinecraft().player);
+            Minecraft.getMinecraft().setRenderViewEntity(camera);
+            camera.noClip = true;
+        }
+
         Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
         camera.inventory = Minecraft.getMinecraft().player.inventory;
         camera.setHealth(Minecraft.getMinecraft().player.getHealth());

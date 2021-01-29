@@ -18,7 +18,7 @@ public class BindCommand extends Command {
 
         if (args.length == 2) {
             if (args[1].equalsIgnoreCase("clear")) {
-                for (Module module : GateClient.moduleManager.moduleList) {
+                for (Module module : GateClient.gateClient.moduleManager.moduleList) {
                     module.setKeyBind(Keyboard.KEY_NONE);
                 }
                 ChatUtil.clientMessage("Key Binds cleared");
@@ -27,7 +27,7 @@ public class BindCommand extends Command {
 
             if (args[1].equalsIgnoreCase("list")) {
                 ChatUtil.clientMessage("Key Bind List:");
-                for (Module module : GateClient.moduleManager.moduleList) {
+                for (Module module : GateClient.gateClient.moduleManager.moduleList) {
                     if (module.getKeyBind() != Keyboard.KEY_NONE) {
                         ChatUtil.userMessage(TextFormatting.GRAY + module.getName() + " is bound to " + Keyboard.getKeyName(module.getKeyBind()));
                     }
@@ -35,7 +35,7 @@ public class BindCommand extends Command {
                 return;
             }
 
-            for (Module module : GateClient.moduleManager.moduleList) {
+            for (Module module : GateClient.gateClient.moduleManager.moduleList) {
                 if (module.getId().equalsIgnoreCase(args[1].toUpperCase())) {
                     ChatUtil.clientMessage(module.getName() + " is bound to " + Keyboard.getKeyName(module.getKeyBind()));
                     return;
@@ -48,7 +48,7 @@ public class BindCommand extends Command {
             return;
         }
 
-        for (Module module : GateClient.moduleManager.moduleList) {
+        for (Module module : GateClient.gateClient.moduleManager.moduleList) {
             if (module.getId().equalsIgnoreCase(args[1])) {
                 module.setKeyBind(Keyboard.getKeyIndex(args[2]));
                 ChatUtil.clientMessage(module.getName() + " bound to " + args[2].toUpperCase());

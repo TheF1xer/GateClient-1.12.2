@@ -13,7 +13,7 @@ public class HelpCommand extends Command{
     public void onCommand(String[] args) {
         if (args.length == 1) {
             ChatUtil.clientMessage("List of Commands in this client:");
-            for (Command command : GateClient.commandManager.commandList) {
+            for (Command command : GateClient.gateClient.commandManager.commandList) {
                 ChatUtil.userMessage(TextFormatting.AQUA + command.getName() + ": " + TextFormatting.RESET + command.getDesc());
             }
         } else {

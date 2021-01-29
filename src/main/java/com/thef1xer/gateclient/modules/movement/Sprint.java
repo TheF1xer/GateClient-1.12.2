@@ -15,19 +15,22 @@ public class Sprint extends Module {
 
     @Override
     public void onEnabled() {
+        super.onEnabled();
         MinecraftForge.EVENT_BUS.register(this);
         System.out.println("enabled");
     }
 
     @Override
     public void onDisabled() {
+        super.onDisabled();
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
     @SubscribeEvent
     public void onLivingEvent(LivingEvent.LivingUpdateEvent event) {
-        if (Minecraft.getMinecraft().world.isRemote) {
-            if (Minecraft.getMinecraft().player.moveForward > 0F &&
+        if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().world.isRemote) {
+            if (Minecraft.getMinecraft().player != null &&
+                    Minecraft.getMinecraft().player.moveForward > 0F &&
                     !Minecraft.getMinecraft().player.collidedHorizontally &&
                     !Minecraft.getMinecraft().player.isSprinting() &&
                     !Minecraft.getMinecraft().player.isSneaking()) {

@@ -25,7 +25,7 @@ public class SetCommand extends Command{
                 }
 
                 ChatUtil.clientMessage("Settings for " + module.getName() + " module:");
-                for (Setting setting : module.getStreamedSettings()) {
+                for (Setting setting : module.getSettings()) {
                     if (setting instanceof BooleanSetting) {
                         sendMessageSetting(setting, "<true / false>");
                     } else if (setting instanceof ColorSetting) {
@@ -41,16 +41,16 @@ public class SetCommand extends Command{
         } else if (args.length > 3) {
             if (isModule(args[1])) {
                 if (!module.getSettings().isEmpty()) {
-                    for (Setting setting : module.getStreamedSettings()) {
+                    for (Setting setting : module.getSettings()) {
                         if (setting.getId().equalsIgnoreCase(args[2])) {
 
                             if (setting instanceof BooleanSetting) {
 
                                 if (args.length == 4) {
                                     if (args[3].equalsIgnoreCase("true")) {
-                                        ((BooleanSetting)setting).setValue(true);
+                                        ((BooleanSetting) setting).setValue(true);
                                     } else if (args[3].equalsIgnoreCase("false")) {
-                                        ((BooleanSetting)setting).setValue(false);
+                                        ((BooleanSetting) setting).setValue(false);
                                     } else {
                                         ChatUtil.clientMessage("Value must be <true / false>");
                                     }
@@ -129,7 +129,7 @@ public class SetCommand extends Command{
     }
 
     public boolean isModule(String name) {
-        for (Module module : GateClient.moduleManager.moduleList) {
+        for (Module module : GateClient.gateClient.moduleManager.moduleList) {
             if (module.getId().equalsIgnoreCase(name)) {
                 this.module = module;
                 return true;
