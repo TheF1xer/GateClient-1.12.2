@@ -3,6 +3,7 @@ package com.thef1xer.gateclient.managers;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.modules.combat.KillAura;
+import com.thef1xer.gateclient.modules.movement.Jesus;
 import com.thef1xer.gateclient.modules.movement.Sprint;
 import com.thef1xer.gateclient.modules.player.Freecam;
 import com.thef1xer.gateclient.modules.render.*;
@@ -17,6 +18,7 @@ public class ModuleManager {
         //Combat
         moduleList.add(new KillAura());
         //Movement
+        moduleList.add(new Jesus());
         moduleList.add(new Sprint());
         //Player
         moduleList.add(new Freecam());

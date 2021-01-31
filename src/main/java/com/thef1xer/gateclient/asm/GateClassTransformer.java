@@ -1,6 +1,7 @@
 package com.thef1xer.gateclient.asm;
 
 import com.thef1xer.gateclient.asm.visitors.EntityRendererVisitor;
+import com.thef1xer.gateclient.asm.visitors.NetHandlerPlayClientVisitor;
 import com.thef1xer.gateclient.asm.visitors.VisGraphVisitor;
 import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.ClassReader;
@@ -14,7 +15,8 @@ public class GateClassTransformer implements IClassTransformer {
 
     private static final String[] transformedClasses = {
             "net.minecraft.client.renderer.chunk.VisGraph",
-            "net.minecraft.client.renderer.EntityRenderer"
+            "net.minecraft.client.renderer.EntityRenderer",
+            "net.minecraft.client.network.NetHandlerPlayClient"
     };
 
     @Override
@@ -36,6 +38,9 @@ public class GateClassTransformer implements IClassTransformer {
                     break;
                 case 1:
                     classVisitor = new EntityRendererVisitor(classWriter, isObfuscated);
+                    break;
+                case 2:
+                    classVisitor = new NetHandlerPlayClientVisitor(classWriter, isObfuscated);
                     break;
                 default:
                     classVisitor = new ClassVisitor(Opcodes.ASM5, classWriter) {};

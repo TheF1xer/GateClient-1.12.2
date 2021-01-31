@@ -1,12 +1,13 @@
 package com.thef1xer.gateclient.modules.player;
 
-import com.thef1xer.gateclient.events.EventSendPackage;
+import com.thef1xer.gateclient.events.EventSendPacket;
 import com.thef1xer.gateclient.events.EventSetOpaqueCube;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.FloatSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -84,8 +85,13 @@ public class Freecam extends Module {
     }
 
     @SubscribeEvent
-    public void onPackage(EventSendPackage event) {
-
+    public void onPackage(EventSendPacket event) {
+        if (event.getPacket() instanceof CPacketUseEntity) {
+            CPacketUseEntity useEntity = (CPacketUseEntity) event.getPacket();
+            if (useEntity.getEntityFromWorld(Minecraft.getMinecraft().world) == Minecraft.getMinecraft().player) {
+                event.setCanceled(true);
+            }
+        }
     }
 
 }
