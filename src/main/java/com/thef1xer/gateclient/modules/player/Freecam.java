@@ -85,7 +85,7 @@ public class Freecam extends Module {
     }
 
     @SubscribeEvent
-    public void onPackage(EventSendPacket event) {
+    public void onPacket(EventSendPacket event) {
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity useEntity = (CPacketUseEntity) event.getPacket();
             if (useEntity.getEntityFromWorld(Minecraft.getMinecraft().world) == Minecraft.getMinecraft().player) {

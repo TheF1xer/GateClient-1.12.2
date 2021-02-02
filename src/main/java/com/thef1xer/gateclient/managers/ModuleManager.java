@@ -5,6 +5,8 @@ import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.modules.combat.KillAura;
 import com.thef1xer.gateclient.modules.movement.Jesus;
 import com.thef1xer.gateclient.modules.movement.Sprint;
+import com.thef1xer.gateclient.modules.player.AutoArmor;
+import com.thef1xer.gateclient.modules.player.AutoTotem;
 import com.thef1xer.gateclient.modules.player.Freecam;
 import com.thef1xer.gateclient.modules.render.*;
 
@@ -21,6 +23,8 @@ public class ModuleManager {
         moduleList.add(new Jesus());
         moduleList.add(new Sprint());
         //Player
+        moduleList.add(new AutoArmor());
+        moduleList.add(new AutoTotem());
         moduleList.add(new Freecam());
         //Render
         moduleList.add(new StorageESP());
@@ -30,7 +34,7 @@ public class ModuleManager {
         moduleList.add(new XRay());
     }
 
-    public List<Module> getModuleByCategory(EnumModuleCategory category) {
+    public List<Module> getModulesByCategory(EnumModuleCategory category) {
         List<Module> list = new ArrayList<>();
         for (Module module : moduleList) {
             if (module.getModuleCategory() == category) {

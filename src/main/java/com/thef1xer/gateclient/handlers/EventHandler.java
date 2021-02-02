@@ -1,4 +1,4 @@
-package com.thef1xer.gateclient.util.handlers;
+package com.thef1xer.gateclient.handlers;
 
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.commands.Command;
