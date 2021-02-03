@@ -4,6 +4,7 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.modules.combat.KillAura;
 import com.thef1xer.gateclient.modules.movement.Jesus;
+import com.thef1xer.gateclient.modules.movement.NoFall;
 import com.thef1xer.gateclient.modules.movement.Sprint;
 import com.thef1xer.gateclient.modules.player.AutoArmor;
 import com.thef1xer.gateclient.modules.player.AutoTotem;
@@ -21,12 +22,14 @@ public class ModuleManager {
         moduleList.add(new KillAura());
         //Movement
         moduleList.add(new Jesus());
+        moduleList.add(new NoFall());
         moduleList.add(new Sprint());
         //Player
         moduleList.add(new AutoArmor());
         moduleList.add(new AutoTotem());
         moduleList.add(new Freecam());
         //Render
+        moduleList.add(new EntityESP());
         moduleList.add(new StorageESP());
         moduleList.add(new FullBright());
         moduleList.add(new HUDController());
