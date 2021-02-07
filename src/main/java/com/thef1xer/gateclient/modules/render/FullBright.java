@@ -22,6 +22,6 @@ public class FullBright extends Module {
     @Override
     public void onDisabled() {
         super.onDisabled();
-        Minecraft.getMinecraft().gameSettings.gammaSetting = lastGamma > 1F ? 1F : lastGamma;
+        Minecraft.getMinecraft().gameSettings.gammaSetting = Math.min(lastGamma, 1F);
     }
 }

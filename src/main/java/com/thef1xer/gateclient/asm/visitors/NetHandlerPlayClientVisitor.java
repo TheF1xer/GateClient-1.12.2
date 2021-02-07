@@ -6,6 +6,9 @@ import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.*;
 
+/*
+Posts an SendPacketEvent every time that a Packet is being sent
+ */
 public class NetHandlerPlayClientVisitor extends ClassVisitor {
     final String SEND_PACKET;
     final String SEND_PACKET_DESCRIPTOR;

@@ -7,7 +7,7 @@ import org.objectweb.asm.MethodVisitor;
 import static org.objectweb.asm.Opcodes.*;
 
 /*
-Posts an EventSetOpaqueCube to the Event Bus when a Cube is set to Opaque
+Posts an SetOpaqueCubeEvent to the Event Bus when a Cube is set to Opaque
  */
 
 public class VisGraphVisitor extends ClassVisitor {

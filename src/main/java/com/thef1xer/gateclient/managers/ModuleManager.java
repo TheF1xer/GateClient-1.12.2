@@ -46,4 +46,13 @@ public class ModuleManager {
         }
         return list;
     }
+
+    public Module getModuleByName(String name) {
+        for (Module module : moduleList) {
+            if (module.getName().equals(name)) {
+                return module;
+            }
+        }
+        return null;
+    }
 }
