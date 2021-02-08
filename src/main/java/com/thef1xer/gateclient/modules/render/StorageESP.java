@@ -15,15 +15,14 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.input.Keyboard;
 
 public class StorageESP extends Module {
-    public ColorSetting chestColor = new ColorSetting("Chest Color", "chestcolor", 255, 255, 255, 255);
-    public ColorSetting shulkerColor = new ColorSetting("Shulker Color", "shulkercolor", 255, 255, 255, 255);
-    public ColorSetting enderChestColor = new ColorSetting("Ender Chest Color", "endercolor", 255, 255, 255, 255);
+    public ColorSetting chestColor = new ColorSetting("Chest Color", "chestcolor", 50, 50, 190, 255);
+    public ColorSetting shulkerColor = new ColorSetting("Shulker Color", "shulkercolor", 255, 80, 240, 255);
+    public ColorSetting enderChestColor = new ColorSetting("Ender Chest Color", "endercolor", 130, 0, 150, 255);
 
     public StorageESP() {
-        super("Storage ESP", "storageesp", EnumModuleCategory.RENDER, Keyboard.KEY_C);
+        super("Storage ESP", "storageesp", EnumModuleCategory.RENDER);
         chestColor.setParent("Color");
         shulkerColor.setParent("Color");
         enderChestColor.setParent("Color");

@@ -2,6 +2,7 @@ package com.thef1xer.gateclient.modules;
 
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.settings.Setting;
+import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,13 @@ public class Module {
         this.id = id;
         this.moduleCategory = category;
         this.keyBind = key;
+    }
+
+    public Module(String name, String id, EnumModuleCategory category) {
+        this.name = name;
+        this.id = id;
+        this.moduleCategory = category;
+        this.keyBind = Keyboard.KEY_NONE;
     }
 
     public void onEnabled() {

@@ -13,12 +13,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
 
 public class KillAura extends Module {
 
     public KillAura() {
-        super("Kill Aura", "killaura", EnumModuleCategory.COMBAT, Keyboard.KEY_Z);
+        super("Kill Aura", "killaura", EnumModuleCategory.COMBAT);
     }
 
     @Override

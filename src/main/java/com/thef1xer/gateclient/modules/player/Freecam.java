@@ -12,7 +12,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.input.Keyboard;
 
 public class Freecam extends Module {
     public int lastThirdPerson;
@@ -22,7 +21,7 @@ public class Freecam extends Module {
     public FloatSetting horizontalSpeed = new FloatSetting("Horizontal Speed", "horizontalspeed", 3F);
 
     public Freecam() {
-        super("Freecam", "freecam", EnumModuleCategory.PLAYER, Keyboard.KEY_R);
+        super("Freecam", "freecam", EnumModuleCategory.PLAYER);
         verticalSpeed.setParent("Speed");
         horizontalSpeed.setParent("Speed");
         this.addSettings(verticalSpeed, horizontalSpeed);

@@ -4,18 +4,16 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.input.Keyboard;
 
 public class AutoArmor extends Module {
     public AutoArmor() {
-        super("Auto Armor", "autoarmor", EnumModuleCategory.PLAYER, Keyboard.KEY_NONE);
+        super("Auto Armor", "autoarmor", EnumModuleCategory.PLAYER);
     }
 
     @Override

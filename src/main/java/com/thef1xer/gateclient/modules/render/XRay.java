@@ -12,13 +12,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.input.Keyboard;
 
 public class XRay extends Module {
     private float lastGamma;
 
     public XRay() {
-        super("XRay", "xray", EnumModuleCategory.RENDER, Keyboard.KEY_X);
+        super("XRay", "xray", EnumModuleCategory.RENDER);
     }
 
     @Override

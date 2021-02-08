@@ -6,11 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.input.Keyboard;
 
 public class Sprint extends Module {
     public Sprint() {
-        super("Sprint", "sprint", EnumModuleCategory.MOVEMENT, Keyboard.KEY_M);
+        super("Sprint", "sprint", EnumModuleCategory.MOVEMENT);
     }
 
     @Override

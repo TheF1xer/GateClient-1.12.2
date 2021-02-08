@@ -14,17 +14,16 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.input.Keyboard;
 
 public class EntityESP extends Module {
     BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayer", true);
     BooleanSetting targetHostile = new BooleanSetting("Target Hostile", "targethostile", true);
 
-    ColorSetting playerColor = new ColorSetting("Player Color", "playercolor", 255, 255, 255, 255);
-    ColorSetting hostileColor = new ColorSetting("Hostile Mobs Color", "hostilecolor", 255, 255, 255, 255);
+    ColorSetting playerColor = new ColorSetting("Player Color", "playercolor", 255, 0, 0, 255);
+    ColorSetting hostileColor = new ColorSetting("Hostile Mobs Color", "hostilecolor", 255, 255, 0, 255);
 
     public EntityESP() {
-        super("Entity ESP", "entityesp", EnumModuleCategory.RENDER, Keyboard.KEY_NONE);
+        super("Entity ESP", "entityesp", EnumModuleCategory.RENDER);
         targetPlayer.setParent("Target");
         targetHostile.setParent("Target");
         playerColor.setParent("Color");

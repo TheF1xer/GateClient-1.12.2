@@ -17,17 +17,16 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.input.Keyboard;
 
 public class Tracers extends Module {
     public Entity camera;
 
     public BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayers", true);
-    public BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", true);
+    public BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", false);
     public ColorSetting color = new ColorSetting("Tracer Color", "color", 255, 255, 255, 255);
 
     public Tracers() {
-        super("Tracers", "tracers", EnumModuleCategory.RENDER, Keyboard.KEY_P);
+        super("Tracers", "tracers", EnumModuleCategory.RENDER);
         targetPlayer.setParent("Entities to Target");
         targetHostile.setParent("Entities to Target");
         this.addSettings(targetPlayer, targetHostile, color);

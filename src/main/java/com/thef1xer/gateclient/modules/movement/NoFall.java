@@ -7,11 +7,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.input.Keyboard;
 
 public class NoFall extends Module {
     public NoFall() {
-        super("NoFall", "nofall", EnumModuleCategory.MOVEMENT, Keyboard.KEY_NONE);
+        super("NoFall", "nofall", EnumModuleCategory.MOVEMENT);
     }
 
     @Override

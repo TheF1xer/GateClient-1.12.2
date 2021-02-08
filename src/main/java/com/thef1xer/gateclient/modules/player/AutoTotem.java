@@ -4,17 +4,15 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.input.Keyboard;
 
 public class AutoTotem extends Module {
     public AutoTotem() {
-        super("AutoTotem", "autototem", EnumModuleCategory.PLAYER, Keyboard.KEY_NONE);
+        super("AutoTotem", "autototem", EnumModuleCategory.PLAYER);
     }
 
     @Override
