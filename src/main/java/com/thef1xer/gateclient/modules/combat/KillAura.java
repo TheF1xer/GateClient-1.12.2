@@ -2,6 +2,7 @@ package com.thef1xer.gateclient.modules.combat;
 
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
+import com.thef1xer.gateclient.settings.FloatSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -15,9 +16,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KillAura extends Module {
+    FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0f, 6F);
 
     public KillAura() {
         super("Kill Aura", "killaura", EnumModuleCategory.COMBAT);
+        this.addSettings(reach);
     }
 
     @Override
@@ -80,7 +83,7 @@ public class KillAura extends Module {
 
     public boolean isTarget(Entity entity) {
         return entity != Minecraft.getMinecraft().player &&
-                Minecraft.getMinecraft().player.getDistanceSq(entity) < 36.0D &&
+                Minecraft.getMinecraft().player.getDistanceSq(entity) <= (double) Math.pow(reach.getValue(), 2) &&
                 entity instanceof EntityLiving &&
                 ((EntityLiving) entity).getHealth() > 0.0F;
     }
