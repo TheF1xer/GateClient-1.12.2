@@ -7,6 +7,7 @@ import com.thef1xer.gateclient.events.SetOpaqueCubeEvent;
 import com.thef1xer.gateclient.events.ShouldSideBeRenderedEvent;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
+import com.thef1xer.gateclient.util.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;

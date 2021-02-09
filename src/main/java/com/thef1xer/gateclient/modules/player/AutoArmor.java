@@ -4,6 +4,7 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -32,6 +33,10 @@ public class AutoArmor extends Module {
     public void onTick(TickEvent.ClientTickEvent event) {
         //Boots have index 0
         if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().player != null) {
+            if (Minecraft.getMinecraft().currentScreen instanceof GuiContainer) {
+                return;
+            }
+
             boolean hasBoots = !Minecraft.getMinecraft().player.inventory.armorInventory.get(0).isEmpty();
             boolean hasLeggings = !Minecraft.getMinecraft().player.inventory.armorInventory.get(1).isEmpty();
             boolean hasChestplate = !Minecraft.getMinecraft().player.inventory.armorInventory.get(2).isEmpty();

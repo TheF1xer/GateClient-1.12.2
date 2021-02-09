@@ -50,7 +50,7 @@ public class BindCommand extends Command {
 
         for (Module module : GateClient.gateClient.moduleManager.moduleList) {
             if (module.getId().equalsIgnoreCase(args[1])) {
-                module.setKeyBind(Keyboard.getKeyIndex(args[2]));
+                module.setKeyBind(Keyboard.getKeyIndex(args[2].toUpperCase()));
                 ChatUtil.clientMessage(module.getName() + " bound to " + args[2].toUpperCase());
                 return;
             }

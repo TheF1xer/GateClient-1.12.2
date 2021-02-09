@@ -14,10 +14,11 @@ public class BlockStateContainerVisitor extends ClassVisitor {
 
     public BlockStateContainerVisitor(ClassVisitor cv, boolean isObfuscated) {
         super(ASM5, cv);
+
         this.SHOULD_SIDE = isObfuscated ? "c" : "shouldSideBeRendered";
         this.SHOULD_SIDE_DESCRIPTOR = isObfuscated ? "(Lamy;Let;Lfa;)Z" : "(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;)Z";
 
-        this.GET_LIGHT = isObfuscated ? "f" : "getAmbientOcclusionLightValue";
+        this.GET_LIGHT = isObfuscated ? "j" : "getAmbientOcclusionLightValue";
         this.GET_LIGHT_DESCRIPTOR = "()F";
     }
 
@@ -43,14 +44,10 @@ public class BlockStateContainerVisitor extends ClassVisitor {
         public void visitInsn(int opcode) {
             if (opcode == IRETURN) {
                 mv.visitVarInsn(ALOAD, 0);
-                mv.visitVarInsn(ALOAD, 0);
-                mv.visitFieldInsn(GETFIELD, "net/minecraft/block/state/BlockStateContainer$StateImplementation", "block", "Lnet/minecraft/block/Block;");
-                mv.visitVarInsn(ALOAD, 0);
                 mv.visitVarInsn(ALOAD, 1);
                 mv.visitVarInsn(ALOAD, 2);
                 mv.visitVarInsn(ALOAD, 3);
-                mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/block/Block", "shouldSideBeRendered", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;)Z", false);
-                mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "shouldSideBeRendered", "(Lnet/minecraft/block/state/IBlockState;Z)Z", false);
+                mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "shouldSideBeRendered", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;)Z", false);
             }
             super.visitInsn(opcode);
         }
@@ -65,7 +62,7 @@ public class BlockStateContainerVisitor extends ClassVisitor {
         public void visitInsn(int opcode) {
             if (opcode == FRETURN){
                 mv.visitVarInsn(ALOAD, 0);
-                mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "getAmbientOcclusionLightValue", "(Lnet/minecraft/block/state/IBlockState;)F", false);
+                mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "getAmbientOcclusionLightValue","(Lnet/minecraft/block/state/IBlockState;)F", false);
             }
 
             super.visitInsn(opcode);

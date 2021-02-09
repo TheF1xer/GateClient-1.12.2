@@ -12,6 +12,7 @@ public class CommandManager {
     public void init() {
         commandList.add(new BindCommand());
         commandList.add(new HelpCommand());
+        commandList.add(new SayCommand());
         commandList.add(new SetCommand());
         commandList.add(new ToggleCommand());
     }

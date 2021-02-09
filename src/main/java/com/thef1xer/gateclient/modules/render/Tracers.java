@@ -68,7 +68,7 @@ public class Tracers extends Module {
                     buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
                     buffer.pos(playerVector.x, playerVector.y + Minecraft.getMinecraft().player.eyeHeight, playerVector.z)
                             .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, (float) color.getAlpha() / 255).endVertex();
-                    buffer.pos(entity.posX - rm.viewerPosX, entity.posY - rm.viewerPosY + entity.height / 2, entity.posZ - rm.viewerPosZ)
+                    buffer.pos(entity.posX - rm.viewerPosX, entity.posY - rm.viewerPosY, entity.posZ - rm.viewerPosZ)
                             .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, (float) color.getAlpha() / 255).endVertex();
                     tessellator.draw();
                 }

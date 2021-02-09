@@ -4,6 +4,7 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,6 +30,10 @@ public class AutoTotem extends Module {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiContainer) {
+            return;
+        }
+
         if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().player != null) {
             if (Minecraft.getMinecraft().player.getHeldItemOffhand().getItem() != Item.getItemById(449)) {
                 for (int slot = 0; slot < Minecraft.getMinecraft().player.inventoryContainer.inventorySlots.size(); slot++) {

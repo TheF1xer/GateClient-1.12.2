@@ -40,6 +40,8 @@ public class EventHandler {
             for (Command command: GateClient.gateClient.commandManager.commandList) {
                 if (ChatUtil.isCommand(args[0], command)) {
                     command.onCommand(args);
+                    GateClient.gateClient.configManager.save();
+                    GateClient.gateClient.presetManager.saveActivePreset(GateClient.gateClient.configManager.activePreset);
                     found = true;
                 }
             }

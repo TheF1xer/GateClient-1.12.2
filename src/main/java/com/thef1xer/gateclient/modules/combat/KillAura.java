@@ -5,7 +5,7 @@ import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.FloatSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
@@ -83,8 +83,9 @@ public class KillAura extends Module {
 
     public boolean isTarget(Entity entity) {
         return entity != Minecraft.getMinecraft().player &&
+                entity != Minecraft.getMinecraft().getRenderViewEntity() &&
                 Minecraft.getMinecraft().player.getDistanceSq(entity) <= (double) Math.pow(reach.getValue(), 2) &&
-                entity instanceof EntityLiving &&
-                ((EntityLiving) entity).getHealth() > 0.0F;
+                entity instanceof EntityLivingBase &&
+                ((EntityLivingBase) entity).getHealth() > 0.0F;
     }
 }
