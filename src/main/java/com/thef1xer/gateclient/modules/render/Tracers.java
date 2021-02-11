@@ -4,6 +4,7 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.BooleanSetting;
 import com.thef1xer.gateclient.settings.ColorSetting;
+import com.thef1xer.gateclient.util.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -61,14 +62,17 @@ public class Tracers extends Module {
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.disableDepth();
+            GlStateManager.glLineWidth(0.5F);
             for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
                 if (isTarget(entity) && entity != camera) {
                     Tessellator tessellator = Tessellator.getInstance();
                     BufferBuilder buffer = tessellator.getBuffer();
+                    Vec3d entityPos = MathUtil.interpolateEntity(entity);
+
                     buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
                     buffer.pos(playerVector.x, playerVector.y + Minecraft.getMinecraft().player.eyeHeight, playerVector.z)
                             .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, (float) color.getAlpha() / 255).endVertex();
-                    buffer.pos(entity.posX - rm.viewerPosX, entity.posY - rm.viewerPosY, entity.posZ - rm.viewerPosZ)
+                    buffer.pos(entityPos.x - rm.viewerPosX, entityPos.y - rm.viewerPosY, entityPos.z - rm.viewerPosZ)
                             .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, (float) color.getAlpha() / 255).endVertex();
                     tessellator.draw();
                 }

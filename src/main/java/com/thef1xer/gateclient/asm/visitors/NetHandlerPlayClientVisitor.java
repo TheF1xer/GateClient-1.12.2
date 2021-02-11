@@ -38,19 +38,17 @@ public class NetHandlerPlayClientVisitor extends ClassVisitor {
         @Override
         public void visitCode() {
             super.visitCode();
-            Label l0 = new Label();
-            mv.visitLabel(l0);
-            mv.visitLineNumber(45, l0);
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "sendPacket", "(Lnet/minecraft/network/Packet;)Z", false);
-            Label l1 = new Label();
-            mv.visitJumpInsn(IFEQ, l1);
-            Label l2 = new Label();
-            mv.visitLabel(l2);
-            mv.visitLineNumber(46, l2);
+            mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "sendPacket", "(Lnet/minecraft/network/Packet;)Lnet/minecraft/network/Packet;", false);
+            mv.visitVarInsn(ASTORE, 1);
+            mv.visitVarInsn(ALOAD, 1);
+            Label l0 = new Label();
+            mv.visitJumpInsn(IFNONNULL, l0);
+            Label l3 = new Label();
+            mv.visitLabel(l3);
+            mv.visitLineNumber(69, l3);
             mv.visitInsn(RETURN);
-            mv.visitLabel(l1);
-            mv.visitLineNumber(48, l1);
+            mv.visitLabel(l0);
             mv.visitFrame(F_SAME, 0, null, 0, null);
         }
     }

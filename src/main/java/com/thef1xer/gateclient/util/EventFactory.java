@@ -13,8 +13,10 @@ public class EventFactory {
         SetOpaqueCubeEvent setOpaqueCube = new SetOpaqueCubeEvent();
         return MinecraftForge.EVENT_BUS.post(setOpaqueCube);
     }
-    public static boolean sendPacket(Packet<?> packet) {
-        return MinecraftForge.EVENT_BUS.post(new SendPacketEvent(packet));
+
+    public static Packet<?> sendPacket(Packet<?> packet) {
+        SendPacketEvent event = new SendPacketEvent(packet);
+        return MinecraftForge.EVENT_BUS.post(event) ? null : event.getPacket();
     }
 
     public static boolean renderBlock(IBlockState stateIn) {

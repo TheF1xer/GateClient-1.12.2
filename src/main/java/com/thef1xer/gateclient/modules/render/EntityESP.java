@@ -4,13 +4,12 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.BooleanSetting;
 import com.thef1xer.gateclient.settings.ColorSetting;
+import com.thef1xer.gateclient.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -53,13 +52,10 @@ public class EntityESP extends Module {
         GlStateManager.disableDepth();
 
         for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
-            AxisAlignedBB bb;
             if (targetPlayer.getValue() && entity instanceof EntityPlayer && entity != Minecraft.getMinecraft().getRenderViewEntity()) {
-                bb = entity.getEntityBoundingBox().offset(-Minecraft.getMinecraft().getRenderManager().viewerPosX, -Minecraft.getMinecraft().getRenderManager().viewerPosY, -Minecraft.getMinecraft().getRenderManager().viewerPosZ);
-                RenderGlobal.drawSelectionBoundingBox(bb, (float) playerColor.getRed()/255, (float) playerColor.getGreen()/255, (float) playerColor.getBlue()/255, (float) playerColor.getAlpha()/255);
+                RenderUtil.renderEntityBoundingBox(entity, playerColor.getRed() / 255F, playerColor.getGreen() / 255F, playerColor.getBlue() / 255F, playerColor.getAlpha() / 255F);
             } else if (targetHostile.getValue() && entity.isCreatureType(EnumCreatureType.MONSTER, false)) {
-                bb = entity.getEntityBoundingBox().offset(-Minecraft.getMinecraft().getRenderManager().viewerPosX, -Minecraft.getMinecraft().getRenderManager().viewerPosY, -Minecraft.getMinecraft().getRenderManager().viewerPosZ);
-                RenderGlobal.drawSelectionBoundingBox(bb, (float) hostileColor.getRed()/255, (float) hostileColor.getGreen()/255, (float) hostileColor.getBlue()/255, (float) hostileColor.getAlpha()/255);
+                RenderUtil.renderEntityBoundingBox(entity, hostileColor.getRed() / 255F, hostileColor.getGreen() / 255F, hostileColor.getBlue() / 255F, hostileColor.getAlpha() / 255F);
             }
         }
 
