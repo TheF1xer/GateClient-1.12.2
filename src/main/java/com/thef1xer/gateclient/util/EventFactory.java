@@ -4,6 +4,7 @@ import com.thef1xer.gateclient.events.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.network.Packet;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.MinecraftForge;
@@ -33,5 +34,11 @@ public class EventFactory {
         GetAmbientOcclusionLightValueEvent event = new GetAmbientOcclusionLightValueEvent(state);
         MinecraftForge.EVENT_BUS.post(event);
         return event.getLightValue();
+    }
+
+    public static AxisAlignedBB getCollisionBoundingBox() {
+        GetLiquidCollisionBoundingBoxEvent event = new GetLiquidCollisionBoundingBoxEvent();
+        MinecraftForge.EVENT_BUS.post(event);
+        return event.getCollisionBoundingBox();
     }
 }

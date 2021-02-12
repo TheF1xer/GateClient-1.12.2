@@ -16,7 +16,8 @@ public class GateClassTransformer implements IClassTransformer {
             "net.minecraft.client.renderer.EntityRenderer",
             "net.minecraft.client.network.NetHandlerPlayClient",
             "net.minecraft.client.renderer.BlockRendererDispatcher",
-            "net.minecraft.block.state.BlockStateContainer$StateImplementation"
+            "net.minecraft.block.state.BlockStateContainer$StateImplementation",
+            "net.minecraft.block.BlockLiquid"
     };
 
     @Override
@@ -47,6 +48,9 @@ public class GateClassTransformer implements IClassTransformer {
                     break;
                 case 4:
                     classVisitor = new BlockStateContainerVisitor(classWriter, isObfuscated);
+                    break;
+                case 5:
+                    classVisitor = new BlockLiquidVisitor(classWriter, isObfuscated);
                     break;
                 default:
                     classVisitor = new ClassVisitor(Opcodes.ASM5, classWriter) {};

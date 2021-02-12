@@ -19,6 +19,7 @@ public class GateClient {
     public CommandManager commandManager = new CommandManager();
     public ConfigManager configManager = new ConfigManager();
     public PresetManager presetManager = new PresetManager();
+
     public HUD hud = new HUD();
 
     @Mod.Instance

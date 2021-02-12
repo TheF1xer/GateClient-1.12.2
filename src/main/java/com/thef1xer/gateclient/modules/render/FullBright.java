@@ -9,6 +9,7 @@ public class FullBright extends Module {
 
     public FullBright() {
         super("Full Bright", "fullbright", EnumModuleCategory.RENDER);
+        this.lastGamma = 1F;
     }
 
     @Override
