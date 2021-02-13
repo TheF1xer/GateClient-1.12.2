@@ -52,5 +52,7 @@ public class ConfigManager {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        this.save();
     }
 }

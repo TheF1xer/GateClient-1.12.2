@@ -29,7 +29,12 @@ public class Jesus extends Module {
             return;
         }
 
-        if (Minecraft.getMinecraft().player.isSneaking() || Minecraft.getMinecraft().player.fallDistance > 3F || Minecraft.getMinecraft().player.isInWater()) {
+        if (Minecraft.getMinecraft().player.isSneaking() || Minecraft.getMinecraft().player.fallDistance > 3F) {
+            return;
+        }
+
+        if (Minecraft.getMinecraft().player.isInWater()) {
+            Minecraft.getMinecraft().player.motionY = 0.30000001192092896D;
             return;
         }
         event.setCollisionBoundingBox(Block.FULL_BLOCK_AABB);

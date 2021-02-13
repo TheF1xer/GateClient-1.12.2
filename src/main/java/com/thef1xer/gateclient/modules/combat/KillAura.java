@@ -3,6 +3,7 @@ package com.thef1xer.gateclient.modules.combat;
 import com.thef1xer.gateclient.events.SendPacketEvent;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
+import com.thef1xer.gateclient.settings.EnumSetting;
 import com.thef1xer.gateclient.settings.FloatSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -19,12 +20,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KillAura extends Module {
     private Entity target;
+    private Entity focusTarget;
 
-    FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0f, 6F);
+    EnumSetting<Mode> mode = new EnumSetting<>("Mode", "mode", Mode.values(), Mode.FOCUS);
+    FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0F, 6F);
+    FloatSetting frequency = new FloatSetting("Frequency" , "frequency", 0F, -100F, 100F);
 
     public KillAura() {
         super("Kill Aura", "killaura", EnumModuleCategory.COMBAT);
-        this.addSettings(reach);
+        this.addSettings(mode, reach, frequency);
     }
 
     @Override
@@ -42,23 +46,35 @@ public class KillAura extends Module {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onTick(TickEvent.ClientTickEvent event) {
+        target = null;
         if (Minecraft.getMinecraft().world == null || !Minecraft.getMinecraft().world.isRemote) {
             return;
         }
 
-        target = null;
-        for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
-            if (isTarget(entity)) {
-                if (target == null) {
-                    target = entity;
-                } else if (Minecraft.getMinecraft().player.getDistanceSq(entity) < Minecraft.getMinecraft().player.getDistanceSq(target)) {
-                    target = entity;
+        if (mode.getCurrentValue() == Mode.CLOSEST) {
+            for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
+                if (isTarget(entity)) {
+                    if (target == null) {
+                        target = entity;
+                    } else if (Minecraft.getMinecraft().player.getDistanceSq(entity) < Minecraft.getMinecraft().player.getDistanceSq(target)) {
+                        target = entity;
+                    }
+                }
+            }
+        } else if (mode.getCurrentValue() == Mode.FOCUS) {
+            if (focusTarget != null) {
+                for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
+                    if (entity == focusTarget) {
+                        if (isTarget(entity)) {
+                            target = entity;
+                        }
+                    }
                 }
             }
         }
 
         if (target != null) {
-            if (Minecraft.getMinecraft().player.getCooledAttackStrength(0.5F) == 1.0F) {
+            if (Minecraft.getMinecraft().player.getCooledAttackStrength(-frequency.getValue()) == 1.0F) {
                 Minecraft.getMinecraft().player.connection.sendPacket(new CPacketUseEntity(target));
                 Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
                 Minecraft.getMinecraft().player.resetCooldown();
@@ -68,6 +84,13 @@ public class KillAura extends Module {
 
     @SubscribeEvent
     public void onPacketEvent(SendPacketEvent event) {
+        if (event.getPacket() instanceof CPacketUseEntity) {
+            CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
+            if (packet.getAction() == CPacketUseEntity.Action.ATTACK) {
+                this.focusTarget = packet.getEntityFromWorld(Minecraft.getMinecraft().world);
+            }
+        }
+
         if (target != null) {
             if (event.getPacket() instanceof CPacketPlayer.PositionRotation || event.getPacket() instanceof CPacketPlayer.Rotation) {
                 double deltaX = target.posX - Minecraft.getMinecraft().player.posX;
@@ -95,8 +118,23 @@ public class KillAura extends Module {
     public boolean isTarget(Entity entity) {
         return entity != Minecraft.getMinecraft().player &&
                 entity != Minecraft.getMinecraft().getRenderViewEntity() &&
-                Minecraft.getMinecraft().player.getDistanceSq(entity) <= (double) Math.pow(reach.getValue(), 2) &&
+                Minecraft.getMinecraft().player.getDistanceSq(entity) <= Math.pow(reach.getValue(), 2) &&
                 entity instanceof EntityLivingBase &&
                 ((EntityLivingBase) entity).getHealth() > 0.0F;
+    }
+
+    public enum Mode implements EnumSetting.IEnumSetting{
+        CLOSEST("Closest"),
+        FOCUS("Focus");
+
+        private final String name;
+        Mode(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
     }
 }

@@ -7,7 +7,7 @@ public enum EnumModuleCategory {
     RENDER("Render");
 
 
-    private String name;
+    private final String name;
     EnumModuleCategory(String name) {
         this.name = name;
     }

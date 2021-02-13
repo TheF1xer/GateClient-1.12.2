@@ -2,8 +2,8 @@ package com.thef1xer.gateclient.settings;
 
 public class FloatSetting extends Setting{
     private float value;
-    private float min;
-    private float max;
+    private final float min;
+    private final float max;
 
     public FloatSetting(String name, String id, float value, float min, float max) {
         super(name, id);
@@ -28,15 +28,7 @@ public class FloatSetting extends Setting{
         return min;
     }
 
-    public void setMin(float min) {
-        this.min = min;
-    }
-
     public float getMax() {
         return max;
-    }
-
-    public void setMax(float max) {
-        this.max = max;
     }
 }

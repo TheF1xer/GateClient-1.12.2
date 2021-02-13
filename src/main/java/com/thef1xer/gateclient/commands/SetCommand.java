@@ -9,6 +9,8 @@ import net.minecraft.util.text.TextFormatting;
 import org.apache.logging.log4j.core.util.Integers;
 
 public class SetCommand extends Command{
+    //TODO: Rework this shit
+
     public Module module;
 
     public SetCommand() {
@@ -30,6 +32,8 @@ public class SetCommand extends Command{
                         sendMessageSetting(setting, "<true / false>");
                     } else if (setting instanceof ColorSetting) {
                         sendMessageSetting(setting, "<red> <green> <blue> (<alpha>)");
+                    } else if (setting instanceof EnumSetting) {
+                        sendMessageSetting(setting, "<value>");
                     } else if (setting instanceof FloatSetting) {
                         sendMessageSetting(setting, "<value>");
                     }
@@ -96,11 +100,21 @@ public class SetCommand extends Command{
                                     this.syntaxError();
                                 }
 
+                            } else if (setting instanceof EnumSetting) {
+                                if (args.length == 4) {
+                                    if (((EnumSetting<?>) setting).setValueFromName(args[3])) {
+                                        ChatUtil.clientMessage(setting.getName() + " set to " + args[3]);
+                                    } else {
+                                        ChatUtil.clientMessage("Name not valid");
+                                    }
+                                } else {
+                                    this.syntaxError();
+                                }
                             } else if (setting instanceof FloatSetting) {
                                 if (args.length == 4) {
                                     try {
                                         float value = Float.parseFloat(args[3]);
-                                        if (value > ((FloatSetting) setting).getMin() && value < ((FloatSetting) setting).getMax()) {
+                                        if (value >= ((FloatSetting) setting).getMin() && value <= ((FloatSetting) setting).getMax()) {
                                             ((FloatSetting) setting).setValue(value);
                                             ChatUtil.clientMessage(setting.getName() + " set to " + value);
                                         } else {
@@ -138,7 +152,7 @@ public class SetCommand extends Command{
         return false;
     }
 
-    public void sendMessageSetting(Setting setting, String value) {
+    private void sendMessageSetting(Setting setting, String value) {
         ChatUtil.userMessage(TextFormatting.AQUA.toString() + TextFormatting.ITALIC.toString() + setting.getName() + ": " + TextFormatting.RESET.toString() + setting.getId() + " " + value);
     }
 }

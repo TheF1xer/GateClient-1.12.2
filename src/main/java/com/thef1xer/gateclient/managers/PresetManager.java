@@ -1,16 +1,16 @@
 package com.thef1xer.gateclient.managers;
 
 import com.google.gson.*;
+import com.google.gson.internal.LinkedTreeMap;
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.modules.Module;
-import com.thef1xer.gateclient.settings.BooleanSetting;
-import com.thef1xer.gateclient.settings.ColorSetting;
-import com.thef1xer.gateclient.settings.FloatSetting;
-import com.thef1xer.gateclient.settings.Setting;
+import com.thef1xer.gateclient.settings.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class PresetManager {
     public List<File> presetList = new ArrayList<>();
@@ -50,32 +50,86 @@ public class PresetManager {
                     continue;
                 }
                 JsonObject moduleObject = (JsonObject) element;
+                Set<Map.Entry<String, JsonElement>> moduleSet = moduleObject.entrySet();
+
                 for (Module module : GateClient.gateClient.moduleManager.moduleList) {
-                    if (moduleObject.get("name").getAsString().equals(module.getName())) {
-                        boolean enabled = moduleObject.get("enabled").getAsBoolean();
-                        int keybind = moduleObject.get("keybind").getAsInt();
-                        boolean drawOnHud = moduleObject.get("drawOnHud").getAsBoolean();
 
-                        module.setEnabled(enabled);
-                        module.setKeyBind(keybind);
-                        module.setDrawOnHud(drawOnHud);
+                    if (!this.contains(moduleSet, "name", new JsonPrimitive(module.getName()))) {
+                        continue;
+                    }
 
-                        for (JsonElement element1 : moduleObject.getAsJsonArray("settings")) {
-                            if (!(element1 instanceof JsonObject)) {
-                                continue;
-                            }
-                            JsonObject settingObject = (JsonObject) element1;
-                            for (Setting setting : module.getSettings()) {
-                                if (settingObject.get("id").getAsString().equals(setting.getId())) {
-                                    if (setting instanceof BooleanSetting) {
-                                        ((BooleanSetting) setting).setValue(settingObject.get("value").getAsBoolean());
-                                    } else if (setting instanceof ColorSetting) {
-                                        ((ColorSetting) setting).setRed(settingObject.get("red").getAsInt());
-                                        ((ColorSetting) setting).setGreen(settingObject.get("green").getAsInt());
-                                        ((ColorSetting) setting).setBlue(settingObject.get("blue").getAsInt());
-                                        ((ColorSetting) setting).setAlpha(settingObject.get("alpha").getAsInt());
-                                    } else if (setting instanceof FloatSetting) {
-                                        ((FloatSetting) setting).setValue(settingObject.get("value").getAsFloat());
+                    for (Map.Entry<String, JsonElement> value : moduleSet) {
+                        String key = value.getKey();
+                        JsonElement val = value.getValue();
+
+                        if (key.equals("enabled")) {
+                            module.setEnabled(val.getAsBoolean());
+                            continue;
+                        }
+
+                        if (key.equals("keybind")) {
+                            module.setKeyBind(val.getAsInt());
+                            continue;
+                        }
+
+                        if (key.equals("drawOnHud")) {
+                            module.setDrawOnHud(val.getAsBoolean());
+                            continue;
+                        }
+
+                        if (key.equals("settings")) {
+
+                            for (JsonElement element1 : val.getAsJsonArray()) {
+                                if (!(element1 instanceof JsonObject)) {
+                                    continue;
+                                }
+
+                                JsonObject settingObject = (JsonObject) element1;
+                                Set<Map.Entry<String, JsonElement>> settingSet = settingObject.entrySet();
+
+                                for (Setting setting : module.getSettings()) {
+                                    if (!this.contains(settingSet, "id", new JsonPrimitive(setting.getId()))) {
+                                        continue;
+                                    }
+
+                                    System.out.println("Setting " + setting.getName());
+
+                                    for (Map.Entry<String, JsonElement> value1 : settingSet) {
+                                        String settingKey = value1.getKey();
+                                        JsonElement settingVal = value1.getValue();
+
+                                        if (setting instanceof BooleanSetting) {
+                                            if (settingKey.equals("value")) {
+                                                ((BooleanSetting) setting).setValue(settingVal.getAsBoolean());
+                                            }
+                                        } else if (setting instanceof ColorSetting) {
+                                            if (settingKey.equals("red")) {
+                                                ((ColorSetting) setting).setRed(settingVal.getAsInt());
+                                                continue;
+                                            }
+
+                                            if (settingKey.equals("green")) {
+                                                ((ColorSetting) setting).setGreen(settingVal.getAsInt());
+                                                continue;
+                                            }
+
+                                            if (settingKey.equals("blue")) {
+                                                ((ColorSetting) setting).setBlue(settingVal.getAsInt());
+                                                continue;
+                                            }
+
+                                            if (settingKey.equals("alpha")) {
+                                                ((ColorSetting) setting).setAlpha(settingVal.getAsInt());
+                                            }
+                                        } else if (setting instanceof EnumSetting) {
+                                            if (settingKey.equals("value")) {
+                                                ((EnumSetting<?>) setting).setValueFromName(settingVal.getAsString());
+                                            }
+                                        } else if (setting instanceof FloatSetting) {
+                                            if (settingKey.equals("value")) {
+                                                ((FloatSetting) setting).setValue(settingVal.getAsFloat());
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -87,6 +141,8 @@ public class PresetManager {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        this.saveActivePreset(preset);
     }
 
     public void saveActivePreset(File preset) {
@@ -112,6 +168,8 @@ public class PresetManager {
                     settingObject.addProperty("green", ((ColorSetting) setting).getGreen());
                     settingObject.addProperty("blue", ((ColorSetting) setting).getBlue());
                     settingObject.addProperty("alpha", ((ColorSetting) setting).getAlpha());
+                } else if (setting instanceof EnumSetting) {
+                    settingObject.addProperty("value", ((EnumSetting<?>) setting).getCurrentValueName());
                 } else if (setting instanceof FloatSetting) {
                     settingObject.addProperty("value", ((FloatSetting) setting).getValue());
                 }
@@ -135,9 +193,19 @@ public class PresetManager {
         }
     }
 
-    public boolean presetExists(File preset) {
+    private boolean presetExists(File preset) {
         for (File file : presetList) {
             if (file.getPath().equals(preset.getPath())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean contains(Set<Map.Entry<String, JsonElement>> set, String key, JsonElement value) {
+
+        for (Map.Entry<String, JsonElement> entry : set) {
+            if (entry.getKey().equals(key) && entry.getValue().equals(value)) {
                 return true;
             }
         }

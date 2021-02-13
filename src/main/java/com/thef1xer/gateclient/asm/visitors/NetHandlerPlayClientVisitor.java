@@ -44,9 +44,6 @@ public class NetHandlerPlayClientVisitor extends ClassVisitor {
             mv.visitVarInsn(ALOAD, 1);
             Label l0 = new Label();
             mv.visitJumpInsn(IFNONNULL, l0);
-            Label l3 = new Label();
-            mv.visitLabel(l3);
-            mv.visitLineNumber(69, l3);
             mv.visitInsn(RETURN);
             mv.visitLabel(l0);
             mv.visitFrame(F_SAME, 0, null, 0, null);
