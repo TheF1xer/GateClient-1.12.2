@@ -16,7 +16,6 @@ public class Sprint extends Module {
     public void onEnabled() {
         super.onEnabled();
         MinecraftForge.EVENT_BUS.register(this);
-        System.out.println("enabled");
     }
 
     @Override
