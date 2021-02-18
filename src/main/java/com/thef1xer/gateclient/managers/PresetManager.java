@@ -1,16 +1,12 @@
 package com.thef1xer.gateclient.managers;
 
 import com.google.gson.*;
-import com.google.gson.internal.LinkedTreeMap;
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class PresetManager {
     public List<File> presetList = new ArrayList<>();
@@ -33,8 +29,8 @@ public class PresetManager {
     public void loadActivePreset(File preset, File folder) {
         if (!this.presetExists(preset)) {
             preset = new File(folder, "default.json");
-            GateClient.gateClient.configManager.activePreset = preset;
-            GateClient.gateClient.configManager.save();
+            GateClient.gate.configManager.activePreset = preset;
+            GateClient.gate.configManager.save();
             if (!this.presetExists(preset)) {
                 this.saveActivePreset(preset);
             }
@@ -52,7 +48,7 @@ public class PresetManager {
                 JsonObject moduleObject = (JsonObject) element;
                 Set<Map.Entry<String, JsonElement>> moduleSet = moduleObject.entrySet();
 
-                for (Module module : GateClient.gateClient.moduleManager.moduleList) {
+                for (Module module : GateClient.gate.moduleManager.moduleList) {
 
                     if (!this.contains(moduleSet, "name", new JsonPrimitive(module.getName()))) {
                         continue;
@@ -149,7 +145,7 @@ public class PresetManager {
         JsonObject presetJson = new JsonObject();
 
         JsonArray moduleArray = new JsonArray();
-        for (Module module : GateClient.gateClient.moduleManager.moduleList) {
+        for (Module module : GateClient.gate.moduleManager.moduleList) {
             JsonObject moduleObject = new JsonObject();
             moduleObject.addProperty("name", module.getName());
             moduleObject.addProperty("enabled", module.isEnabled());

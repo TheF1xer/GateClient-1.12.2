@@ -19,8 +19,8 @@ public class ConfigManager {
         gateFolder.mkdir();
         presetFolder.mkdir();
         this.load();
-        GateClient.gateClient.presetManager.updatePresetList(presetFolder);
-        GateClient.gateClient.presetManager.loadActivePreset(activePreset, presetFolder);
+        GateClient.gate.presetManager.updatePresetList(presetFolder);
+        GateClient.gate.presetManager.loadActivePreset(activePreset, presetFolder);
     }
 
     public void save() {
@@ -37,7 +37,7 @@ public class ConfigManager {
     }
 
     public void load() {
-        GateClient.gateClient.presetManager.updatePresetList(presetFolder);
+        GateClient.gate.presetManager.updatePresetList(presetFolder);
         JsonParser parser = new JsonParser();
 
         if (!configFile.exists()) {

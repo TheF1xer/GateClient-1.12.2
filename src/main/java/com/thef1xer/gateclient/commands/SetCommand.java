@@ -143,7 +143,7 @@ public class SetCommand extends Command{
     }
 
     public boolean isModule(String name) {
-        for (Module module : GateClient.gateClient.moduleManager.moduleList) {
+        for (Module module : GateClient.gate.moduleManager.moduleList) {
             if (module.getId().equalsIgnoreCase(name)) {
                 this.module = module;
                 return true;

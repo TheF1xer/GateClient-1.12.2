@@ -7,7 +7,6 @@ import com.thef1xer.gateclient.events.SetOpaqueCubeEvent;
 import com.thef1xer.gateclient.events.ShouldSideBeRenderedEvent;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
-import com.thef1xer.gateclient.util.ChatUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
@@ -35,7 +34,7 @@ public class XRay extends Module {
         super.onDisabled();
         MinecraftForge.EVENT_BUS.unregister(this);
         Minecraft.getMinecraft().renderGlobal.loadRenderers();
-        if (!GateClient.gateClient.moduleManager.getModuleByName("Full Bright").isEnabled()) {
+        if (!GateClient.gate.moduleManager.getModuleByName("Full Bright").isEnabled()) {
             Minecraft.getMinecraft().gameSettings.gammaSetting = lastGamma;
         }
     }

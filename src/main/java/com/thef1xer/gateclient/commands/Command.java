@@ -18,7 +18,7 @@ public abstract class Command {
     }
 
     public void syntaxError() {
-        ChatUtil.clientMessage("Incorrect Syntax: " + TextFormatting.YELLOW + GateClient.gateClient.commandManager.prefix + this.getSyntax());
+        ChatUtil.clientMessage("Incorrect Syntax: " + TextFormatting.YELLOW + GateClient.gate.commandManager.prefix + this.getSyntax());
     }
 
     public abstract void onCommand(String[] args);

@@ -19,7 +19,7 @@ public class EventHandler {
     public void onKeyPressed(InputEvent.KeyInputEvent event) {
         if (Keyboard.isCreated() && Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().player != null) {
             if (Keyboard.getEventKeyState()) {
-                for (Module module : GateClient.gateClient.moduleManager.moduleList) {
+                for (Module module : GateClient.gate.moduleManager.moduleList) {
                     if (Keyboard.getEventKey() == module.getKeyBind()) {
                         module.toggle();
                     }
@@ -33,15 +33,16 @@ public class EventHandler {
         String message = event.getOriginalMessage();
 
         //Commands
-        if (message.startsWith(GateClient.gateClient.commandManager.prefix)) {
-            String[] args = message.substring(GateClient.gateClient.commandManager.prefix.length()).split(" ");
+        if (message.startsWith(GateClient.gate.commandManager.prefix)) {
+            Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(message);
+            String[] args = message.substring(GateClient.gate.commandManager.prefix.length()).split(" ");
             boolean found = false;
 
-            for (Command command: GateClient.gateClient.commandManager.commandList) {
+            for (Command command: GateClient.gate.commandManager.commandList) {
                 if (ChatUtil.isCommand(args[0], command)) {
                     command.onCommand(args);
-                    GateClient.gateClient.configManager.save();
-                    GateClient.gateClient.presetManager.saveActivePreset(GateClient.gateClient.configManager.activePreset);
+                    GateClient.gate.configManager.save();
+                    GateClient.gate.presetManager.saveActivePreset(GateClient.gate.configManager.activePreset);
                     found = true;
                 }
             }

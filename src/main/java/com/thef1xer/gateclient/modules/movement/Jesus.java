@@ -33,7 +33,7 @@ public class Jesus extends Module {
             return;
         }
 
-        if (Minecraft.getMinecraft().player.isInWater()) {
+        if (Minecraft.getMinecraft().player.isInWater() || Minecraft.getMinecraft().player.isInLava()) {
             Minecraft.getMinecraft().player.motionY = 0.30000001192092896D;
             return;
         }

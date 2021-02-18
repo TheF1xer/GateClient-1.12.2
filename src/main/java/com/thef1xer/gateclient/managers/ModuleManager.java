@@ -32,7 +32,7 @@ public class ModuleManager {
         moduleList.add(new EntityESP());
         moduleList.add(new StorageESP());
         moduleList.add(new FullBright());
-        moduleList.add(new HUDController());
+        moduleList.add(new HUDModule());
         moduleList.add(new Tracers());
         moduleList.add(new XRay());
     }

@@ -63,7 +63,7 @@ public class Module {
 
     public void toggle() {
         setEnabled(!this.enabled);
-        GateClient.gateClient.presetManager.saveActivePreset(GateClient.gateClient.configManager.activePreset);
+        GateClient.gate.presetManager.saveActivePreset(GateClient.gate.configManager.activePreset);
     }
 
     public int getKeyBind() {
