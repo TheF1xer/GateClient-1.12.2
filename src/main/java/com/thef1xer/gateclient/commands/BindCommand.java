@@ -9,7 +9,7 @@ import org.lwjgl.input.Keyboard;
 public class BindCommand extends Command {
 
     public BindCommand() {
-        super("bind", "Binds a module to a key", "bind <module> <key> | clear | list", new String[]{"b"});
+        super("bind", "Binds a module to a key", "bind <module> <key> | clear | list", "b");
     }
 
     @Override
@@ -29,7 +29,7 @@ public class BindCommand extends Command {
                 ChatUtil.clientMessage("Key Bind List:");
                 for (Module module : GateClient.gate.moduleManager.moduleList) {
                     if (module.getKeyBind() != Keyboard.KEY_NONE) {
-                        ChatUtil.userMessage(TextFormatting.GRAY + module.getName() + " is bound to " + Keyboard.getKeyName(module.getKeyBind()));
+                        ChatUtil.clientMessage(module.getName() + " is bound to " + Keyboard.getKeyName(module.getKeyBind()));
                     }
                 }
                 return;

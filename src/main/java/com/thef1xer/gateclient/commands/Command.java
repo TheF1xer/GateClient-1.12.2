@@ -10,7 +10,7 @@ public abstract class Command {
     private final String syntax;
     private final String[] aliases;
 
-    public Command(String name, String desc, String syntax, String[] aliases) {
+    public Command(String name, String desc, String syntax, String... aliases) {
         this.name = name;
         this.desc = desc;
         this.syntax = syntax;

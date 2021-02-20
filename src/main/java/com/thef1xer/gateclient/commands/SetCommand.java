@@ -14,7 +14,7 @@ public class SetCommand extends Command{
     public Module module;
 
     public SetCommand() {
-        super("set", "Changes the settings of a Module", "set <module> <setting> <value> | <module> list", new String[] {"s"});
+        super("set", "Changes the settings of a Module", "set <module> <setting> <value> | <module> list", "s");
     }
 
     @Override
@@ -29,13 +29,14 @@ public class SetCommand extends Command{
                 ChatUtil.clientMessage("Settings for " + module.getName() + " module:");
                 for (Setting setting : module.getSettings()) {
                     if (setting instanceof BooleanSetting) {
-                        sendMessageSetting(setting, "<true / false>");
+                        sendMessageSetting(setting, "<true / false>", ((BooleanSetting) setting).getValue() ? "true" : "false");
                     } else if (setting instanceof ColorSetting) {
-                        sendMessageSetting(setting, "<red> <green> <blue> (<alpha>)");
+                        sendMessageSetting(setting, "<red> <green> <blue> (<alpha>)",
+                                ((ColorSetting) setting).getRed() + ", " + ((ColorSetting) setting).getGreen() + ", " + ((ColorSetting) setting).getBlue() + ((ColorSetting) setting).getAlpha());
                     } else if (setting instanceof EnumSetting) {
-                        sendMessageSetting(setting, "<value>");
+                        sendMessageSetting(setting, "<value>", ((EnumSetting<?>) setting).getCurrentValueName());
                     } else if (setting instanceof FloatSetting) {
-                        sendMessageSetting(setting, "<value>");
+                        sendMessageSetting(setting, "<value>", ((FloatSetting) setting).getValue() + "");
                     }
                 }
             } else {
@@ -142,7 +143,7 @@ public class SetCommand extends Command{
         this.syntaxError();
     }
 
-    public boolean isModule(String name) {
+    private boolean isModule(String name) {
         for (Module module : GateClient.gate.moduleManager.moduleList) {
             if (module.getId().equalsIgnoreCase(name)) {
                 this.module = module;
@@ -152,7 +153,8 @@ public class SetCommand extends Command{
         return false;
     }
 
-    private void sendMessageSetting(Setting setting, String value) {
-        ChatUtil.userMessage(TextFormatting.AQUA.toString() + TextFormatting.ITALIC.toString() + setting.getName() + ": " + TextFormatting.RESET.toString() + setting.getId() + " " + value);
+    private void sendMessageSetting(Setting setting, String value, String current) {
+        ChatUtil.clientMessage(TextFormatting.GOLD.toString() + TextFormatting.ITALIC.toString() + setting.getName() + ": " +
+                TextFormatting.RESET.toString() + setting.getId() + " " + value + TextFormatting.GOLD.toString() + TextFormatting.ITALIC.toString() + " [" + current + "]");
     }
 }

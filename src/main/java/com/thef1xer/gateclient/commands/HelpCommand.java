@@ -6,7 +6,7 @@ import net.minecraft.util.text.TextFormatting;
 
 public class HelpCommand extends Command{
     public HelpCommand() {
-        super("help", "Displays this list", "help", new String[]{"?"});
+        super("help", "Displays this list", "help", "?");
     }
 
     @Override
@@ -14,7 +14,7 @@ public class HelpCommand extends Command{
         if (args.length == 1) {
             ChatUtil.clientMessage("List of Commands in this client:");
             for (Command command : GateClient.gate.commandManager.commandList) {
-                ChatUtil.userMessage(TextFormatting.AQUA + command.getName() + ": " + TextFormatting.RESET + command.getDesc());
+                ChatUtil.clientMessage(TextFormatting.GOLD + command.getName() + ": " + TextFormatting.RESET + command.getDesc());
             }
         } else {
             this.syntaxError();

@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 
 public class SayCommand extends Command{
     public SayCommand() {
-        super("Say", "Sends a message (that can include the prefix)", "say <message>", new String[] {"s"});
+        super("say", "Sends a message (that can include the prefix)", "say <message>", "s");
     }
 
     @Override

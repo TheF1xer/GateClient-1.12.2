@@ -15,28 +15,37 @@ import java.util.Comparator;
 import java.util.List;
 
 public class HUD {
-    //TODO: Rework this whole thing
+    //TODO: Rework this whole thing using more classes
+
+    private List<Module> modulesSorted;
+    private final FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 
     private boolean renderModules = false;
     private boolean renderCoords = false;
 
-    private List<Module> modulesSorted = new ArrayList<>();
-
     public void init() {
-        modulesSorted = GateClient.gate.moduleManager.moduleList;
-        modulesSorted.sort(new ModuleComparator());
+        this.modulesSorted = new ArrayList<>(GateClient.gate.moduleManager.moduleList);
+        Comparator<Module> comparator = new Comparator<Module>() {
+            public int compare(Module module1, Module module2) {
+                if (fr.getStringWidth(module1.getName()) > fr.getStringWidth(module2.getName())) {
+                    return 1;
+                } else if (fr.getStringWidth(module1.getName()) < fr.getStringWidth(module2.getName())) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+        this.modulesSorted.sort(comparator);
     }
 
     @SubscribeEvent
     public void onOverlayRender(RenderGameOverlayEvent event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-
             ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-            FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 
             if (this.renderModules) {
                 int i = 0;
-                for (Module module : this.modulesSorted) {
+                for (Module module : modulesSorted) {
                     if (module.isEnabled() && module.getDrawOnHud()) {
                         fr.drawStringWithShadow(module.getName(), sr.getScaledWidth() - fr.getStringWidth(module.getName()) - 4, 4 + i * fr.FONT_HEIGHT, 0xFFFFFF);
                         i++;
@@ -55,7 +64,7 @@ public class HUD {
                 String nether = TextFormatting.GRAY + "Nether: " + TextFormatting.RESET + netherPos.x + ", " + netherPos.y + ", " + netherPos.z;
 
                 fr.drawStringWithShadow(coords, 4, sr.getScaledHeight() - 2 * fr.FONT_HEIGHT - 4, 0xFFFFFF);
-                fr.drawStringWithShadow(nether, 4, sr.getScaledHeight() - fr.FONT_HEIGHT, 0xFFFFFF);
+                fr.drawStringWithShadow(nether, 4, sr.getScaledHeight() - fr.FONT_HEIGHT - 4, 0xFFFFFF);
             }
         }
     }
@@ -66,19 +75,5 @@ public class HUD {
 
     public void setRenderCoords(boolean renderCoords) {
         this.renderCoords = renderCoords;
-    }
-
-    public static class ModuleComparator implements Comparator<Module> {
-        FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
-
-        @Override
-        public int compare(Module module1, Module module2) {
-            if (fr.getStringWidth(module1.getName()) > fr.getStringWidth(module2.getName())) {
-                return 1;
-            } else if (fr.getStringWidth(module1.getName()) < fr.getStringWidth(module2.getName())) {
-                return -1;
-            }
-            return 0;
-        }
     }
 }
