@@ -34,7 +34,17 @@ public class SetCommand extends Command{
                         sendMessageSetting(setting, "<red> <green> <blue> (<alpha>)",
                                 ((ColorSetting) setting).getRed() + ", " + ((ColorSetting) setting).getGreen() + ", " + ((ColorSetting) setting).getBlue() + ((ColorSetting) setting).getAlpha());
                     } else if (setting instanceof EnumSetting) {
-                        sendMessageSetting(setting, "<value>", ((EnumSetting<?>) setting).getCurrentValueName());
+                        StringBuilder values = new StringBuilder("<");
+                        for (int i = 0; i < ((EnumSetting<?>) setting).getValues().length; i++) {
+                            String enumName = ((EnumSetting<?>) setting).getValues()[i].toString();
+                            values.append(enumName);
+                            if (i == ((EnumSetting<?>) setting).getValues().length - 1) {
+                                values.append(">");
+                            } else {
+                                values.append(" / ");
+                            }
+                        }
+                        sendMessageSetting(setting, values.toString(), ((EnumSetting<?>) setting).getCurrentValueName());
                     } else if (setting instanceof FloatSetting) {
                         sendMessageSetting(setting, "<value>", ((FloatSetting) setting).getValue() + "");
                     }

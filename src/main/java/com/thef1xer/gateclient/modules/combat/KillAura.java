@@ -22,9 +22,9 @@ public class KillAura extends Module {
     private Entity target;
     private Entity focusTarget;
 
-    EnumSetting<Mode> mode = new EnumSetting<>("Mode", "mode", Mode.values(), Mode.FOCUS);
-    FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0F, 6F);
-    FloatSetting frequency = new FloatSetting("Frequency" , "frequency", 0F, -100F, 100F);
+    private final EnumSetting<Mode> mode = new EnumSetting<>("Mode", "mode", Mode.values(), Mode.FOCUS);
+    private final FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0F, 6F);
+    private final FloatSetting frequency = new FloatSetting("Frequency" , "frequency", 0F, -100F, 100F);
 
     public KillAura() {
         super("Kill Aura", "killaura", EnumModuleCategory.COMBAT);
@@ -123,7 +123,7 @@ public class KillAura extends Module {
                 ((EntityLivingBase) entity).getHealth() > 0.0F;
     }
 
-    public enum Mode implements EnumSetting.IEnumSetting{
+    public enum Mode {
         CLOSEST("Closest"),
         FOCUS("Focus");
 
@@ -133,7 +133,7 @@ public class KillAura extends Module {
         }
 
         @Override
-        public String getName() {
+        public String toString() {
             return name;
         }
     }

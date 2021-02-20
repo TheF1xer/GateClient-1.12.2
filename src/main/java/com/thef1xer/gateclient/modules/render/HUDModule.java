@@ -6,8 +6,8 @@ import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.BooleanSetting;
 
 public class HUDModule extends Module {
-    BooleanSetting renderModuleList = new BooleanSetting("Render Module List", "modulelist", true);
-    BooleanSetting renderCoords = new BooleanSetting("Render your Coordinates", "coords", true);
+    private final BooleanSetting renderModuleList = new BooleanSetting("Render Module List", "modulelist", true);
+    private final BooleanSetting renderCoords = new BooleanSetting("Render your Coordinates", "coords", true);
 
     public HUDModule() {
         super("HUD", "hud", EnumModuleCategory.RENDER);

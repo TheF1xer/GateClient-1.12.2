@@ -22,9 +22,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class Tracers extends Module {
     public Entity camera;
 
-    public BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayers", true);
-    public BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", false);
-    public ColorSetting color = new ColorSetting("Tracer Color", "color", 255, 255, 255, 255);
+    private final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayers", true);
+    private final BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", false);
+    private final ColorSetting color = new ColorSetting("Tracer Color", "color", 255, 255, 255, 255);
 
     public Tracers() {
         super("Tracers", "tracers", EnumModuleCategory.RENDER);

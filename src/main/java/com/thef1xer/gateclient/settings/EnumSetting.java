@@ -24,24 +24,15 @@ public class EnumSetting<T extends Enum<?>> extends Setting{
 
     public boolean setValueFromName(String name) {
         for (T value : values) {
-            if (value instanceof IEnumSetting) {
-                if (((IEnumSetting) value).getName().equalsIgnoreCase(name)) {
-                    this.setCurrentValue(value);
-                    return true;
-                }
+            if (name.equalsIgnoreCase(value.toString())) {
+                this.setCurrentValue(value);
+                return true;
             }
         }
         return false;
     }
 
     public String getCurrentValueName() {
-        if (this.getCurrentValue() instanceof IEnumSetting) {
-            return ((IEnumSetting) this.getCurrentValue()).getName();
-        }
-        return null;
-    }
-
-    public interface IEnumSetting {
-        public String getName();
+        return currentValue.toString();
     }
 }

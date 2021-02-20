@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class AutoTotem extends Module {
     public AutoTotem() {
-        super("AutoTotem", "autototem", EnumModuleCategory.PLAYER);
+        super("Auto Totem", "autototem", EnumModuleCategory.PLAYER);
     }
 
     @Override
