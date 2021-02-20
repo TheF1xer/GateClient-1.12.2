@@ -11,7 +11,7 @@ public class BlockLiquidVisitor extends ClassVisitor {
 
     public BlockLiquidVisitor(ClassVisitor cv, boolean isObfuscated) {
         super(ASM5, cv);
-        this.GET_COLLISION = isObfuscated ? "d" : "getCollisionBoundingBox";
+        this.GET_COLLISION = isObfuscated ? "a" : "getCollisionBoundingBox";
         this.GET_COLLISION_DESC = isObfuscated ? "(Lawt;Lamy;Let;)Lbhb;" : "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/util/math/AxisAlignedBB;";
     }
 
