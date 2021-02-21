@@ -1,5 +1,6 @@
 package com.thef1xer.gateclient.modules.player;
 
+import com.thef1xer.gateclient.events.PlayerIsUserEvent;
 import com.thef1xer.gateclient.events.SendPacketEvent;
 import com.thef1xer.gateclient.events.SetOpaqueCubeEvent;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
@@ -14,6 +15,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class Freecam extends Module {
+    public static Freecam INSTANCE;
+
     public int lastThirdPerson;
     public EntityOtherPlayerMP camera;
 
@@ -25,6 +28,8 @@ public class Freecam extends Module {
         verticalSpeed.setParent("Speed");
         horizontalSpeed.setParent("Speed");
         this.addSettings(verticalSpeed, horizontalSpeed);
+
+        Freecam.INSTANCE = this;
     }
 
     @Override
@@ -76,6 +81,11 @@ public class Freecam extends Module {
 
         Vec3d vector = new Vec3d(strafe, vertical, forward).rotateYaw( (float) -Math.toRadians(camera.rotationYaw));
         camera.setPositionAndRotationDirect(camera.posX + vector.x, camera.posY + vector.y, camera.posZ + vector.z, camera.rotationYaw, camera.rotationPitch, 3, false);
+    }
+
+    @SubscribeEvent
+    public void onIsUser(PlayerIsUserEvent event) {
+        event.setCanceled(true);
     }
 
     @SubscribeEvent

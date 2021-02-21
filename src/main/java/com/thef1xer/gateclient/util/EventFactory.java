@@ -41,4 +41,8 @@ public class EventFactory {
         MinecraftForge.EVENT_BUS.post(event);
         return event.getCollisionBoundingBox();
     }
+
+    public static boolean isUser() {
+        return !MinecraftForge.EVENT_BUS.post(new PlayerIsUserEvent());
+    }
 }

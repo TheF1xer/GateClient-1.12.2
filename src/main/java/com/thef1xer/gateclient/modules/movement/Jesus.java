@@ -9,8 +9,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Jesus extends Module {
+    public static Jesus INSTANCE;
+
     public Jesus() {
         super("Jesus", "jesus", EnumModuleCategory.MOVEMENT);
+
+        Jesus.INSTANCE = this;
     }
 
     @Override

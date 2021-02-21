@@ -17,13 +17,6 @@ public class Module {
     private boolean drawOnHud = true;
     private final List<Setting> settings = new ArrayList<>();
 
-    public Module(String name, String id, EnumModuleCategory category, int key) {
-        this.name = name;
-        this.id = id;
-        this.moduleCategory = category;
-        this.keyBind = key;
-    }
-
     public Module(String name, String id, EnumModuleCategory category) {
         this.name = name;
         this.id = id;

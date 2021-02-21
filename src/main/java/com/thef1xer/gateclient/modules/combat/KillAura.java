@@ -19,6 +19,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KillAura extends Module {
+    public static KillAura INSTANCE;
+
     private Entity target;
     private Entity focusTarget;
 
@@ -29,6 +31,8 @@ public class KillAura extends Module {
     public KillAura() {
         super("Kill Aura", "killaura", EnumModuleCategory.COMBAT);
         this.addSettings(mode, reach, frequency);
+
+        KillAura.INSTANCE = this;
     }
 
     @Override

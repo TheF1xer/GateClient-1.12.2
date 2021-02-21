@@ -6,6 +6,7 @@ import com.thef1xer.gateclient.settings.BooleanSetting;
 import com.thef1xer.gateclient.settings.ColorSetting;
 import com.thef1xer.gateclient.util.MathUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -20,6 +21,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Tracers extends Module {
+    public static Tracers INSTANCE;
+
     public Entity camera;
 
     private final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayers", true);
@@ -31,6 +34,8 @@ public class Tracers extends Module {
         targetPlayer.setParent("Entities to Target");
         targetHostile.setParent("Entities to Target");
         this.addSettings(targetPlayer, targetHostile, color);
+
+        Tracers.INSTANCE = this;
 
     }
 
@@ -52,9 +57,7 @@ public class Tracers extends Module {
             RenderManager rm = Minecraft.getMinecraft().getRenderManager();
             camera = Minecraft.getMinecraft().getRenderViewEntity();
 
-            Vec3d playerVector = new Vec3d(0D, 0D, 1D)
-                    .rotatePitch((float) -Math.toRadians(camera.rotationPitch))
-                    .rotateYaw((float) -Math.toRadians(camera.rotationYaw));
+            Vec3d playerVector = ActiveRenderInfo.getCameraPosition();
 
             GlStateManager.pushMatrix();
             GlStateManager.disableTexture2D();
@@ -70,7 +73,7 @@ public class Tracers extends Module {
                     Vec3d entityPos = MathUtil.interpolateEntity(entity);
 
                     buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
-                    buffer.pos(playerVector.x, playerVector.y + Minecraft.getMinecraft().player.eyeHeight, playerVector.z)
+                    buffer.pos(playerVector.x, playerVector.y, playerVector.z)
                             .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, (float) color.getAlpha() / 255).endVertex();
                     buffer.pos(entityPos.x - rm.viewerPosX, entityPos.y - rm.viewerPosY, entityPos.z - rm.viewerPosZ)
                             .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, (float) color.getAlpha() / 255).endVertex();

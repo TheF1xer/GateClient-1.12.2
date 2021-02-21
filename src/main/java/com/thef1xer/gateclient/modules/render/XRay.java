@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.modules.render;
 
-import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.events.GetAmbientOcclusionLightValueEvent;
 import com.thef1xer.gateclient.events.RenderModelEvent;
 import com.thef1xer.gateclient.events.SetOpaqueCubeEvent;
@@ -14,10 +13,14 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class XRay extends Module {
+    public static XRay INSTANCE;
+
     private float lastGamma;
 
     public XRay() {
         super("XRay", "xray", EnumModuleCategory.RENDER);
+
+        XRay.INSTANCE = this;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class XRay extends Module {
         super.onDisabled();
         MinecraftForge.EVENT_BUS.unregister(this);
         Minecraft.getMinecraft().renderGlobal.loadRenderers();
-        if (!GateClient.gate.moduleManager.getModuleByName("Full Bright").isEnabled()) {
+        if (!FullBright.INSTANCE.isEnabled()) {
             Minecraft.getMinecraft().gameSettings.gammaSetting = lastGamma;
         }
     }
