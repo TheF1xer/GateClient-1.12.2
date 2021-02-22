@@ -24,13 +24,13 @@ public class KillAura extends Module {
     private Entity target;
     private Entity focusTarget;
 
-    private final EnumSetting<Mode> mode = new EnumSetting<>("Mode", "mode", Mode.values(), Mode.FOCUS);
+    private final EnumSetting<Priority> priority = new EnumSetting<>("Target Priority", "priority", Priority.values(), Priority.CLOSEST);
     private final FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0F, 6F);
-    private final FloatSetting frequency = new FloatSetting("Frequency" , "frequency", 0F, -100F, 100F);
+    private final FloatSetting delay = new FloatSetting("Added Delay" , "delay", 0F, -100F, 100F);
 
     public KillAura() {
         super("Kill Aura", "killaura", EnumModuleCategory.COMBAT);
-        this.addSettings(mode, reach, frequency);
+        this.addSettings(priority, reach, delay);
 
         KillAura.INSTANCE = this;
     }
@@ -55,7 +55,7 @@ public class KillAura extends Module {
             return;
         }
 
-        if (mode.getCurrentValue() == Mode.CLOSEST) {
+        if (priority.getCurrentValue() == Priority.CLOSEST) {
             for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
                 if (isTarget(entity)) {
                     if (target == null) {
@@ -65,7 +65,7 @@ public class KillAura extends Module {
                     }
                 }
             }
-        } else if (mode.getCurrentValue() == Mode.FOCUS) {
+        } else if (priority.getCurrentValue() == Priority.FOCUS) {
             if (focusTarget != null) {
                 for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
                     if (entity == focusTarget) {
@@ -78,7 +78,7 @@ public class KillAura extends Module {
         }
 
         if (target != null) {
-            if (Minecraft.getMinecraft().player.getCooledAttackStrength(-frequency.getValue()) == 1.0F) {
+            if (Minecraft.getMinecraft().player.getCooledAttackStrength(-delay.getValue()) == 1.0F) {
                 Minecraft.getMinecraft().player.connection.sendPacket(new CPacketUseEntity(target));
                 Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
                 Minecraft.getMinecraft().player.resetCooldown();
@@ -127,12 +127,12 @@ public class KillAura extends Module {
                 ((EntityLivingBase) entity).getHealth() > 0.0F;
     }
 
-    public enum Mode {
+    public enum Priority {
         CLOSEST("Closest"),
         FOCUS("Focus");
 
         private final String name;
-        Mode(String name) {
+        Priority(String name) {
             this.name = name;
         }
 

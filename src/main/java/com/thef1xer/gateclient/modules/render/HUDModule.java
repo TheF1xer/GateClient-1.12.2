@@ -26,7 +26,7 @@ public class HUDModule extends Module {
     public void onEnabled() {
         super.onEnabled();
         GateClient.gate.hud.setRenderModules(renderModuleList.getValue());
-        GateClient.gate.hud.setRenderCoords(renderModuleList.getValue());
+        GateClient.gate.hud.setRenderCoords(renderCoords.getValue());
     }
 
     @Override

@@ -59,13 +59,28 @@ public class StorageESP extends Module {
             AxisAlignedBB bb;
             if (entity instanceof TileEntityChest) {
                 bb = new AxisAlignedBB(entity.getPos()).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
-                RenderGlobal.drawSelectionBoundingBox(bb, (float) chestColor.getRed()/255, (float) chestColor.getGreen()/255, (float) chestColor.getBlue()/255, (float) chestColor.getAlpha()/255);
+
+                RenderGlobal.drawSelectionBoundingBox(bb,
+                        (float) chestColor.getRed()/255, (float) chestColor.getGreen()/255, (float) chestColor.getBlue()/255, (float) chestColor.getAlpha()/255);
+                RenderGlobal.renderFilledBox(bb,
+                        (float) chestColor.getRed()/255, (float) chestColor.getGreen()/255, (float) chestColor.getBlue()/255, (float) chestColor.getAlpha()/1020);
+
             } else if (entity instanceof TileEntityShulkerBox) {
                 bb = new AxisAlignedBB(entity.getPos()).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
-                RenderGlobal.drawSelectionBoundingBox(bb, (float) shulkerColor.getRed()/255, (float) shulkerColor.getGreen()/255, (float) shulkerColor.getBlue()/255, (float) shulkerColor.getAlpha()/255);
+
+                RenderGlobal.drawSelectionBoundingBox(bb,
+                        (float) shulkerColor.getRed()/255, (float) shulkerColor.getGreen()/255, (float) shulkerColor.getBlue()/255, (float) shulkerColor.getAlpha()/255);
+                RenderGlobal.renderFilledBox(bb,
+                        (float) shulkerColor.getRed()/255, (float) shulkerColor.getGreen()/255, (float) shulkerColor.getBlue()/255, (float) shulkerColor.getAlpha()/1020);
+
             } else if (entity instanceof TileEntityEnderChest) {
                 bb = new AxisAlignedBB(entity.getPos()).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
-                RenderGlobal.drawSelectionBoundingBox(bb, (float) enderChestColor.getRed()/255, (float) enderChestColor.getGreen()/255, (float) enderChestColor.getBlue()/255, (float) enderChestColor.getAlpha()/255);
+
+                RenderGlobal.drawSelectionBoundingBox(bb,
+                        (float) enderChestColor.getRed()/255, (float) enderChestColor.getGreen()/255, (float) enderChestColor.getBlue()/255, (float) enderChestColor.getAlpha()/255);
+                RenderGlobal.renderFilledBox(bb,
+                        (float) enderChestColor.getRed()/255, (float) enderChestColor.getGreen()/255, (float) enderChestColor.getBlue()/255, (float) enderChestColor.getAlpha()/1020);
+
             }
         }
         GlStateManager.enableDepth();

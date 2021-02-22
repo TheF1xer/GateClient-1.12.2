@@ -15,7 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class HUD {
-    //TODO: Rework this whole thing using more classes
+    //TODO: Rework this whole thing using more classes and add rainbow
 
     private List<Module> modulesSorted;
     private final FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
