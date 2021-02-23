@@ -2,8 +2,8 @@ package com.thef1xer.gateclient.modules.render;
 
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
-import com.thef1xer.gateclient.settings.BooleanSetting;
-import com.thef1xer.gateclient.settings.ColorSetting;
+import com.thef1xer.gateclient.settings.impl.BooleanSetting;
+import com.thef1xer.gateclient.settings.impl.ColorSetting;
 import com.thef1xer.gateclient.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

@@ -1,10 +1,11 @@
-package com.thef1xer.gateclient.commands;
+package com.thef1xer.gateclient.commands.impl;
 
 import com.thef1xer.gateclient.GateClient;
+import com.thef1xer.gateclient.commands.Command;
 import com.thef1xer.gateclient.util.ChatUtil;
 import net.minecraft.util.text.TextFormatting;
 
-public class HelpCommand extends Command{
+public class HelpCommand extends Command {
     public HelpCommand() {
         super("help", "Displays this list", "help", "?");
     }

@@ -1,6 +1,8 @@
-package com.thef1xer.gateclient.settings;
+package com.thef1xer.gateclient.settings.impl;
 
-public class EnumSetting<T extends Enum<?>> extends Setting{
+import com.thef1xer.gateclient.settings.Setting;
+
+public class EnumSetting<T extends Enum<?>> extends Setting {
     private final T[] values;
     private T currentValue;
 

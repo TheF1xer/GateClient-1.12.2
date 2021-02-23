@@ -5,7 +5,7 @@ import com.thef1xer.gateclient.events.SendPacketEvent;
 import com.thef1xer.gateclient.events.SetOpaqueCubeEvent;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
-import com.thef1xer.gateclient.settings.FloatSetting;
+import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.network.play.client.CPacketUseEntity;

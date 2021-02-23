@@ -1,10 +1,11 @@
-package com.thef1xer.gateclient.commands;
+package com.thef1xer.gateclient.commands.impl;
 
 import com.thef1xer.gateclient.GateClient;
+import com.thef1xer.gateclient.commands.Command;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.util.ChatUtil;
 
-public class ToggleCommand extends Command{
+public class ToggleCommand extends Command {
     public ToggleCommand() {
         super("toggle", "Toggles a Module", "toggle <module>", "t");
     }

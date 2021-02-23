@@ -1,8 +1,9 @@
-package com.thef1xer.gateclient.commands;
+package com.thef1xer.gateclient.commands.impl;
 
+import com.thef1xer.gateclient.commands.Command;
 import net.minecraft.client.Minecraft;
 
-public class SayCommand extends Command{
+public class SayCommand extends Command {
     public SayCommand() {
         super("say", "Sends a message (that can include the prefix)", "say <message>", "s");
     }

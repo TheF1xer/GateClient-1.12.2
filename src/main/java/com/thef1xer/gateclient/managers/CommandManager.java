@@ -1,6 +1,7 @@
 package com.thef1xer.gateclient.managers;
 
 import com.thef1xer.gateclient.commands.*;
+import com.thef1xer.gateclient.commands.impl.*;
 
 import java.util.ArrayList;
 import java.util.List;

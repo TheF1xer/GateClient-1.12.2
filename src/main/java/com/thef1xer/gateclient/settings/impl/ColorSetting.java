@@ -1,6 +1,8 @@
-package com.thef1xer.gateclient.settings;
+package com.thef1xer.gateclient.settings.impl;
 
-public class ColorSetting extends Setting{
+import com.thef1xer.gateclient.settings.Setting;
+
+public class ColorSetting extends Setting {
     private int red;
     private int green;
     private int blue;

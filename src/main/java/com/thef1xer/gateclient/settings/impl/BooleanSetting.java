@@ -1,6 +1,8 @@
-package com.thef1xer.gateclient.settings;
+package com.thef1xer.gateclient.settings.impl;
 
-public class BooleanSetting extends Setting{
+import com.thef1xer.gateclient.settings.Setting;
+
+public class BooleanSetting extends Setting {
     private boolean value;
 
     public BooleanSetting(String name, String id, boolean value) {

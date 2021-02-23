@@ -1,6 +1,8 @@
-package com.thef1xer.gateclient.settings;
+package com.thef1xer.gateclient.settings.impl;
 
-public class FloatSetting extends Setting{
+import com.thef1xer.gateclient.settings.Setting;
+
+public class FloatSetting extends Setting {
     private float value;
     private final float min;
     private final float max;

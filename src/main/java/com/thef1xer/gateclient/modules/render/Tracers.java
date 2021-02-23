@@ -2,8 +2,8 @@ package com.thef1xer.gateclient.modules.render;
 
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
-import com.thef1xer.gateclient.settings.BooleanSetting;
-import com.thef1xer.gateclient.settings.ColorSetting;
+import com.thef1xer.gateclient.settings.impl.BooleanSetting;
+import com.thef1xer.gateclient.settings.impl.ColorSetting;
 import com.thef1xer.gateclient.util.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -21,9 +21,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Tracers extends Module {
+    //TODO: Find a better method of doing this
     public static Tracers INSTANCE;
-
-    public Entity camera;
 
     private final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayers", true);
     private final BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", false);
@@ -55,11 +54,10 @@ public class Tracers extends Module {
     public void onRender(RenderWorldLastEvent event) {
         if (Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().world != null) {
             RenderManager rm = Minecraft.getMinecraft().getRenderManager();
-            camera = Minecraft.getMinecraft().getRenderViewEntity();
-
             Vec3d playerVector = ActiveRenderInfo.getCameraPosition();
 
             GlStateManager.pushMatrix();
+            GlStateManager.clear(256);
             GlStateManager.disableTexture2D();
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
@@ -67,7 +65,7 @@ public class Tracers extends Module {
             GlStateManager.disableDepth();
             GlStateManager.glLineWidth(0.5F);
             for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
-                if (isTarget(entity) && entity != camera) {
+                if (isTarget(entity) && entity != Minecraft.getMinecraft().getRenderViewEntity()) {
                     Tessellator tessellator = Tessellator.getInstance();
                     BufferBuilder buffer = tessellator.getBuffer();
                     Vec3d entityPos = MathUtil.interpolateEntity(entity);

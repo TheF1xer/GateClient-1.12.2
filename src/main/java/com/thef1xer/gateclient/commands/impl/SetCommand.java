@@ -1,14 +1,19 @@
-package com.thef1xer.gateclient.commands;
+package com.thef1xer.gateclient.commands.impl;
 
 import com.thef1xer.gateclient.GateClient;
+import com.thef1xer.gateclient.commands.Command;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.*;
+import com.thef1xer.gateclient.settings.impl.BooleanSetting;
+import com.thef1xer.gateclient.settings.impl.ColorSetting;
+import com.thef1xer.gateclient.settings.impl.EnumSetting;
+import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import com.thef1xer.gateclient.util.ChatUtil;
 import com.thef1xer.gateclient.util.MathUtil;
 import net.minecraft.util.text.TextFormatting;
 import org.apache.logging.log4j.core.util.Integers;
 
-public class SetCommand extends Command{
+public class SetCommand extends Command {
     //TODO: Rework this shit
 
     public Module module;
@@ -32,7 +37,7 @@ public class SetCommand extends Command{
                         sendMessageSetting(setting, "<true / false>", ((BooleanSetting) setting).getValue() ? "true" : "false");
                     } else if (setting instanceof ColorSetting) {
                         sendMessageSetting(setting, "<red> <green> <blue> (<alpha>)",
-                                ((ColorSetting) setting).getRed() + ", " + ((ColorSetting) setting).getGreen() + ", " + ((ColorSetting) setting).getBlue() + ((ColorSetting) setting).getAlpha());
+                                ((ColorSetting) setting).getRed() + ", " + ((ColorSetting) setting).getGreen() + ", " + ((ColorSetting) setting).getBlue() + " ," + ((ColorSetting) setting).getAlpha());
                     } else if (setting instanceof EnumSetting) {
                         StringBuilder values = new StringBuilder("<");
                         for (int i = 0; i < ((EnumSetting<?>) setting).getValues().length; i++) {

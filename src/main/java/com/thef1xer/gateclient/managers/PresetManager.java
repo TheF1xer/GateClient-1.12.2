@@ -4,6 +4,10 @@ import com.google.gson.*;
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.*;
+import com.thef1xer.gateclient.settings.impl.BooleanSetting;
+import com.thef1xer.gateclient.settings.impl.ColorSetting;
+import com.thef1xer.gateclient.settings.impl.EnumSetting;
+import com.thef1xer.gateclient.settings.impl.FloatSetting;
 
 import java.io.*;
 import java.util.*;
