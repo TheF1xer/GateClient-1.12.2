@@ -10,7 +10,8 @@ import org.lwjgl.input.Keyboard;
 public class BindCommand extends Command {
 
     public BindCommand() {
-        super("bind", "Binds a module to a key", "bind <module> <key> | clear | list", "b");
+        super("bind", "Binds a module to a key", "bind <module> <key>", "bind clear", "bind list");
+        this.addAliases("b");
     }
 
     @Override

@@ -5,27 +5,24 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.thef1xer.gateclient.GateClient;
-import net.minecraft.client.Minecraft;
+import com.thef1xer.gateclient.preset.Preset;
+import com.thef1xer.gateclient.util.DirectoryUtil;
 
 import java.io.*;
 
 public class ConfigManager {
-    public File activePreset;
-    public File gateFolder = new File(Minecraft.getMinecraft().mcDataDir, "Gate Client");
-    public File presetFolder = new File(gateFolder, "Presets");
-    public File configFile = new File(gateFolder, "config.json");
+    public File configFile = new File(DirectoryUtil.GATE_FOLDER, "config.json");
 
     public void init() {
-        gateFolder.mkdir();
-        presetFolder.mkdir();
+        DirectoryUtil.GATE_FOLDER.mkdir();
+        DirectoryUtil.PRESET_FOLDER.mkdir();
         this.load();
-        GateClient.gate.presetManager.updatePresetList(presetFolder);
-        GateClient.gate.presetManager.loadActivePreset(activePreset, presetFolder);
     }
 
     public void save() {
+        Preset activePreset = GateClient.gate.presetManager.activePreset;
         JsonObject config = new JsonObject();
-        config.addProperty("Active Config", activePreset != null ? activePreset.toString() : new File(presetFolder, "default.json").toString());
+        config.addProperty("Active Config", activePreset.getFile() != null ? activePreset.getFile().toString() : new File(DirectoryUtil.PRESET_FOLDER, "default.json").toString());
         try {
             FileWriter writer = new FileWriter(configFile);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -37,7 +34,7 @@ public class ConfigManager {
     }
 
     public void load() {
-        GateClient.gate.presetManager.updatePresetList(presetFolder);
+        GateClient.gate.presetManager.updatePresetList();
         JsonParser parser = new JsonParser();
 
         if (!configFile.exists()) {
@@ -47,7 +44,7 @@ public class ConfigManager {
         try {
             JsonObject config = parser.parse(new FileReader(configFile)).getAsJsonObject();
             String active = config.get("Active Config").getAsString();
-            activePreset = new File(active);
+            GateClient.gate.presetManager.activePreset.setFile(new File(active));
             this.save();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

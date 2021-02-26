@@ -14,6 +14,7 @@ public class CommandManager {
         commandList.add(new BindCommand());
         commandList.add(new HelpCommand());
         commandList.add(new ModuleListCommand());
+        commandList.add(new PresetCommand());
         commandList.add(new SayCommand());
         commandList.add(new SetCommand());
         commandList.add(new ToggleCommand());

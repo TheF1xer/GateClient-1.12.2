@@ -6,10 +6,6 @@ import net.minecraft.client.gui.FontRenderer;
 public abstract class HUDComponent {
     protected final FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 
-    public void init() {
-
-    }
-
     protected abstract boolean isEnabled();
 
     protected abstract void componentAction();

@@ -7,7 +7,8 @@ import com.thef1xer.gateclient.util.ChatUtil;
 
 public class ToggleCommand extends Command {
     public ToggleCommand() {
-        super("toggle", "Toggles a Module", "toggle <module>", "t");
+        super("toggle", "Toggles a Module", "toggle <module>");
+        this.addAliases("t");
     }
 
     @Override

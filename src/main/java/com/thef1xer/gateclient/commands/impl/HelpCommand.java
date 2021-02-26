@@ -7,7 +7,8 @@ import net.minecraft.util.text.TextFormatting;
 
 public class HelpCommand extends Command {
     public HelpCommand() {
-        super("help", "Displays this list", "help", "?");
+        super("help", "Displays this list", "help");
+        this.addAliases("?");
     }
 
     @Override

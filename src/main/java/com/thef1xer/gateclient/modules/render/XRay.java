@@ -19,6 +19,7 @@ public class XRay extends Module {
 
     public XRay() {
         super("XRay", "xray", EnumModuleCategory.RENDER);
+        this.lastGamma = Minecraft.getMinecraft().gameSettings.gammaSetting;
 
         XRay.INSTANCE = this;
     }

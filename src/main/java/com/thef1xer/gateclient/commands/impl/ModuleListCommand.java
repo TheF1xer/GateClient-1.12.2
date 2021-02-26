@@ -9,7 +9,8 @@ import org.lwjgl.input.Keyboard;
 
 public class ModuleListCommand extends Command {
     public ModuleListCommand() {
-        super("modulelist", "Shows the name, id and keybind of every Module in the Client", "modulelist", "list", "modules");
+        super("modulelist", "Shows the name, id and keybind of every Module in the Client", "modulelist");
+        this.addAliases("list", "modules");
     }
 
     @Override

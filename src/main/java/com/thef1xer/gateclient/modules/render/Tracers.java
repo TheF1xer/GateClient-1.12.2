@@ -21,7 +21,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Tracers extends Module {
-    //TODO: Find a better method of doing this
     public static Tracers INSTANCE;
 
     private final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayers", true);
@@ -54,6 +53,7 @@ public class Tracers extends Module {
     public void onRender(RenderWorldLastEvent event) {
         if (Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().world != null) {
             RenderManager rm = Minecraft.getMinecraft().getRenderManager();
+            //TODO: Find a better method of doing this
             Vec3d playerVector = ActiveRenderInfo.getCameraPosition();
 
             GlStateManager.pushMatrix();

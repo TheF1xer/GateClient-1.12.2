@@ -45,5 +45,6 @@ public class GateClient {
         commandManager.init();
         hud.init();
         configManager.init();
+        presetManager.init();
     }
 }

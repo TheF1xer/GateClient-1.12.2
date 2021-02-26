@@ -5,6 +5,7 @@ import com.thef1xer.gateclient.commands.Command;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.util.ChatUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -40,10 +41,18 @@ public class EventHandler {
 
             for (Command command: GateClient.gate.commandManager.commandList) {
                 if (ChatUtil.isCommand(args[0], command)) {
-                    command.onCommand(args);
-                    GateClient.gate.configManager.save();
-                    GateClient.gate.presetManager.saveActivePreset(GateClient.gate.configManager.activePreset);
+                    if (args.length == 2 && args[1].equalsIgnoreCase("help")) {
+                        ChatUtil.clientMessage("Syntax for " + TextFormatting.GOLD + command.getName() + TextFormatting.RESET + " command:");
+                        for (String syntax : command.getSyntax()) {
+                            ChatUtil.clientMessage(TextFormatting.YELLOW + GateClient.gate.commandManager.prefix + syntax);
+                        }
+                    } else {
+                        command.onCommand(args);
+                        GateClient.gate.configManager.save();
+                        GateClient.gate.presetManager.saveActivePreset();
+                    }
                     found = true;
+                    break;
                 }
             }
 

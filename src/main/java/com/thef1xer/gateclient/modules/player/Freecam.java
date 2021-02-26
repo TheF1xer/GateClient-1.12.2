@@ -17,11 +17,12 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 public class Freecam extends Module {
     public static Freecam INSTANCE;
 
-    public int lastThirdPerson;
-    public EntityOtherPlayerMP camera;
-
     private final FloatSetting verticalSpeed = new FloatSetting("Vertical Speed", "verticalspeed", 3F);
     private final FloatSetting horizontalSpeed = new FloatSetting("Horizontal Speed", "horizontalspeed", 3F);
+
+    private int lastThirdPerson;
+    private EntityOtherPlayerMP camera;
+    private boolean activeThisSession = false;
 
     public Freecam() {
         super("Freecam", "freecam", EnumModuleCategory.PLAYER);
@@ -36,6 +37,7 @@ public class Freecam extends Module {
     public void onEnabled() {
         super.onEnabled();
         MinecraftForge.EVENT_BUS.register(this);
+        this.activeThisSession = true;
     }
 
     @Override
@@ -45,10 +47,13 @@ public class Freecam extends Module {
         MinecraftForge.EVENT_BUS.unregister(this);
         if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().world.isRemote) {
             Minecraft.getMinecraft().setRenderViewEntity(Minecraft.getMinecraft().player);
-            Minecraft.getMinecraft().gameSettings.thirdPersonView = lastThirdPerson;
-            Minecraft.getMinecraft().world.removeEntity(camera);
+            if (this.activeThisSession) {
+                Minecraft.getMinecraft().gameSettings.thirdPersonView = lastThirdPerson;
+                Minecraft.getMinecraft().world.removeEntity(camera);
+            }
         }
-        camera = null;
+        this.camera = null;
+        this.activeThisSession = false;
     }
 
     @SubscribeEvent

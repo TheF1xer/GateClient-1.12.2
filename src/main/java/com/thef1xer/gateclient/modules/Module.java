@@ -56,7 +56,11 @@ public class Module {
 
     public void toggle() {
         setEnabled(!this.enabled);
-        GateClient.gate.presetManager.saveActivePreset(GateClient.gate.configManager.activePreset);
+        GateClient.gate.presetManager.saveActivePreset();
+    }
+
+    public void addSettings(Setting... settings) {
+        this.settings.addAll(Arrays.asList(settings));
     }
 
     public int getKeyBind() {
@@ -81,9 +85,5 @@ public class Module {
 
     public List<Setting> getSettings() {
         return settings;
-    }
-
-    public void addSettings(Setting... settings) {
-        this.settings.addAll(Arrays.asList(settings));
     }
 }

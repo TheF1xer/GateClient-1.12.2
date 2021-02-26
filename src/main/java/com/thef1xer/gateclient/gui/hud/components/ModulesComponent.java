@@ -14,7 +14,6 @@ import java.util.List;
 public class ModulesComponent extends HUDComponent {
     private List<Module> modulesSorted;
 
-    @Override
     public void init() {
         this.modulesSorted = new ArrayList<>(GateClient.gate.moduleManager.moduleList);
         this.modulesSorted.sort(new Comparator<Module>() {

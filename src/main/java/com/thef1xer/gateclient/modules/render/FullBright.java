@@ -14,7 +14,7 @@ public class FullBright extends Module {
 
     public FullBright() {
         super("Full Bright", "fullbright", EnumModuleCategory.RENDER);
-        this.lastGamma = 1F;
+        this.lastGamma = Minecraft.getMinecraft().gameSettings.gammaSetting;
 
         FullBright.INSTANCE = this;
     }

@@ -14,7 +14,6 @@ public class HUD {
 
     public void init() {
         modulesComponent.init();
-        coordsComponent.init();
     }
 
     @SubscribeEvent

@@ -3,46 +3,49 @@ package com.thef1xer.gateclient.managers;
 import com.google.gson.*;
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.modules.Module;
+import com.thef1xer.gateclient.preset.Preset;
 import com.thef1xer.gateclient.settings.*;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
 import com.thef1xer.gateclient.settings.impl.ColorSetting;
 import com.thef1xer.gateclient.settings.impl.EnumSetting;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
+import com.thef1xer.gateclient.util.DirectoryUtil;
 
 import java.io.*;
 import java.util.*;
 
 public class PresetManager {
     public List<File> presetList = new ArrayList<>();
+    public final Preset activePreset = new Preset();
 
-    public void updatePresetList(File path) {
-        if (path.listFiles() != null) {
-            for (File file : path.listFiles()) {
-                if (!file.isDirectory() && this.isJson(file.getName())) {
-                    presetList.add(file);
+    public void init() {
+        this.updatePresetList();
+        this.loadActivePreset();
+    }
+
+    public void updatePresetList() {
+        this.presetList = new ArrayList<>();
+        if (DirectoryUtil.PRESET_FOLDER.listFiles() != null) {
+            for (File file : DirectoryUtil.PRESET_FOLDER.listFiles()) {
+                if (!file.isDirectory() && DirectoryUtil.isJson(file)) {
+                    this.presetList.add(file);
                 }
             }
         }
     }
 
-    public boolean isJson(String name) {
-        int index = name.lastIndexOf(".");
-        return name.substring(index).equals(".json");
-    }
-
-    public void loadActivePreset(File preset, File folder) {
-        if (!this.presetExists(preset)) {
-            preset = new File(folder, "default.json");
-            GateClient.gate.configManager.activePreset = preset;
+    public void loadActivePreset() {
+        if (!this.presetExists(this.activePreset)) {
+            this.activePreset.setFile(new File(DirectoryUtil.PRESET_FOLDER, "default.json"));
             GateClient.gate.configManager.save();
-            if (!this.presetExists(preset)) {
-                this.saveActivePreset(preset);
+            if (!this.presetExists(this.activePreset)) {
+                this.saveActivePreset();
             }
         }
 
         JsonParser parser = new JsonParser();
         try {
-            JsonObject object = parser.parse(new FileReader(preset)).getAsJsonObject();
+            JsonObject object = parser.parse(new FileReader(this.activePreset.getFile())).getAsJsonObject();
             JsonArray moduleArray = object.getAsJsonArray("modules");
 
             for (JsonElement element : moduleArray) {
@@ -92,8 +95,6 @@ public class PresetManager {
                                         continue;
                                     }
 
-                                    System.out.println("Setting " + setting.getName());
-
                                     for (Map.Entry<String, JsonElement> value1 : settingSet) {
                                         String settingKey = value1.getKey();
                                         JsonElement settingVal = value1.getValue();
@@ -142,10 +143,10 @@ public class PresetManager {
             e.printStackTrace();
         }
 
-        this.saveActivePreset(preset);
+        this.saveActivePreset();
     }
 
-    public void saveActivePreset(File preset) {
+    public void saveActivePreset() {
         JsonObject presetJson = new JsonObject();
 
         JsonArray moduleArray = new JsonArray();
@@ -184,7 +185,7 @@ public class PresetManager {
         presetJson.add("modules", moduleArray);
 
         try {
-            FileWriter writer = new FileWriter(preset);
+            FileWriter writer = new FileWriter(this.activePreset.getFile());
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             writer.write(gson.toJson(presetJson));
             writer.flush();
@@ -193,9 +194,9 @@ public class PresetManager {
         }
     }
 
-    private boolean presetExists(File preset) {
+    private boolean presetExists(Preset preset) {
         for (File file : presetList) {
-            if (file.getPath().equals(preset.getPath())) {
+            if (file.getPath().equals(preset.getFile().getPath())) {
                 return true;
             }
         }

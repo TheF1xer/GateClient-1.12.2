@@ -19,7 +19,7 @@ public class SetCommand extends Command {
     public Module module;
 
     public SetCommand() {
-        super("set", "Changes the settings of a Module", "set <module> <setting> <value> | <module> list", "s");
+        super("set", "Changes the settings of a Module", "set <module> <setting> <value>", "set <module> list");
     }
 
     @Override

@@ -9,6 +9,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Jesus extends Module {
+    //TODO: Make bounding box lower
+
     public static Jesus INSTANCE;
 
     public Jesus() {
