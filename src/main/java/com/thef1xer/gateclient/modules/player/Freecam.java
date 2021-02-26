@@ -17,8 +17,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 public class Freecam extends Module {
     public static Freecam INSTANCE;
 
-    private final FloatSetting verticalSpeed = new FloatSetting("Vertical Speed", "verticalspeed", 3F);
-    private final FloatSetting horizontalSpeed = new FloatSetting("Horizontal Speed", "horizontalspeed", 3F);
+    public final FloatSetting verticalSpeed = new FloatSetting("Vertical Speed", "verticalspeed", 3F);
+    public final FloatSetting horizontalSpeed = new FloatSetting("Horizontal Speed", "horizontalspeed", 3F);
 
     private int lastThirdPerson;
     private EntityOtherPlayerMP camera;

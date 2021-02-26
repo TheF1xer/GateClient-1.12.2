@@ -17,11 +17,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class EntityESP extends Module {
     public static EntityESP INSTANCE;
 
-    private final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayer", true);
-    private final BooleanSetting targetHostile = new BooleanSetting("Target Hostile", "targethostile", true);
+    public final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayer", true);
+    public final BooleanSetting targetHostile = new BooleanSetting("Target Hostile", "targethostile", true);
 
-    private final ColorSetting playerColor = new ColorSetting("Player Color", "playercolor", 255, 0, 0, 255);
-    private final ColorSetting hostileColor = new ColorSetting("Hostile Mobs Color", "hostilecolor", 255, 255, 0, 255);
+    public final ColorSetting playerColor = new ColorSetting("Player Color", "playercolor", 255, 0, 0, 255);
+    public final ColorSetting hostileColor = new ColorSetting("Hostile Mobs Color", "hostilecolor", 255, 255, 0, 255);
 
     public EntityESP() {
         super("Entity ESP", "entityesp", EnumModuleCategory.RENDER);

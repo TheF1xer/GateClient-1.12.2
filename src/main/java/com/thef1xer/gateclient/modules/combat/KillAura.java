@@ -24,9 +24,9 @@ public class KillAura extends Module {
     private Entity target;
     private Entity focusTarget;
 
-    private final EnumSetting<Priority> priority = new EnumSetting<>("Target Priority", "priority", Priority.values(), Priority.CLOSEST);
-    private final FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0F, 6F);
-    private final FloatSetting delay = new FloatSetting("Added Delay" , "delay", 0F, -100F, 100F);
+    public final EnumSetting<Priority> priority = new EnumSetting<>("Target Priority", "priority", Priority.values(), Priority.CLOSEST);
+    public final FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0F, 6F);
+    public final FloatSetting delay = new FloatSetting("Added Delay" , "delay", 0F, -100F, 100F);
 
     public KillAura() {
         super("Kill Aura", "killaura", EnumModuleCategory.COMBAT);

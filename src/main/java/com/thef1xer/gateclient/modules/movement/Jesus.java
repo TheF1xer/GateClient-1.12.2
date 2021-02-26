@@ -3,18 +3,20 @@ package com.thef1xer.gateclient.modules.movement;
 import com.thef1xer.gateclient.events.GetLiquidCollisionBoundingBoxEvent;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
-import net.minecraft.block.Block;
+import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Jesus extends Module {
-    //TODO: Make bounding box lower
-
     public static Jesus INSTANCE;
+
+    public final FloatSetting offset = new FloatSetting("Offset", "offset", 0.2F, 0F, 1F);
 
     public Jesus() {
         super("Jesus", "jesus", EnumModuleCategory.MOVEMENT);
+        this.addSettings(offset);
 
         Jesus.INSTANCE = this;
     }
@@ -43,6 +45,6 @@ public class Jesus extends Module {
             Minecraft.getMinecraft().player.motionY = 0.30000001192092896D;
             return;
         }
-        event.setCollisionBoundingBox(Block.FULL_BLOCK_AABB);
+        event.setCollisionBoundingBox(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D - offset.getValue(), 1.0D));
     }
 }

@@ -19,9 +19,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class StorageESP extends Module {
     public static StorageESP INSTANCE;
 
-    private final ColorSetting chestColor = new ColorSetting("Chest Color", "chestcolor", 50, 50, 190, 255);
-    private final ColorSetting shulkerColor = new ColorSetting("Shulker Color", "shulkercolor", 255, 80, 240, 255);
-    private final ColorSetting enderChestColor = new ColorSetting("Ender Chest Color", "endercolor", 130, 0, 150, 255);
+    public final ColorSetting chestColor = new ColorSetting("Chest Color", "chestcolor", 50, 50, 190, 255);
+    public final ColorSetting shulkerColor = new ColorSetting("Shulker Color", "shulkercolor", 255, 80, 240, 255);
+    public final ColorSetting enderChestColor = new ColorSetting("Ender Chest Color", "endercolor", 130, 0, 150, 255);
 
     public StorageESP() {
         super("Storage ESP", "storageesp", EnumModuleCategory.RENDER);
