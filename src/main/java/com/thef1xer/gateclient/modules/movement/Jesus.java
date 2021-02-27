@@ -45,6 +45,6 @@ public class Jesus extends Module {
             Minecraft.getMinecraft().player.motionY = 0.30000001192092896D;
             return;
         }
-        event.setCollisionBoundingBox(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D - offset.getValue(), 1.0D));
+        event.setCollisionBoundingBox(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D - (double) offset.getValue(), 1.0D));
     }
 }

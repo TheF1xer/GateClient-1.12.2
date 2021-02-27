@@ -75,11 +75,6 @@ public class PresetManager {
                             continue;
                         }
 
-                        if (key.equals("drawOnHud")) {
-                            module.setDrawOnHud(val.getAsBoolean());
-                            continue;
-                        }
-
                         if (key.equals("settings")) {
 
                             for (JsonElement element1 : val.getAsJsonArray()) {
@@ -155,7 +150,6 @@ public class PresetManager {
             moduleObject.addProperty("name", module.getName());
             moduleObject.addProperty("enabled", module.isEnabled());
             moduleObject.addProperty("keybind", module.getKeyBind());
-            moduleObject.addProperty("drawOnHud", module.getDrawOnHud());
 
             JsonArray settingsArray = new JsonArray();
 

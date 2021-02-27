@@ -39,7 +39,7 @@ public class ModulesComponent extends HUDComponent {
 
         int i = 0;
         for (Module module : this.modulesSorted) {
-            if (module.isEnabled() && module.getDrawOnHud()) {
+            if (module.isEnabled() && module.drawOnHud.getValue()) {
                 fr.drawStringWithShadow(module.getName(), sr.getScaledWidth() - fr.getStringWidth(module.getName()) - 4, 4 + i * fr.FONT_HEIGHT, 0xFFFFFF);
                 i++;
             }

@@ -18,10 +18,12 @@ public class EntityESP extends Module {
     public static EntityESP INSTANCE;
 
     public final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayer", true);
-    public final BooleanSetting targetHostile = new BooleanSetting("Target Hostile", "targethostile", true);
+    public final BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", true);
+    public final BooleanSetting targetPassive = new BooleanSetting("Target Passive Mobs", "targetpassive", true);
 
     public final ColorSetting playerColor = new ColorSetting("Player Color", "playercolor", 255, 0, 0, 255);
     public final ColorSetting hostileColor = new ColorSetting("Hostile Mobs Color", "hostilecolor", 255, 255, 0, 255);
+    public final ColorSetting passiveColor = new ColorSetting("Passive Mobs Color", "passivecolor", 0, 255, 0, 255);
 
     public EntityESP() {
         super("Entity ESP", "entityesp", EnumModuleCategory.RENDER);
@@ -29,7 +31,7 @@ public class EntityESP extends Module {
         targetHostile.setParent("Target");
         playerColor.setParent("Color");
         hostileColor.setParent("Color");
-        this.addSettings(targetPlayer, targetHostile, playerColor, hostileColor);
+        this.addSettings(targetPlayer, targetHostile, targetPassive, playerColor, hostileColor, passiveColor);
 
         EntityESP.INSTANCE = this;
     }
@@ -57,9 +59,11 @@ public class EntityESP extends Module {
 
         for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
             if (targetPlayer.getValue() && entity instanceof EntityPlayer && entity != Minecraft.getMinecraft().getRenderViewEntity()) {
-                RenderUtil.renderEntityBoundingBox(entity, playerColor.getRed() / 255F, playerColor.getGreen() / 255F, playerColor.getBlue() / 255F, playerColor.getAlpha() / 255F);
+                RenderUtil.renderEntityBoundingBox(entity, playerColor);
             } else if (targetHostile.getValue() && entity.isCreatureType(EnumCreatureType.MONSTER, false)) {
-                RenderUtil.renderEntityBoundingBox(entity, hostileColor.getRed() / 255F, hostileColor.getGreen() / 255F, hostileColor.getBlue() / 255F, hostileColor.getAlpha() / 255F);
+                RenderUtil.renderEntityBoundingBox(entity, hostileColor);
+            } else if (targetPassive.getValue() && (entity.isCreatureType(EnumCreatureType.AMBIENT, false) || entity.isCreatureType(EnumCreatureType.WATER_CREATURE, false) || entity.isCreatureType(EnumCreatureType.CREATURE, false))) {
+                RenderUtil.renderEntityBoundingBox(entity, passiveColor);
             }
         }
 

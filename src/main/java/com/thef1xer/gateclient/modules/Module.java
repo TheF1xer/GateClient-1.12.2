@@ -2,6 +2,7 @@ package com.thef1xer.gateclient.modules;
 
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.settings.Setting;
+import com.thef1xer.gateclient.settings.impl.BooleanSetting;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -14,14 +15,16 @@ public class Module {
     private boolean enabled = false;
     private int keyBind;
     private final EnumModuleCategory moduleCategory;
-    private boolean drawOnHud = true;
     private final List<Setting> settings = new ArrayList<>();
+
+    public final BooleanSetting drawOnHud = new BooleanSetting("Draw on Hud", "drawonhud", true);
 
     public Module(String name, String id, EnumModuleCategory category) {
         this.name = name;
         this.id = id;
         this.moduleCategory = category;
         this.keyBind = Keyboard.KEY_NONE;
+        this.addSettings(drawOnHud);
     }
 
     public void onEnabled() {
@@ -73,14 +76,6 @@ public class Module {
 
     public EnumModuleCategory getModuleCategory() {
         return this.moduleCategory;
-    }
-
-    public boolean getDrawOnHud() {
-        return this.drawOnHud;
-    }
-
-    public void setDrawOnHud(boolean draw) {
-        this.drawOnHud = draw;
     }
 
     public List<Setting> getSettings() {
