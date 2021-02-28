@@ -10,12 +10,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class NoFall extends Module {
-    public static NoFall INSTANCE;
+    public static final NoFall INSTANCE = new NoFall();
 
     public NoFall() {
         super("NoFall", "nofall", EnumModuleCategory.MOVEMENT);
-
-        NoFall.INSTANCE = this;
     }
 
     @Override

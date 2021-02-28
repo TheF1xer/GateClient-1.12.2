@@ -8,15 +8,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class FullBright extends Module {
-    public static FullBright INSTANCE;
+    public static final FullBright INSTANCE = new FullBright();
 
     private float lastGamma;
 
     public FullBright() {
         super("Full Bright", "fullbright", EnumModuleCategory.RENDER);
         this.lastGamma = Minecraft.getMinecraft().gameSettings.gammaSetting;
-
-        FullBright.INSTANCE = this;
     }
 
     @Override

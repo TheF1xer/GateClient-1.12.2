@@ -21,7 +21,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Tracers extends Module {
-    public static Tracers INSTANCE;
+    public static final Tracers INSTANCE = new Tracers();
 
     public final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayers", true);
     public final BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", false);
@@ -32,9 +32,6 @@ public class Tracers extends Module {
         targetPlayer.setParent("Entities to Target");
         targetHostile.setParent("Entities to Target");
         this.addSettings(targetPlayer, targetHostile, color);
-
-        Tracers.INSTANCE = this;
-
     }
 
     @Override

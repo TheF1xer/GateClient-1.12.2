@@ -19,20 +19,18 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KillAura extends Module {
-    public static KillAura INSTANCE;
-
-    private Entity target;
-    private Entity focusTarget;
+    public static final KillAura INSTANCE = new KillAura();
 
     public final EnumSetting<Priority> priority = new EnumSetting<>("Target Priority", "priority", Priority.values(), Priority.CLOSEST);
     public final FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0F, 6F);
     public final FloatSetting delay = new FloatSetting("Added Delay" , "delay", 0F, -100F, 100F);
 
+    private Entity target;
+    private Entity focusTarget;
+
     public KillAura() {
         super("Kill Aura", "killaura", EnumModuleCategory.COMBAT);
         this.addSettings(priority, reach, delay);
-
-        KillAura.INSTANCE = this;
     }
 
     @Override

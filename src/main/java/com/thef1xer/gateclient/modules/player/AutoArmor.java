@@ -13,12 +13,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class AutoArmor extends Module {
-    public static AutoArmor INSTANCE;
+    public static final AutoArmor INSTANCE = new AutoArmor();
 
     public AutoArmor() {
         super("Auto Armor", "autoarmor", EnumModuleCategory.PLAYER);
-
-        AutoArmor.INSTANCE = this;
     }
 
     @Override

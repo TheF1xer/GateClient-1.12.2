@@ -10,15 +10,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Jesus extends Module {
-    public static Jesus INSTANCE;
+    public static final Jesus INSTANCE = new Jesus();
 
     public final FloatSetting offset = new FloatSetting("Offset", "offset", 0.2F, 0F, 1F);
 
     public Jesus() {
         super("Jesus", "jesus", EnumModuleCategory.MOVEMENT);
         this.addSettings(offset);
-
-        Jesus.INSTANCE = this;
     }
 
     @Override

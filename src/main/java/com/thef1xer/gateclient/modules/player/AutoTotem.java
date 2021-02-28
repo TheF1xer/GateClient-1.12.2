@@ -12,12 +12,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class AutoTotem extends Module {
-    public static AutoTotem INSTANCE;
+    public static final AutoTotem INSTANCE = new AutoTotem();
 
     public AutoTotem() {
         super("Auto Totem", "autototem", EnumModuleCategory.PLAYER);
-
-        AutoTotem.INSTANCE = this;
     }
 
     @Override

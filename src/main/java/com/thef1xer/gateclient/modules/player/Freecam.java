@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class Freecam extends Module {
-    public static Freecam INSTANCE;
+    public static final Freecam INSTANCE = new Freecam();
 
     public final FloatSetting verticalSpeed = new FloatSetting("Vertical Speed", "verticalspeed", 3F);
     public final FloatSetting horizontalSpeed = new FloatSetting("Horizontal Speed", "horizontalspeed", 3F);
@@ -29,8 +29,6 @@ public class Freecam extends Module {
         verticalSpeed.setParent("Speed");
         horizontalSpeed.setParent("Speed");
         this.addSettings(verticalSpeed, horizontalSpeed);
-
-        Freecam.INSTANCE = this;
     }
 
     @Override

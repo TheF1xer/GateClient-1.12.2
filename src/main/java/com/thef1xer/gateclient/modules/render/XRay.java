@@ -13,15 +13,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class XRay extends Module {
-    public static XRay INSTANCE;
+    public static final XRay INSTANCE = new XRay();
 
     private float lastGamma;
 
     public XRay() {
         super("XRay", "xray", EnumModuleCategory.RENDER);
         this.lastGamma = Minecraft.getMinecraft().gameSettings.gammaSetting;
-
-        XRay.INSTANCE = this;
     }
 
     @Override

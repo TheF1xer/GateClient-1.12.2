@@ -19,22 +19,22 @@ public class ModuleManager {
 
     public void init() {
         //Combat
-        moduleList.add(new KillAura());
+        moduleList.add(KillAura.INSTANCE);
         //Movement
-        moduleList.add(new Jesus());
-        moduleList.add(new NoFall());
-        moduleList.add(new Sprint());
+        moduleList.add(Jesus.INSTANCE);
+        moduleList.add(NoFall.INSTANCE);
+        moduleList.add(Sprint.INSTANCE);
         //Player
-        moduleList.add(new AutoArmor());
-        moduleList.add(new AutoTotem());
-        moduleList.add(new Freecam());
+        moduleList.add(AutoArmor.INSTANCE);
+        moduleList.add(AutoTotem.INSTANCE);
+        moduleList.add(Freecam.INSTANCE);
         //Render
-        moduleList.add(new EntityESP());
-        moduleList.add(new StorageESP());
-        moduleList.add(new FullBright());
-        moduleList.add(new HUDModule());
-        moduleList.add(new Tracers());
-        moduleList.add(new XRay());
+        moduleList.add(EntityESP.INSTANCE);
+        moduleList.add(StorageESP.INSTANCE);
+        moduleList.add(FullBright.INSTANCE);
+        moduleList.add(HUDModule.INSTANCE);
+        moduleList.add(Tracers.INSTANCE);
+        moduleList.add(XRay.INSTANCE);
     }
 
     public List<Module> getModulesByCategory(EnumModuleCategory category) {
@@ -45,14 +45,5 @@ public class ModuleManager {
             }
         }
         return list;
-    }
-
-    public Module getModuleByName(String name) {
-        for (Module module : moduleList) {
-            if (module.getName().equals(name)) {
-                return module;
-            }
-        }
-        return null;
     }
 }

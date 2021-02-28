@@ -17,7 +17,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class StorageESP extends Module {
-    public static StorageESP INSTANCE;
+    public static final StorageESP INSTANCE = new StorageESP();
 
     public final ColorSetting chestColor = new ColorSetting("Chest Color", "chestcolor", 50, 50, 190, 255);
     public final ColorSetting shulkerColor = new ColorSetting("Shulker Color", "shulkercolor", 255, 80, 240, 255);
@@ -29,8 +29,6 @@ public class StorageESP extends Module {
         shulkerColor.setParent("Color");
         enderChestColor.setParent("Color");
         this.addSettings(chestColor, shulkerColor, enderChestColor);
-
-        StorageESP.INSTANCE = this;
     }
 
     @Override

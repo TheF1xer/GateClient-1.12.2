@@ -15,7 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EntityESP extends Module {
-    public static EntityESP INSTANCE;
+    public static final EntityESP INSTANCE = new EntityESP();
 
     public final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayer", true);
     public final BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", true);
@@ -32,8 +32,6 @@ public class EntityESP extends Module {
         playerColor.setParent("Color");
         hostileColor.setParent("Color");
         this.addSettings(targetPlayer, targetHostile, targetPassive, playerColor, hostileColor, passiveColor);
-
-        EntityESP.INSTANCE = this;
     }
 
     @Override

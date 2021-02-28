@@ -8,12 +8,10 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Sprint extends Module {
-    public static Sprint INSTANCE;
+    public static final Sprint INSTANCE = new Sprint();
 
     public Sprint() {
         super("Sprint", "sprint", EnumModuleCategory.MOVEMENT);
-
-        Sprint.INSTANCE = this;
     }
 
     @Override
