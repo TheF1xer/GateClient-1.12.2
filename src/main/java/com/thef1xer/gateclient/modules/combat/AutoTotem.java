@@ -1,4 +1,4 @@
-package com.thef1xer.gateclient.modules.player;
+package com.thef1xer.gateclient.modules.combat;
 
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
@@ -15,7 +15,7 @@ public class AutoTotem extends Module {
     public static final AutoTotem INSTANCE = new AutoTotem();
 
     public AutoTotem() {
-        super("Auto Totem", "autototem", EnumModuleCategory.PLAYER);
+        super("Auto Totem", "autototem", EnumModuleCategory.COMBAT);
     }
 
     @Override

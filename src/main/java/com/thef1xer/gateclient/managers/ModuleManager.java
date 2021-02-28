@@ -8,7 +8,7 @@ import com.thef1xer.gateclient.modules.movement.Jesus;
 import com.thef1xer.gateclient.modules.movement.NoFall;
 import com.thef1xer.gateclient.modules.movement.Sprint;
 import com.thef1xer.gateclient.modules.player.AutoArmor;
-import com.thef1xer.gateclient.modules.player.AutoTotem;
+import com.thef1xer.gateclient.modules.combat.AutoTotem;
 import com.thef1xer.gateclient.modules.player.Freecam;
 import com.thef1xer.gateclient.modules.render.*;
 
