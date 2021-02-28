@@ -4,6 +4,7 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.modules.combat.Criticals;
 import com.thef1xer.gateclient.modules.combat.KillAura;
+import com.thef1xer.gateclient.modules.movement.InventoryMove;
 import com.thef1xer.gateclient.modules.movement.Jesus;
 import com.thef1xer.gateclient.modules.movement.NoFall;
 import com.thef1xer.gateclient.modules.movement.Sprint;
@@ -24,6 +25,7 @@ public class ModuleManager {
         moduleList.add(Criticals.INSTANCE);
         moduleList.add(KillAura.INSTANCE);
         //Movement
+        moduleList.add(InventoryMove.INSTANCE);
         moduleList.add(Jesus.INSTANCE);
         moduleList.add(NoFall.INSTANCE);
         moduleList.add(Sprint.INSTANCE);
