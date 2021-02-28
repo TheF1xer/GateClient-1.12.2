@@ -2,6 +2,7 @@ package com.thef1xer.gateclient.managers;
 
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
+import com.thef1xer.gateclient.modules.combat.Criticals;
 import com.thef1xer.gateclient.modules.combat.KillAura;
 import com.thef1xer.gateclient.modules.movement.Jesus;
 import com.thef1xer.gateclient.modules.movement.NoFall;
@@ -19,6 +20,7 @@ public class ModuleManager {
 
     public void init() {
         //Combat
+        moduleList.add(Criticals.INSTANCE);
         moduleList.add(KillAura.INSTANCE);
         //Movement
         moduleList.add(Jesus.INSTANCE);
