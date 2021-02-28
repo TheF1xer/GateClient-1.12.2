@@ -20,6 +20,7 @@ public class ModuleManager {
 
     public void init() {
         //Combat
+        moduleList.add(AutoArmor.INSTANCE);
         moduleList.add(Criticals.INSTANCE);
         moduleList.add(KillAura.INSTANCE);
         //Movement
@@ -27,7 +28,6 @@ public class ModuleManager {
         moduleList.add(NoFall.INSTANCE);
         moduleList.add(Sprint.INSTANCE);
         //Player
-        moduleList.add(AutoArmor.INSTANCE);
         moduleList.add(AutoTotem.INSTANCE);
         moduleList.add(Freecam.INSTANCE);
         //Render
