@@ -4,10 +4,7 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.modules.combat.Criticals;
 import com.thef1xer.gateclient.modules.combat.KillAura;
-import com.thef1xer.gateclient.modules.movement.InventoryMove;
-import com.thef1xer.gateclient.modules.movement.Jesus;
-import com.thef1xer.gateclient.modules.movement.NoFall;
-import com.thef1xer.gateclient.modules.movement.Sprint;
+import com.thef1xer.gateclient.modules.movement.*;
 import com.thef1xer.gateclient.modules.player.AutoArmor;
 import com.thef1xer.gateclient.modules.combat.AutoTotem;
 import com.thef1xer.gateclient.modules.player.Freecam;
@@ -28,6 +25,7 @@ public class ModuleManager {
         moduleList.add(InventoryMove.INSTANCE);
         moduleList.add(Jesus.INSTANCE);
         moduleList.add(NoFall.INSTANCE);
+        moduleList.add(NoSlow.INSTANCE);
         moduleList.add(Sprint.INSTANCE);
         //Player
         moduleList.add(AutoTotem.INSTANCE);
