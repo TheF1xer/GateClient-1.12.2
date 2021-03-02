@@ -2,6 +2,7 @@ package com.thef1xer.gateclient.modules.movement;
 
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
+import com.thef1xer.gateclient.settings.impl.BooleanSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiOptions;
@@ -14,8 +15,11 @@ import org.lwjgl.input.Keyboard;
 public class InventoryMove extends Module {
     public static final InventoryMove INSTANCE = new InventoryMove();
 
+    public BooleanSetting sneak = new BooleanSetting("Sneak in Inventory", "sneak", false);
+
     public InventoryMove() {
         super("Inventory Move", "inventorymove", EnumModuleCategory.MOVEMENT);
+        this.addSettings(sneak);
     }
 
     @Override
@@ -57,7 +61,7 @@ public class InventoryMove extends Module {
                 }
 
                 mc.player.movementInput.jump = Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode());
-                mc.player.movementInput.sneak = Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode());
+                mc.player.movementInput.sneak = this.sneak.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode());
 
                 if (mc.player.movementInput.sneak) {
                     mc.player.movementInput.moveStrafe = (float)((double)mc.player.movementInput.moveStrafe * 0.3D);

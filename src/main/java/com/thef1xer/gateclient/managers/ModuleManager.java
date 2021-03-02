@@ -35,6 +35,7 @@ public class ModuleManager {
         moduleList.add(StorageESP.INSTANCE);
         moduleList.add(FullBright.INSTANCE);
         moduleList.add(HUDModule.INSTANCE);
+        moduleList.add(NoOverlay.INSTANCE);
         moduleList.add(Tracers.INSTANCE);
         moduleList.add(XRay.INSTANCE);
     }
