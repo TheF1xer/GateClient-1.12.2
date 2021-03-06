@@ -26,6 +26,7 @@ public class ModuleManager {
         moduleList.add(Jesus.INSTANCE);
         moduleList.add(NoFall.INSTANCE);
         moduleList.add(NoSlow.INSTANCE);
+        moduleList.add(SafeWalk.INSTANCE);
         moduleList.add(Sprint.INSTANCE);
         //Player
         moduleList.add(AutoTotem.INSTANCE);

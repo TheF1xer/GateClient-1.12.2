@@ -32,7 +32,7 @@ public class NoSlow extends Module {
     }
 
     @SubscribeEvent
-    public void onTick(InputUpdateEvent event) {
+    public void onInput(InputUpdateEvent event) {
         if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().player != null) {
             if (item.getValue() && Minecraft.getMinecraft().player.isHandActive() && !Minecraft.getMinecraft().player.isRiding()) {
                 Minecraft.getMinecraft().player.movementInput.moveStrafe /= 0.2F;
