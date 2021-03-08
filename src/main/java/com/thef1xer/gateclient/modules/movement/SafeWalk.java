@@ -7,8 +7,11 @@ import com.thef1xer.gateclient.settings.impl.EnumSetting;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.List;
 
 public class SafeWalk extends Module {
     public static final SafeWalk INSTANCE = new SafeWalk();
@@ -36,7 +39,8 @@ public class SafeWalk extends Module {
     public void onMove(PlayerMoveEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.player.onGround) {
-            if (mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(event.x, -1, 0)).isEmpty()) {
+            List<AxisAlignedBB> list = mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(event.x, -1, event.z));
+            if (list.isEmpty()) {
                 if (this.mode.getCurrentValue() == Mode.STOP) {
                     event.x = 0;
                 } else {
@@ -44,7 +48,7 @@ public class SafeWalk extends Module {
                 }
             }
 
-            if (mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(0, -1, event.z)).isEmpty()) {
+            if (list.isEmpty()) {
                 if (this.mode.getCurrentValue() == Mode.STOP) {
                     event.z = 0;
                 } else {

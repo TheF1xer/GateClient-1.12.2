@@ -86,8 +86,11 @@ public class PresetCommand extends Command {
                 GateClient.gate.presetManager.updatePresetList();
                 for (File file : GateClient.gate.presetManager.presetList) {
                     if (file.getName().equalsIgnoreCase(args[2] + ".json")) {
-                        file.delete();
-                        ChatUtil.clientMessage("Preset " + TextFormatting.GOLD + args[2] + TextFormatting.RESET + " removed");
+                        if (file.delete()) {
+                            ChatUtil.clientMessage("Preset " + TextFormatting.GOLD + args[2] + TextFormatting.RESET + " removed");
+                        } else {
+                            ChatUtil.clientMessage("Preset was not able to be removed");
+                        }
                         return;
                     }
                 }
@@ -102,7 +105,7 @@ public class PresetCommand extends Command {
     private String removeExtension(String stringIn) {
         StringBuilder newString = new StringBuilder();
         for (char n : stringIn.toCharArray()) {
-            if (n == ".".toCharArray()[0]) {
+            if (n == '.') {
                 break;
             }
             newString.append(n);

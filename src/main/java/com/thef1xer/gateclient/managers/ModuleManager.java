@@ -4,6 +4,8 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.modules.combat.Criticals;
 import com.thef1xer.gateclient.modules.combat.KillAura;
+import com.thef1xer.gateclient.modules.hud.Coords;
+import com.thef1xer.gateclient.modules.hud.ModuleList;
 import com.thef1xer.gateclient.modules.movement.*;
 import com.thef1xer.gateclient.modules.player.AutoArmor;
 import com.thef1xer.gateclient.modules.combat.AutoTotem;
@@ -21,6 +23,9 @@ public class ModuleManager {
         moduleList.add(AutoArmor.INSTANCE);
         moduleList.add(Criticals.INSTANCE);
         moduleList.add(KillAura.INSTANCE);
+        //HUD
+        moduleList.add(Coords.INSTANCE);
+        moduleList.add(ModuleList.INSTANCE);
         //Movement
         moduleList.add(InventoryMove.INSTANCE);
         moduleList.add(Jesus.INSTANCE);
@@ -35,7 +40,6 @@ public class ModuleManager {
         moduleList.add(EntityESP.INSTANCE);
         moduleList.add(StorageESP.INSTANCE);
         moduleList.add(FullBright.INSTANCE);
-        moduleList.add(HUDModule.INSTANCE);
         moduleList.add(NoOverlay.INSTANCE);
         moduleList.add(Tracers.INSTANCE);
         moduleList.add(XRay.INSTANCE);

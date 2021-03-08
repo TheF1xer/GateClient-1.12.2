@@ -10,7 +10,7 @@ public abstract class HUDComponent {
 
     protected abstract void componentAction();
 
-    public void renderComponent() {
+    public final void renderComponent() {
         if (this.isEnabled()) {
             this.componentAction();
         }

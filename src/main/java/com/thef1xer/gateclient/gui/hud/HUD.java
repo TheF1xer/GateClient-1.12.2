@@ -2,13 +2,11 @@ package com.thef1xer.gateclient.gui.hud;
 
 import com.thef1xer.gateclient.gui.hud.components.CoordsComponent;
 import com.thef1xer.gateclient.gui.hud.components.ModulesComponent;
-import com.thef1xer.gateclient.modules.render.HUDModule;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class HUD {
-    //TODO: Add rainbow effect
     public boolean noOverlay = false;
 
     public ModulesComponent modulesComponent = new ModulesComponent();
@@ -20,11 +18,9 @@ public class HUD {
 
     @SubscribeEvent
     public void onOverlayRender(RenderGameOverlayEvent event) {
-        if (HUDModule.INSTANCE.isEnabled()) {
-            if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-                modulesComponent.renderComponent();
-                coordsComponent.renderComponent();
-            }
+        if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
+            modulesComponent.renderComponent();
+            coordsComponent.renderComponent();
         }
 
         if (this.noOverlay) {

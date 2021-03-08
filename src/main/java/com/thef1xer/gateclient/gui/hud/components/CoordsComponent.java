@@ -1,7 +1,7 @@
 package com.thef1xer.gateclient.gui.hud.components;
 
 import com.thef1xer.gateclient.gui.hud.HUDComponent;
-import com.thef1xer.gateclient.modules.render.HUDModule;
+import com.thef1xer.gateclient.modules.hud.Coords;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.math.Vec3d;
@@ -10,7 +10,7 @@ import net.minecraft.util.text.TextFormatting;
 public class CoordsComponent extends HUDComponent {
     @Override
     protected boolean isEnabled() {
-        return HUDModule.INSTANCE.renderCoords.getValue();
+        return Coords.INSTANCE.isEnabled();
     }
 
     @Override
