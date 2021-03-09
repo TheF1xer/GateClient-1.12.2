@@ -19,7 +19,7 @@ public class RenderUtil {
         RenderGlobal.drawSelectionBoundingBox(bb, red, green, blue, alpha);
     }
 
-    public static void renderEntityBoundingBox(Entity entity, ColorSetting color) {
-        renderEntityBoundingBox(entity, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, color.getAlpha() / 255F);
+    public static void renderEntityBoundingBox(Entity entity, ColorSetting.RGBA color) {
+        renderEntityBoundingBox(entity, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, color.getAlpha());
     }
 }

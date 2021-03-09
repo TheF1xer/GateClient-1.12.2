@@ -1,5 +1,6 @@
 package com.thef1xer.gateclient.commands.impl;
 
+import com.google.common.primitives.Floats;
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.commands.Command;
 import com.thef1xer.gateclient.modules.Module;
@@ -35,9 +36,12 @@ public class SetCommand extends Command {
                 for (Setting setting : module.getSettings()) {
                     if (setting instanceof BooleanSetting) {
                         sendMessageSetting(setting, "<true / false>", ((BooleanSetting) setting).getValue() ? "true" : "false");
-                    } else if (setting instanceof ColorSetting) {
+                    } else if (setting instanceof ColorSetting.RGBA) {
                         sendMessageSetting(setting, "<red> <green> <blue> (<alpha>)",
-                                ((ColorSetting) setting).getRed() + ", " + ((ColorSetting) setting).getGreen() + ", " + ((ColorSetting) setting).getBlue() + " ," + ((ColorSetting) setting).getAlpha());
+                                ((ColorSetting.RGBA) setting).getRed() + ", " + ((ColorSetting.RGBA) setting).getGreen() + ", " + ((ColorSetting.RGBA) setting).getBlue() + ", " + ((ColorSetting.RGBA) setting).getAlpha());
+                    } else if (setting instanceof ColorSetting.RGB) {
+                        sendMessageSetting(setting, "<red> <green> <blue>",
+                                ((ColorSetting.RGB) setting).getRed() + ", " + ((ColorSetting.RGB) setting).getGreen() + ", " + ((ColorSetting.RGB) setting).getBlue());
                     } else if (setting instanceof EnumSetting) {
                         StringBuilder values = new StringBuilder("<");
                         for (int i = 0; i < ((EnumSetting<?>) setting).getValues().length; i++) {
@@ -78,7 +82,7 @@ public class SetCommand extends Command {
                                     this.syntaxError();
                                 }
 
-                            } else if (setting instanceof ColorSetting) {
+                            } else if (setting instanceof ColorSetting.RGBA) {
 
                                 if (args.length == 6) {
                                     if (MathUtil.isInteger(args[3]) && MathUtil.isInteger(args[4]) && MathUtil.isInteger(args[5])) {
@@ -87,27 +91,47 @@ public class SetCommand extends Command {
                                         int blue = Integers.parseInt(args[5]);
                                         if (red <= 255 && green <= 255 && blue <= 255 &&
                                                 red >= 0 && green >= 0 && blue >= 0) {
-                                            ((ColorSetting)setting).setRed(red);
-                                            ((ColorSetting)setting).setGreen(green);
-                                            ((ColorSetting)setting).setBlue(blue);
+                                            ((ColorSetting.RGBA)setting).setRed(red);
+                                            ((ColorSetting.RGBA)setting).setGreen(green);
+                                            ((ColorSetting.RGBA)setting).setBlue(blue);
                                             ChatUtil.clientMessage(setting.getName() + " set to (" + red + ", " + green + ", " + blue + ")");
                                         } else {
                                             ChatUtil.clientMessage("Colors must be between 0 and 255");
                                         }
                                     }
                                 } else if (args.length == 7) {
-                                    if (MathUtil.isInteger(args[3]) && MathUtil.isInteger(args[4]) && MathUtil.isInteger(args[5]) && MathUtil.isInteger(args[6])) {
+                                    if (MathUtil.isInteger(args[3]) && MathUtil.isInteger(args[4]) && MathUtil.isInteger(args[5]) && MathUtil.isFloat(args[6])) {
                                         int red = Integers.parseInt(args[3]);
                                         int green = Integers.parseInt(args[4]);
                                         int blue = Integers.parseInt(args[5]);
-                                        int alpha = Integers.parseInt(args[6]);
-                                        if (red <= 255 && green <= 255 && blue <= 255 && alpha <= 255 &&
+                                        float alpha = Float.parseFloat(args[6]);
+                                        if (red <= 255 && green <= 255 && blue <= 255 && alpha <= 1 &&
                                                 red >= 0 && green >= 0 && blue >= 0 && alpha >= 0) {
-                                            ((ColorSetting)setting).setRed(red);
-                                            ((ColorSetting)setting).setGreen(green);
-                                            ((ColorSetting)setting).setBlue(blue);
-                                            ((ColorSetting)setting).setAlpha(alpha);
+                                            ((ColorSetting.RGBA)setting).setRed(red);
+                                            ((ColorSetting.RGBA)setting).setGreen(green);
+                                            ((ColorSetting.RGBA)setting).setBlue(blue);
+                                            ((ColorSetting.RGBA)setting).setAlpha(alpha);
                                             ChatUtil.clientMessage(setting.getName() + " set to (" + red + ", " + green + ", " + blue + ", " + alpha + ")");
+                                        } else {
+                                            ChatUtil.clientMessage("Colors must be between 0 and 255 and alpha between 0 and 1");
+                                        }
+                                    }
+                                } else {
+                                    this.syntaxError();
+                                }
+
+                            } else if (setting instanceof ColorSetting.RGB) {
+                                if (args.length == 6) {
+                                    if (MathUtil.isInteger(args[3]) && MathUtil.isInteger(args[4]) && MathUtil.isInteger(args[5])) {
+                                        int red = Integers.parseInt(args[3]);
+                                        int green = Integers.parseInt(args[4]);
+                                        int blue = Integers.parseInt(args[5]);
+                                        if (red <= 255 && green <= 255 && blue <= 255 &&
+                                                red >= 0 && green >= 0 && blue >= 0) {
+                                            ((ColorSetting.RGB) setting).setRed(red);
+                                            ((ColorSetting.RGB) setting).setGreen(green);
+                                            ((ColorSetting.RGB) setting).setBlue(blue);
+                                            ChatUtil.clientMessage(setting.getName() + " set to (" + red + ", " + green + ", " + blue + ")");
                                         } else {
                                             ChatUtil.clientMessage("Colors must be between 0 and 255");
                                         }
@@ -115,7 +139,6 @@ public class SetCommand extends Command {
                                 } else {
                                     this.syntaxError();
                                 }
-
                             } else if (setting instanceof EnumSetting) {
                                 if (args.length == 4) {
                                     if (((EnumSetting<?>) setting).setValueFromName(args[3])) {

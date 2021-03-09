@@ -45,8 +45,10 @@ public class ModulesComponent extends HUDComponent {
                 if (ModuleList.INSTANCE.color.getCurrentValue() == ModuleList.Color.RAINBOW) {
                     int[] rainbow = ColorUtil.getRainbow(5, 0.1F * i);
                     color = ColorUtil.RGBtoHex(rainbow[0], rainbow[1], rainbow[2]);
-                } else {
+                } else if (ModuleList.INSTANCE.color.getCurrentValue() == ModuleList.Color.CATEGORY) {
                     color = module.getModuleCategory().getColor();
+                } else {
+                    color = ColorUtil.RGBtoHex(ModuleList.INSTANCE.staticColor.getRed(), ModuleList.INSTANCE.staticColor.getGreen(), ModuleList.INSTANCE.staticColor.getBlue());
                 }
                 fr.drawStringWithShadow(module.getName(), sr.getScaledWidth() - fr.getStringWidth(module.getName()) - 4, 4 + i * fr.FONT_HEIGHT, color);
                 i++;

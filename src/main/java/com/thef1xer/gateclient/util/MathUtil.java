@@ -15,6 +15,15 @@ public class MathUtil {
         }
     }
 
+    public static boolean isFloat(String s) {
+        try {
+            Float.parseFloat(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public static Vec3d interpolateEntity(Entity entity) {
         double partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
         return new Vec3d(entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * partialTicks,

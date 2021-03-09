@@ -21,9 +21,9 @@ public class EntityESP extends Module {
     public final BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", true);
     public final BooleanSetting targetPassive = new BooleanSetting("Target Passive Mobs", "targetpassive", true);
 
-    public final ColorSetting playerColor = new ColorSetting("Player Color", "playercolor", 255, 0, 0, 255);
-    public final ColorSetting hostileColor = new ColorSetting("Hostile Mobs Color", "hostilecolor", 255, 255, 0, 255);
-    public final ColorSetting passiveColor = new ColorSetting("Passive Mobs Color", "passivecolor", 0, 255, 0, 255);
+    public final ColorSetting.RGBA playerColor = new ColorSetting.RGBA("Player Color", "playercolor", 255, 0, 0, 1F);
+    public final ColorSetting.RGBA hostileColor = new ColorSetting.RGBA("Hostile Mobs Color", "hostilecolor", 255, 255, 0, 1F);
+    public final ColorSetting.RGBA passiveColor = new ColorSetting.RGBA("Passive Mobs Color", "passivecolor", 0, 255, 0, 1F);
 
     public EntityESP() {
         super("Entity ESP", "entityesp", EnumModuleCategory.RENDER);

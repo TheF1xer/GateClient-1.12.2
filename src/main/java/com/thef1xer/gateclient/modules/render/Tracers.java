@@ -25,7 +25,7 @@ public class Tracers extends Module {
 
     public final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayers", true);
     public final BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", false);
-    public final ColorSetting color = new ColorSetting("Tracer Color", "color", 255, 255, 255, 255);
+    public final ColorSetting.RGBA color = new ColorSetting.RGBA("Tracer Color", "color", 255, 255, 255, 1F);
 
     public Tracers() {
         super("Tracers", "tracers", EnumModuleCategory.RENDER);
@@ -69,9 +69,9 @@ public class Tracers extends Module {
 
                     buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
                     buffer.pos(playerVector.x, playerVector.y, playerVector.z)
-                            .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, (float) color.getAlpha() / 255).endVertex();
+                            .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, color.getAlpha()).endVertex();
                     buffer.pos(entityPos.x - rm.viewerPosX, entityPos.y - rm.viewerPosY, entityPos.z - rm.viewerPosZ)
-                            .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, (float) color.getAlpha() / 255).endVertex();
+                            .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, color.getAlpha()).endVertex();
                     tessellator.draw();
                 }
             }

@@ -98,24 +98,38 @@ public class PresetManager {
                                             if (settingKey.equals("value")) {
                                                 ((BooleanSetting) setting).setValue(settingVal.getAsBoolean());
                                             }
-                                        } else if (setting instanceof ColorSetting) {
+                                        } else if (setting instanceof ColorSetting.RGBA) {
                                             if (settingKey.equals("red")) {
-                                                ((ColorSetting) setting).setRed(settingVal.getAsInt());
+                                                ((ColorSetting.RGBA) setting).setRed(settingVal.getAsInt());
                                                 continue;
                                             }
 
                                             if (settingKey.equals("green")) {
-                                                ((ColorSetting) setting).setGreen(settingVal.getAsInt());
+                                                ((ColorSetting.RGBA) setting).setGreen(settingVal.getAsInt());
                                                 continue;
                                             }
 
                                             if (settingKey.equals("blue")) {
-                                                ((ColorSetting) setting).setBlue(settingVal.getAsInt());
+                                                ((ColorSetting.RGBA) setting).setBlue(settingVal.getAsInt());
                                                 continue;
                                             }
 
                                             if (settingKey.equals("alpha")) {
-                                                ((ColorSetting) setting).setAlpha(settingVal.getAsInt());
+                                                ((ColorSetting.RGBA) setting).setAlpha(settingVal.getAsFloat());
+                                            }
+                                        } else if (setting instanceof ColorSetting.RGB) {
+                                            if (settingKey.equals("red")) {
+                                                ((ColorSetting.RGB) setting).setRed(settingVal.getAsInt());
+                                                continue;
+                                            }
+
+                                            if (settingKey.equals("green")) {
+                                                ((ColorSetting.RGB) setting).setGreen(settingVal.getAsInt());
+                                                continue;
+                                            }
+
+                                            if (settingKey.equals("blue")) {
+                                                ((ColorSetting.RGB) setting).setBlue(settingVal.getAsInt());
                                             }
                                         } else if (setting instanceof EnumSetting) {
                                             if (settingKey.equals("value")) {
@@ -158,11 +172,15 @@ public class PresetManager {
                 settingObject.addProperty("id", setting.getId());
                 if (setting instanceof BooleanSetting) {
                     settingObject.addProperty("value", ((BooleanSetting) setting).getValue());
-                } else if (setting instanceof ColorSetting) {
-                    settingObject.addProperty("red", ((ColorSetting) setting).getRed());
-                    settingObject.addProperty("green", ((ColorSetting) setting).getGreen());
-                    settingObject.addProperty("blue", ((ColorSetting) setting).getBlue());
-                    settingObject.addProperty("alpha", ((ColorSetting) setting).getAlpha());
+                } else if (setting instanceof ColorSetting.RGBA) {
+                    settingObject.addProperty("red", ((ColorSetting.RGBA) setting).getRed());
+                    settingObject.addProperty("green", ((ColorSetting.RGBA) setting).getGreen());
+                    settingObject.addProperty("blue", ((ColorSetting.RGBA) setting).getBlue());
+                    settingObject.addProperty("alpha", ((ColorSetting.RGBA) setting).getAlpha());
+                } else if (setting instanceof ColorSetting.RGB) {
+                    settingObject.addProperty("red", ((ColorSetting.RGB) setting).getRed());
+                    settingObject.addProperty("green", ((ColorSetting.RGB) setting).getGreen());
+                    settingObject.addProperty("blue", ((ColorSetting.RGB) setting).getBlue());
                 } else if (setting instanceof EnumSetting) {
                     settingObject.addProperty("value", ((EnumSetting<?>) setting).getCurrentValueName());
                 } else if (setting instanceof FloatSetting) {
