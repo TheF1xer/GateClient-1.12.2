@@ -15,6 +15,7 @@ public class ModuleListCommand extends Command {
 
     @Override
     public void onCommand(String[] args) {
+        ChatUtil.clientMessage(TextFormatting.BOLD + "Module List:");
         for (Module module : GateClient.gate.moduleManager.moduleList) {
             ChatUtil.clientMessage(TextFormatting.GOLD + module.getName() + ": " + TextFormatting.RESET + module.getId() + " [" + Keyboard.getKeyName(module.getKeyBind()) + "]");
         }

@@ -10,7 +10,7 @@ import org.lwjgl.input.Keyboard;
 public class BindCommand extends Command {
 
     public BindCommand() {
-        super("bind", "Binds a module to a key", "bind <module> <key>", "bind clear", "bind list");
+        super("bind", "Binds a module to a key", "bind <module> <key>", "bind <module>", "bind clear", "bind list");
         this.addAliases("b");
     }
 
@@ -28,7 +28,7 @@ public class BindCommand extends Command {
             }
 
             if (args[1].equalsIgnoreCase("list")) {
-                ChatUtil.clientMessage("Key Bind List:");
+                ChatUtil.clientMessage(TextFormatting.BOLD + "Key Bind List:");
                 for (Module module : GateClient.gate.moduleManager.moduleList) {
                     if (module.getKeyBind() != Keyboard.KEY_NONE) {
                         ChatUtil.clientMessage(module.getName() + " is bound to " + Keyboard.getKeyName(module.getKeyBind()));

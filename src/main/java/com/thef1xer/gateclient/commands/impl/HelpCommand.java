@@ -14,7 +14,7 @@ public class HelpCommand extends Command {
     @Override
     public void onCommand(String[] args) {
         if (args.length == 1) {
-            ChatUtil.clientMessage("List of Commands in this client:");
+            ChatUtil.clientMessage(TextFormatting.BOLD + "List of Commands in this client:");
             for (Command command : GateClient.gate.commandManager.commandList) {
                 ChatUtil.clientMessage(TextFormatting.GOLD + command.getName() + ": " + TextFormatting.RESET + command.getDesc());
             }

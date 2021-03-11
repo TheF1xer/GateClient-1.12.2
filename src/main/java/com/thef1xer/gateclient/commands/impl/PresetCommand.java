@@ -24,7 +24,7 @@ public class PresetCommand extends Command {
         if (args.length == 2) {
             if (args[1].equalsIgnoreCase("list")) {
                 GateClient.gate.presetManager.updatePresetList();
-                ChatUtil.clientMessage("Preset List:");
+                ChatUtil.clientMessage(TextFormatting.BOLD + "Preset List:");
                 for (File file : GateClient.gate.presetManager.presetList) {
                     if (GateClient.gate.presetManager.activePreset.getFile().equals(file)) {
                         ChatUtil.clientMessage(TextFormatting.GOLD + this.removeExtension(file.getName()));

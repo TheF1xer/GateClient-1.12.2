@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.commands.impl;
 
-import com.google.common.primitives.Floats;
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.commands.Command;
 import com.thef1xer.gateclient.modules.Module;
@@ -10,180 +9,171 @@ import com.thef1xer.gateclient.settings.impl.ColorSetting;
 import com.thef1xer.gateclient.settings.impl.EnumSetting;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import com.thef1xer.gateclient.util.ChatUtil;
-import com.thef1xer.gateclient.util.MathUtil;
 import net.minecraft.util.text.TextFormatting;
 import org.apache.logging.log4j.core.util.Integers;
 
 public class SetCommand extends Command {
-    //TODO: Rework this shit
-
-    public Module module;
+    private Module module;
 
     public SetCommand() {
-        super("set", "Changes the settings of a Module", "set <module> <setting> <value>", "set <module> list");
+        super("set", "Changes the settings of a Module", "set <module> <setting> <value>", "set <module> <setting>", "set <module> list");
     }
 
     @Override
     public void onCommand(String[] args) {
-        if (args.length == 3 && args[2].equalsIgnoreCase("list")) {
+        if (args.length == 3) {
             if (isModule(args[1])) {
-                if (module.getSettings() == null) {
-                    ChatUtil.clientMessage("This module has no settings");
+                if (args[2].equalsIgnoreCase("list")) {
+                    ChatUtil.clientMessage(TextFormatting.BOLD + "Settings for " + module.getName() + " module:");
+                    for (Setting setting : module.getSettings()) {
+                        sendMessageSetting(setting);
+                    }
                     return;
                 }
 
-                ChatUtil.clientMessage("Settings for " + module.getName() + " module:");
                 for (Setting setting : module.getSettings()) {
-                    if (setting instanceof BooleanSetting) {
-                        sendMessageSetting(setting, "<true / false>", ((BooleanSetting) setting).getValue() ? "true" : "false");
-                    } else if (setting instanceof ColorSetting.RGBA) {
-                        sendMessageSetting(setting, "<red> <green> <blue> (<alpha>)",
-                                ((ColorSetting.RGBA) setting).getRed() + ", " + ((ColorSetting.RGBA) setting).getGreen() + ", " + ((ColorSetting.RGBA) setting).getBlue() + ", " + ((ColorSetting.RGBA) setting).getAlpha());
-                    } else if (setting instanceof ColorSetting.RGB) {
-                        sendMessageSetting(setting, "<red> <green> <blue>",
-                                ((ColorSetting.RGB) setting).getRed() + ", " + ((ColorSetting.RGB) setting).getGreen() + ", " + ((ColorSetting.RGB) setting).getBlue());
-                    } else if (setting instanceof EnumSetting) {
-                        StringBuilder values = new StringBuilder("<");
-                        for (int i = 0; i < ((EnumSetting<?>) setting).getValues().length; i++) {
-                            String enumName = ((EnumSetting<?>) setting).getValues()[i].toString();
-                            values.append(enumName);
-                            if (i == ((EnumSetting<?>) setting).getValues().length - 1) {
-                                values.append(">");
-                            } else {
-                                values.append(" / ");
-                            }
-                        }
-                        sendMessageSetting(setting, values.toString(), ((EnumSetting<?>) setting).getCurrentValueName());
-                    } else if (setting instanceof FloatSetting) {
-                        sendMessageSetting(setting, "<value>", ((FloatSetting) setting).getValue() + "");
+                    if (setting.getId().equalsIgnoreCase(args[2])) {
+                        sendMessageSetting(setting);
+                        return;
                     }
                 }
-            } else {
-                ChatUtil.clientMessage("Module not found");
             }
-            return;
-        } else if (args.length > 3) {
+        }
+
+        if (args.length >= 4) {
             if (isModule(args[1])) {
-                if (!module.getSettings().isEmpty()) {
-                    for (Setting setting : module.getSettings()) {
-                        if (setting.getId().equalsIgnoreCase(args[2])) {
+                for (Setting setting : module.getSettings()) {
+                    if (args[2].equalsIgnoreCase(setting.getId())) {
 
-                            if (setting instanceof BooleanSetting) {
-
-                                if (args.length == 4) {
-                                    if (args[3].equalsIgnoreCase("true")) {
-                                        ((BooleanSetting) setting).setValue(true);
-                                    } else if (args[3].equalsIgnoreCase("false")) {
-                                        ((BooleanSetting) setting).setValue(false);
-                                    } else {
-                                        ChatUtil.clientMessage("Value must be <true / false>");
-                                    }
-                                } else {
-                                    this.syntaxError();
-                                }
-
-                            } else if (setting instanceof ColorSetting.RGBA) {
-
-                                if (args.length == 6) {
-                                    if (MathUtil.isInteger(args[3]) && MathUtil.isInteger(args[4]) && MathUtil.isInteger(args[5])) {
-                                        int red = Integers.parseInt(args[3]);
-                                        int green = Integers.parseInt(args[4]);
-                                        int blue = Integers.parseInt(args[5]);
-                                        if (red <= 255 && green <= 255 && blue <= 255 &&
-                                                red >= 0 && green >= 0 && blue >= 0) {
-                                            ((ColorSetting.RGBA)setting).setRed(red);
-                                            ((ColorSetting.RGBA)setting).setGreen(green);
-                                            ((ColorSetting.RGBA)setting).setBlue(blue);
-                                            ChatUtil.clientMessage(setting.getName() + " set to (" + red + ", " + green + ", " + blue + ")");
-                                        } else {
-                                            ChatUtil.clientMessage("Colors must be between 0 and 255");
-                                        }
-                                    }
-                                } else if (args.length == 7) {
-                                    if (MathUtil.isInteger(args[3]) && MathUtil.isInteger(args[4]) && MathUtil.isInteger(args[5]) && MathUtil.isFloat(args[6])) {
-                                        int red = Integers.parseInt(args[3]);
-                                        int green = Integers.parseInt(args[4]);
-                                        int blue = Integers.parseInt(args[5]);
-                                        float alpha = Float.parseFloat(args[6]);
-                                        if (red <= 255 && green <= 255 && blue <= 255 && alpha <= 1 &&
-                                                red >= 0 && green >= 0 && blue >= 0 && alpha >= 0) {
-                                            ((ColorSetting.RGBA)setting).setRed(red);
-                                            ((ColorSetting.RGBA)setting).setGreen(green);
-                                            ((ColorSetting.RGBA)setting).setBlue(blue);
-                                            ((ColorSetting.RGBA)setting).setAlpha(alpha);
-                                            ChatUtil.clientMessage(setting.getName() + " set to (" + red + ", " + green + ", " + blue + ", " + alpha + ")");
-                                        } else {
-                                            ChatUtil.clientMessage("Colors must be between 0 and 255 and alpha between 0 and 1");
-                                        }
-                                    }
-                                } else {
-                                    this.syntaxError();
-                                }
-
-                            } else if (setting instanceof ColorSetting.RGB) {
-                                if (args.length == 6) {
-                                    if (MathUtil.isInteger(args[3]) && MathUtil.isInteger(args[4]) && MathUtil.isInteger(args[5])) {
-                                        int red = Integers.parseInt(args[3]);
-                                        int green = Integers.parseInt(args[4]);
-                                        int blue = Integers.parseInt(args[5]);
-                                        if (red <= 255 && green <= 255 && blue <= 255 &&
-                                                red >= 0 && green >= 0 && blue >= 0) {
-                                            ((ColorSetting.RGB) setting).setRed(red);
-                                            ((ColorSetting.RGB) setting).setGreen(green);
-                                            ((ColorSetting.RGB) setting).setBlue(blue);
-                                            ChatUtil.clientMessage(setting.getName() + " set to (" + red + ", " + green + ", " + blue + ")");
-                                        } else {
-                                            ChatUtil.clientMessage("Colors must be between 0 and 255");
-                                        }
-                                    }
-                                } else {
-                                    this.syntaxError();
-                                }
-                            } else if (setting instanceof EnumSetting) {
-                                if (args.length == 4) {
-                                    if (((EnumSetting<?>) setting).setValueFromName(args[3])) {
-                                        ChatUtil.clientMessage(setting.getName() + " set to " + args[3]);
-                                    } else {
-                                        ChatUtil.clientMessage("Name not valid");
-                                    }
-                                } else {
-                                    this.syntaxError();
-                                }
-                            } else if (setting instanceof FloatSetting) {
-                                if (args.length == 4) {
-                                    try {
-                                        float value = Float.parseFloat(args[3]);
-                                        if (value >= ((FloatSetting) setting).getMin() && value <= ((FloatSetting) setting).getMax()) {
-                                            ((FloatSetting) setting).setValue(value);
-                                            ChatUtil.clientMessage(setting.getName() + " set to " + value);
-                                        } else {
-                                            ChatUtil.clientMessage("The value must be between " + ((FloatSetting) setting).getMin() + " and " + ((FloatSetting) setting).getMax());
-                                        }
-                                    } catch (NumberFormatException e) {
-                                        ChatUtil.clientMessage("The number introduced is not valid");
-                                    }
-                                } else {
-                                    this.syntaxError();
+                        if (setting instanceof BooleanSetting) {
+                            if (args.length == 4) {
+                                if (args[3].equalsIgnoreCase("true")) {
+                                    ((BooleanSetting) setting).setValue(true);
+                                    ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "true");
+                                    return;
+                                } else if (args[3].equalsIgnoreCase("false")) {
+                                    ((BooleanSetting) setting).setValue(false);
+                                    ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "false");
+                                    return;
                                 }
                             }
-                            return;
+                            ChatUtil.clientMessage("Value must be " + TextFormatting.GOLD + "true" + TextFormatting.WHITE + " or " + TextFormatting.GOLD + "false");
+                        } else if (setting instanceof ColorSetting.RGBA) {
+                            if (args.length == 6) {
+                                int r, g, b;
+                                try {
+                                    r = Integers.parseInt(args[3]);
+                                    g = Integers.parseInt(args[4]);
+                                    b = Integers.parseInt(args[5]);
+                                } catch (Exception e) {
+                                    ChatUtil.clientMessage("Red, Green and Blue must be integers");
+                                    return;
+                                }
+
+                                if (r < 0 || g < 0 || b < 0 || r > 255 || g > 255 || b > 255) {
+                                    ChatUtil.clientMessage("Red, Green and Blue must be between " + TextFormatting.GOLD + "0" + TextFormatting.WHITE + " and " + TextFormatting.GOLD + "255");
+                                    return;
+                                }
+
+                                ((ColorSetting.RGBA) setting).setRed(r);
+                                ((ColorSetting.RGBA) setting).setGreen(g);
+                                ((ColorSetting.RGBA) setting).setBlue(b);
+
+                                ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "(" + r + ", " + g + ", " + b + ")");
+                                return;
+
+                            } else if (args.length == 7) {
+                                int r, g, b;
+                                float a;
+                                try {
+                                    r = Integers.parseInt(args[3]);
+                                    g = Integers.parseInt(args[4]);
+                                    b = Integers.parseInt(args[5]);
+                                    a = Float.parseFloat(args[6]);
+                                } catch (Exception e) {
+                                    ChatUtil.clientMessage("Red, Green and Blue must be integers and Alpha a float");
+                                    return;
+                                }
+
+                                if (r < 0 || g < 0 || b < 0 || a < 0 || r > 255 || g > 255 || b > 255 || a > 1) {
+                                    ChatUtil.clientMessage("Red, Green and Blue must be between " + TextFormatting.GOLD + "0" + TextFormatting.WHITE + " and " + TextFormatting.GOLD + "255" +
+                                            TextFormatting.WHITE + " and Alpha between " + TextFormatting.GOLD + "0" + TextFormatting.WHITE + " and " + TextFormatting.GOLD + "1");
+                                    return;
+                                }
+
+                                ((ColorSetting.RGBA) setting).setRed(r);
+                                ((ColorSetting.RGBA) setting).setGreen(g);
+                                ((ColorSetting.RGBA) setting).setBlue(b);
+                                ((ColorSetting.RGBA) setting).setAlpha(a);
+
+                                ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "(" + r + ", " + g + ", " + b + ", " + a + ")");
+                                return;
+                            }
+
+                            ChatUtil.clientMessage("Values must be " + TextFormatting.GOLD + "<red> <green> <blue> (<alpha>)");
+                        } else if (setting instanceof ColorSetting.RGB) {
+                            if (args.length == 6) {
+                                int r, g, b;
+                                try {
+                                    r = Integers.parseInt(args[3]);
+                                    g = Integers.parseInt(args[4]);
+                                    b = Integers.parseInt(args[5]);
+                                } catch (Exception e) {
+                                    ChatUtil.clientMessage("Red, Green and Blue must be integers");
+                                    return;
+                                }
+
+                                if (r < 0 || g < 0 || b < 0 || r > 255 || g > 255 || b > 255) {
+                                    ChatUtil.clientMessage("Red, Green and Blue must be between " + TextFormatting.GOLD + "0" + TextFormatting.WHITE + " and " + TextFormatting.GOLD + "255");
+                                    return;
+                                }
+
+                                ((ColorSetting.RGB) setting).setRed(r);
+                                ((ColorSetting.RGB) setting).setGreen(g);
+                                ((ColorSetting.RGB) setting).setBlue(b);
+
+                                ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "(" + r + ", " + g + ", " + b + ")");
+                                return;
+
+                            }
+
+                            ChatUtil.clientMessage("Values must be " + TextFormatting.GOLD + "<red> <green> <blue>");
+                        } else if (setting instanceof  EnumSetting) {
+                            if (args.length == 4) {
+                                if (((EnumSetting<?>) setting).setValueFromName(args[3])) {
+                                    ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + ((EnumSetting<?>) setting).getCurrentValueName());
+                                    return;
+                                }
+                            }
+
+                            ChatUtil.clientMessage("Value not valid");
+                        } else if (setting instanceof FloatSetting) {
+                            if (args.length == 4) {
+                                try {
+                                    float f = Float.parseFloat(args[3]);
+                                    if (((FloatSetting) setting).setValue(f)) {
+                                        ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + f);
+                                        return;
+                                    }
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            ChatUtil.clientMessage("Value must be a float value between " + TextFormatting.GOLD + ((FloatSetting) setting).getMin() + TextFormatting.WHITE + " and " + TextFormatting.GOLD + ((FloatSetting) setting).getMax());
                         }
+
+                        return;
                     }
                 }
-                ChatUtil.clientMessage("Setting not found");
-
-            } else {
-                ChatUtil.clientMessage("Module not found");
             }
-            return;
         }
 
         this.syntaxError();
     }
 
-    private boolean isModule(String name) {
+    private boolean isModule(String s) {
         for (Module module : GateClient.gate.moduleManager.moduleList) {
-            if (module.getId().equalsIgnoreCase(name)) {
+            if (module.getId().equalsIgnoreCase(s)) {
                 this.module = module;
                 return true;
             }
@@ -191,7 +181,36 @@ public class SetCommand extends Command {
         return false;
     }
 
-    private void sendMessageSetting(Setting setting, String value, String current) {
+    private void sendMessageSetting(Setting setting) {
+        String value = "";
+        String current = "";
+        if (setting instanceof BooleanSetting) {
+            value = "<true / false>";
+            current = ((BooleanSetting) setting).getValue() ? "true" : "false";
+        } else if (setting instanceof ColorSetting.RGBA) {
+            value = "<red> <green> <blue> (<alpha>)";
+            current = ((ColorSetting.RGBA) setting).getRed() + ", " + ((ColorSetting.RGBA) setting).getGreen() + ", " +
+                    ((ColorSetting.RGBA) setting).getBlue() + ", " + ((ColorSetting.RGBA) setting).getAlpha();
+        } else if (setting instanceof  ColorSetting.RGB) {
+            value = "<red> <green> <blue>";
+            current = ((ColorSetting.RGB) setting).getRed() + ", " + ((ColorSetting.RGB) setting).getGreen() + ", " +
+                    ((ColorSetting.RGB) setting).getBlue();
+        } else if (setting instanceof EnumSetting) {
+            value = "<";
+            for (int i = 0; i < ((EnumSetting<?>) setting).getValues().length; i++) {
+                value = value.concat(((EnumSetting<?>) setting).getValues()[i].toString());
+                if (i == ((EnumSetting<?>) setting).getValues().length - 1) {
+                    value = value.concat(">");
+                } else {
+                    value = value.concat(" / ");
+                }
+            }
+            current = ((EnumSetting<?>) setting).getCurrentValueName() + "]";
+        } else if (setting instanceof FloatSetting) {
+            value = "<number between " + ((FloatSetting) setting).getMin() + " and " + ((FloatSetting) setting).getMax() + ">";
+            current = ((FloatSetting) setting).getValue() + "";
+        }
+
         ChatUtil.clientMessage(TextFormatting.GOLD.toString() + TextFormatting.ITALIC.toString() + setting.getName() + ": " +
                 TextFormatting.RESET.toString() + setting.getId() + " " + value + TextFormatting.GOLD.toString() + TextFormatting.ITALIC.toString() + " [" + current + "]");
     }

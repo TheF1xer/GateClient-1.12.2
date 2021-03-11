@@ -22,8 +22,12 @@ public class FloatSetting extends Setting {
         return value;
     }
 
-    public void setValue(float value) {
-        this.value = value;
+    public boolean setValue(float value) {
+        if (value >= min && value <= max) {
+            this.value = value;
+            return true;
+        }
+        return false;
     }
 
     public float getMin() {
