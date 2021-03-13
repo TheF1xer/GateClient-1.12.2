@@ -40,18 +40,26 @@ public class SafeWalk extends Module {
         //TODO: Fix
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.player.onGround) {
-            List<AxisAlignedBB> list = mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(event.x, -1, event.z));
-            if (list.isEmpty()) {
-                if (this.mode.getCurrentValue() == Mode.STOP) {
-                    event.x = 0;
-                } else {
-                    mc.player.movementInput.sneak = true;
-                }
-            }
 
-            if (list.isEmpty()) {
+            if (mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(event.x, -1, event.z)).isEmpty()) {
+                boolean flag1 = true;
+                boolean flag2 = true;
+
                 if (this.mode.getCurrentValue() == Mode.STOP) {
-                    event.z = 0;
+                    if (mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(event.x, -1, 0)).isEmpty()) {
+                        event.x = 0;
+                        flag1 = false;
+                    }
+
+                    if (mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(0, -1, event.z)).isEmpty()) {
+                        event.z = 0;
+                        flag2 = false;
+                    }
+
+                    if (flag1 && flag2) {
+                        event.x = 0;
+                        event.z = 0;
+                    }
                 } else {
                     mc.player.movementInput.sneak = true;
                 }
