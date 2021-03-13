@@ -10,7 +10,7 @@ import java.io.File;
 
 public class PresetCommand extends Command {
     public PresetCommand() {
-        super("Preset", "Allows you to have multiple configurations", "preset", "preset list", "preset clear", "preset load <name>", "preset create <name>", "preset remove <name>");
+        super("preset", "Allows you to have multiple configurations", "preset", "preset list", "preset clear", "preset load <name>", "preset create <name>", "preset remove <name>");
     }
 
     @Override

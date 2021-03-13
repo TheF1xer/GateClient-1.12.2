@@ -37,6 +37,7 @@ public class SafeWalk extends Module {
 
     @SubscribeEvent
     public void onMove(PlayerMoveEvent event) {
+        //TODO: Fix
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.player.onGround) {
             List<AxisAlignedBB> list = mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(event.x, -1, event.z));
