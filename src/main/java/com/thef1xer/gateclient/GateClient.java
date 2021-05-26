@@ -1,10 +1,7 @@
 package com.thef1xer.gateclient;
 
 import com.thef1xer.gateclient.gui.hud.HUD;
-import com.thef1xer.gateclient.managers.CommandManager;
-import com.thef1xer.gateclient.managers.ConfigManager;
-import com.thef1xer.gateclient.managers.ModuleManager;
-import com.thef1xer.gateclient.managers.PresetManager;
+import com.thef1xer.gateclient.managers.*;
 import com.thef1xer.gateclient.util.Reference;
 import com.thef1xer.gateclient.handlers.EventHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,6 +15,7 @@ public class GateClient {
     public CommandManager commandManager;
     public ConfigManager configManager;
     public PresetManager presetManager;
+    public GuiManager guiManager;
 
     public HUD hud;
     public EventHandler eventHandler;
@@ -31,6 +29,7 @@ public class GateClient {
         commandManager = new CommandManager();
         configManager = new ConfigManager();
         presetManager = new PresetManager();
+        guiManager = new GuiManager();
 
         hud = new HUD();
         eventHandler = new EventHandler();
@@ -44,6 +43,7 @@ public class GateClient {
         moduleManager.init();
         commandManager.init();
         hud.init();
+        guiManager.init();
         configManager.init();
         presetManager.init();
     }

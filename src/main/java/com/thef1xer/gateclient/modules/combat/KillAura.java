@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class KillAura extends Module {
     public static final KillAura INSTANCE = new KillAura();
 
-    public final EnumSetting<Priority> priority = new EnumSetting<>("Target Priority", "priority", Priority.values(), Priority.CLOSEST);
+    public final EnumSetting priority = new EnumSetting("Priority", "priority", Priority.values(), Priority.CLOSEST);
     public final FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0F, 6F);
     public final FloatSetting delay = new FloatSetting("Added Delay" , "delay", 0F, -100F, 100F);
 

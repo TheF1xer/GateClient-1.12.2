@@ -4,19 +4,14 @@ import com.thef1xer.gateclient.events.PlayerMoveEvent;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.EnumSetting;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import java.util.List;
 
 public class SafeWalk extends Module {
     public static final SafeWalk INSTANCE = new SafeWalk();
 
-    public final EnumSetting<Mode> mode = new EnumSetting<>("Mode", "mode", Mode.values(), Mode.STOP);
+    public final EnumSetting mode = new EnumSetting("Mode", "mode", Mode.values(), Mode.STOP);
 
     public SafeWalk() {
         super("Safe Walk", "safewalk", EnumModuleCategory.MOVEMENT);
@@ -37,7 +32,6 @@ public class SafeWalk extends Module {
 
     @SubscribeEvent
     public void onMove(PlayerMoveEvent event) {
-        //TODO: Fix
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.player.onGround) {
 
@@ -65,10 +59,6 @@ public class SafeWalk extends Module {
                 }
             }
         }
-    }
-
-    private boolean isAir(IBlockState state) {
-        return state.getMaterial() == Material.AIR || state.getMaterial() == Material.VINE;
     }
 
     public enum Mode {

@@ -3,7 +3,8 @@ package com.thef1xer.gateclient.modules.render;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
-import com.thef1xer.gateclient.settings.impl.ColorSetting;
+import com.thef1xer.gateclient.settings.impl.FloatSetting;
+import com.thef1xer.gateclient.settings.impl.RGBSetting;
 import com.thef1xer.gateclient.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,13 +18,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class EntityESP extends Module {
     public static final EntityESP INSTANCE = new EntityESP();
 
-    public final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayer", true);
-    public final BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", true);
-    public final BooleanSetting targetPassive = new BooleanSetting("Target Passive Mobs", "targetpassive", true);
+    public final BooleanSetting targetPlayer = new BooleanSetting("Players", "players", true);
+    public final BooleanSetting targetHostile = new BooleanSetting("Monsters", "monsters", true);
+    public final BooleanSetting targetPassive = new BooleanSetting("Passive", "passive", true);
 
-    public final ColorSetting.RGBA playerColor = new ColorSetting.RGBA("Player Color", "playercolor", 255, 0, 0, 1F);
-    public final ColorSetting.RGBA hostileColor = new ColorSetting.RGBA("Hostile Mobs Color", "hostilecolor", 255, 255, 0, 1F);
-    public final ColorSetting.RGBA passiveColor = new ColorSetting.RGBA("Passive Mobs Color", "passivecolor", 0, 255, 0, 1F);
+    public final RGBSetting playerColor = new RGBSetting("Player Color", "playercolor", 255, 0, 0);
+    public final RGBSetting hostileColor = new RGBSetting("Monster Color", "hostilecolor", 255, 255, 0);
+    public final RGBSetting passiveColor = new RGBSetting("Passive Color", "passivecolor", 0, 255, 0);
+    public final FloatSetting colorAlpha = new FloatSetting("Color Alpha", "coloralpha", 1F, 0F, 1F);
 
     public EntityESP() {
         super("Entity ESP", "entityesp", EnumModuleCategory.RENDER);
@@ -31,7 +33,7 @@ public class EntityESP extends Module {
         targetHostile.setParent("Target");
         playerColor.setParent("Color");
         hostileColor.setParent("Color");
-        this.addSettings(targetPlayer, targetHostile, targetPassive, playerColor, hostileColor, passiveColor);
+        this.addSettings(targetPlayer, targetHostile, targetPassive, playerColor, hostileColor, passiveColor, colorAlpha);
     }
 
     @Override
@@ -57,11 +59,11 @@ public class EntityESP extends Module {
 
         for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
             if (targetPlayer.getValue() && entity instanceof EntityPlayer && entity != Minecraft.getMinecraft().getRenderViewEntity()) {
-                RenderUtil.renderEntityBoundingBox(entity, playerColor);
+                RenderUtil.renderEntityBoundingBox(entity, playerColor, colorAlpha.getValue());
             } else if (targetHostile.getValue() && entity.isCreatureType(EnumCreatureType.MONSTER, false)) {
-                RenderUtil.renderEntityBoundingBox(entity, hostileColor);
+                RenderUtil.renderEntityBoundingBox(entity, hostileColor, colorAlpha.getValue());
             } else if (targetPassive.getValue() && (entity.isCreatureType(EnumCreatureType.AMBIENT, false) || entity.isCreatureType(EnumCreatureType.WATER_CREATURE, false) || entity.isCreatureType(EnumCreatureType.CREATURE, false))) {
-                RenderUtil.renderEntityBoundingBox(entity, passiveColor);
+                RenderUtil.renderEntityBoundingBox(entity, passiveColor, colorAlpha.getValue());
             }
         }
 

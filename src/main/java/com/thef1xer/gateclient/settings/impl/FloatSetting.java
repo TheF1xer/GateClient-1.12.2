@@ -15,7 +15,7 @@ public class FloatSetting extends Setting {
     }
 
     public FloatSetting(String name, String id, float value) {
-        this(name, id, value, 0F, 100F);
+        this(name, id, value, 0F, 10F);
     }
 
     public float getValue() {

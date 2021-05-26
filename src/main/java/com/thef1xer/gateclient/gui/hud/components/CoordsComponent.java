@@ -14,9 +14,7 @@ public class CoordsComponent extends HUDComponent {
     }
 
     @Override
-    public void componentAction() {
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-
+    public void componentAction(ScaledResolution sr) {
         Vec3d pos = new Vec3d(Math.round(Minecraft.getMinecraft().player.posX * 100D) / 100D,
                 Math.round(Minecraft.getMinecraft().player.posY * 100D) / 100D,
                 Math.round(Minecraft.getMinecraft().player.posZ * 100D) / 100D);

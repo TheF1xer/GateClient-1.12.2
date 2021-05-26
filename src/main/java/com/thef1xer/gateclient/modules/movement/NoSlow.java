@@ -11,8 +11,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class NoSlow extends Module {
     public static final NoSlow INSTANCE = new NoSlow();
 
-    public final BooleanSetting sneak = new BooleanSetting("Don't slow while Sneaking", "sneak", true);
-    public final BooleanSetting item = new BooleanSetting("Don't slow while using items (food, shields, etc.)", "item", true);
+    public final BooleanSetting sneak = new BooleanSetting("Sneaking", "sneak", true);
+    public final BooleanSetting item = new BooleanSetting("Item", "item", true);
 
     public NoSlow() {
         super("NoSlow", "noslow", EnumModuleCategory.MOVEMENT);

@@ -20,7 +20,7 @@ public class EventHandler {
     public void onKeyPressed(InputEvent.KeyInputEvent event) {
         if (Keyboard.isCreated() && Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().player != null) {
             if (Keyboard.getEventKeyState()) {
-                for (Module module : GateClient.gate.moduleManager.moduleList) {
+                for (Module module : GateClient.gate.moduleManager.MODULE_LIST) {
                     if (Keyboard.getEventKey() == module.getKeyBind()) {
                         module.toggle();
                     }
@@ -39,7 +39,7 @@ public class EventHandler {
             String[] args = message.substring(GateClient.gate.commandManager.prefix.length()).split(" ");
             boolean found = false;
 
-            for (Command command: GateClient.gate.commandManager.commandList) {
+            for (Command command: GateClient.gate.commandManager.COMMAND_LIST) {
                 if (ChatUtil.isCommand(args[0], command)) {
                     if (args.length == 2 && args[1].equalsIgnoreCase("help")) {
                         ChatUtil.clientMessage("Syntax for " + TextFormatting.GOLD + command.getName() + TextFormatting.RESET + " command:");

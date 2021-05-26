@@ -2,7 +2,8 @@ package com.thef1xer.gateclient.modules.render;
 
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
-import com.thef1xer.gateclient.settings.impl.ColorSetting;
+import com.thef1xer.gateclient.settings.impl.FloatSetting;
+import com.thef1xer.gateclient.settings.impl.RGBSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -19,16 +20,17 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class StorageESP extends Module {
     public static final StorageESP INSTANCE = new StorageESP();
 
-    public final ColorSetting.RGBA chestColor = new ColorSetting.RGBA("Chest Color", "chestcolor", 50, 50, 190, 1F);
-    public final ColorSetting.RGBA shulkerColor = new ColorSetting.RGBA("Shulker Color", "shulkercolor", 255, 80, 240, 1F);
-    public final ColorSetting.RGBA enderChestColor = new ColorSetting.RGBA("Ender Chest Color", "endercolor", 130, 0, 150, 1F);
+    public final RGBSetting chestColor = new RGBSetting("Chest Color", "chestcolor", 50, 50, 190);
+    public final RGBSetting shulkerColor = new RGBSetting("Shulker Color", "shulkercolor", 255, 80, 240);
+    public final RGBSetting enderChestColor = new RGBSetting("Ender Chest Color", "endercolor", 130, 0, 150);
+    public final FloatSetting colorAlpha = new FloatSetting("Color Alpha", "coloralpha", 1F, 0F, 1F);
 
     public StorageESP() {
         super("Storage ESP", "storageesp", EnumModuleCategory.RENDER);
         chestColor.setParent("Color");
         shulkerColor.setParent("Color");
         enderChestColor.setParent("Color");
-        this.addSettings(chestColor, shulkerColor, enderChestColor);
+        this.addSettings(chestColor, shulkerColor, enderChestColor, colorAlpha);
     }
 
     @Override
@@ -59,25 +61,25 @@ public class StorageESP extends Module {
                 bb = new AxisAlignedBB(entity.getPos()).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
 
                 RenderGlobal.drawSelectionBoundingBox(bb,
-                        (float) chestColor.getRed()/255, (float) chestColor.getGreen()/255, (float) chestColor.getBlue()/255, chestColor.getAlpha());
+                        (float) chestColor.getRed()/255, (float) chestColor.getGreen()/255, (float) chestColor.getBlue()/255, colorAlpha.getValue());
                 RenderGlobal.renderFilledBox(bb,
-                        (float) chestColor.getRed()/255, (float) chestColor.getGreen()/255, (float) chestColor.getBlue()/255, chestColor.getAlpha()/3);
+                        (float) chestColor.getRed()/255, (float) chestColor.getGreen()/255, (float) chestColor.getBlue()/255, colorAlpha.getValue()/3);
 
             } else if (entity instanceof TileEntityShulkerBox) {
                 bb = new AxisAlignedBB(entity.getPos()).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
 
                 RenderGlobal.drawSelectionBoundingBox(bb,
-                        (float) shulkerColor.getRed()/255, (float) shulkerColor.getGreen()/255, (float) shulkerColor.getBlue()/255, shulkerColor.getAlpha());
+                        (float) shulkerColor.getRed()/255, (float) shulkerColor.getGreen()/255, (float) shulkerColor.getBlue()/255, colorAlpha.getValue());
                 RenderGlobal.renderFilledBox(bb,
-                        (float) shulkerColor.getRed()/255, (float) shulkerColor.getGreen()/255, (float) shulkerColor.getBlue()/255, shulkerColor.getAlpha()/3);
+                        (float) shulkerColor.getRed()/255, (float) shulkerColor.getGreen()/255, (float) shulkerColor.getBlue()/255, colorAlpha.getValue()/3);
 
             } else if (entity instanceof TileEntityEnderChest) {
                 bb = new AxisAlignedBB(entity.getPos()).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
 
                 RenderGlobal.drawSelectionBoundingBox(bb,
-                        (float) enderChestColor.getRed()/255, (float) enderChestColor.getGreen()/255, (float) enderChestColor.getBlue()/255, enderChestColor.getAlpha());
+                        (float) enderChestColor.getRed()/255, (float) enderChestColor.getGreen()/255, (float) enderChestColor.getBlue()/255, colorAlpha.getValue());
                 RenderGlobal.renderFilledBox(bb,
-                        (float) enderChestColor.getRed()/255, (float) enderChestColor.getGreen()/255, (float) enderChestColor.getBlue()/255, enderChestColor.getAlpha()/3);
+                        (float) enderChestColor.getRed()/255, (float) enderChestColor.getGreen()/255, (float) enderChestColor.getBlue()/255, colorAlpha.getValue()/3);
 
             }
         }

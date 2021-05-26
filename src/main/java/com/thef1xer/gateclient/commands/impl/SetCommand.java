@@ -5,7 +5,7 @@ import com.thef1xer.gateclient.commands.Command;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.*;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
-import com.thef1xer.gateclient.settings.impl.ColorSetting;
+import com.thef1xer.gateclient.settings.impl.RGBSetting;
 import com.thef1xer.gateclient.settings.impl.EnumSetting;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import com.thef1xer.gateclient.util.ChatUtil;
@@ -41,24 +41,32 @@ public class SetCommand extends Command {
         }
 
         if (args.length >= 4) {
+
             if (isModule(args[1])) {
+
                 for (Setting setting : module.getSettings()) {
+
                     if (args[2].equalsIgnoreCase(setting.getId())) {
 
                         if (setting instanceof BooleanSetting) {
                             if (args.length == 4) {
                                 if (args[3].equalsIgnoreCase("true")) {
                                     ((BooleanSetting) setting).setValue(true);
+                                    GateClient.gate.presetManager.saveActivePreset();
+
                                     ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "true");
                                     return;
                                 } else if (args[3].equalsIgnoreCase("false")) {
                                     ((BooleanSetting) setting).setValue(false);
+                                    GateClient.gate.presetManager.saveActivePreset();
+
                                     ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "false");
                                     return;
                                 }
                             }
                             ChatUtil.clientMessage("Value must be " + TextFormatting.GOLD + "true" + TextFormatting.WHITE + " or " + TextFormatting.GOLD + "false");
-                        } else if (setting instanceof ColorSetting.RGBA) {
+
+                        } else if (setting instanceof RGBSetting) {
                             if (args.length == 6) {
                                 int r, g, b;
                                 try {
@@ -75,62 +83,10 @@ public class SetCommand extends Command {
                                     return;
                                 }
 
-                                ((ColorSetting.RGBA) setting).setRed(r);
-                                ((ColorSetting.RGBA) setting).setGreen(g);
-                                ((ColorSetting.RGBA) setting).setBlue(b);
-
-                                ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "(" + r + ", " + g + ", " + b + ")");
-                                return;
-
-                            } else if (args.length == 7) {
-                                int r, g, b;
-                                float a;
-                                try {
-                                    r = Integers.parseInt(args[3]);
-                                    g = Integers.parseInt(args[4]);
-                                    b = Integers.parseInt(args[5]);
-                                    a = Float.parseFloat(args[6]);
-                                } catch (Exception e) {
-                                    ChatUtil.clientMessage("Red, Green and Blue must be integers and Alpha a float");
-                                    return;
-                                }
-
-                                if (r < 0 || g < 0 || b < 0 || a < 0 || r > 255 || g > 255 || b > 255 || a > 1) {
-                                    ChatUtil.clientMessage("Red, Green and Blue must be between " + TextFormatting.GOLD + "0" + TextFormatting.WHITE + " and " + TextFormatting.GOLD + "255" +
-                                            TextFormatting.WHITE + " and Alpha between " + TextFormatting.GOLD + "0" + TextFormatting.WHITE + " and " + TextFormatting.GOLD + "1");
-                                    return;
-                                }
-
-                                ((ColorSetting.RGBA) setting).setRed(r);
-                                ((ColorSetting.RGBA) setting).setGreen(g);
-                                ((ColorSetting.RGBA) setting).setBlue(b);
-                                ((ColorSetting.RGBA) setting).setAlpha(a);
-
-                                ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "(" + r + ", " + g + ", " + b + ", " + a + ")");
-                                return;
-                            }
-
-                            ChatUtil.clientMessage("Values must be " + TextFormatting.GOLD + "<red> <green> <blue> (<alpha>)");
-                        } else if (setting instanceof ColorSetting.RGB) {
-                            if (args.length == 6) {
-                                int r, g, b;
-                                try {
-                                    r = Integers.parseInt(args[3]);
-                                    g = Integers.parseInt(args[4]);
-                                    b = Integers.parseInt(args[5]);
-                                } catch (Exception e) {
-                                    ChatUtil.clientMessage("Red, Green and Blue must be integers");
-                                    return;
-                                }
-
-                                if (r < 0 || g < 0 || b < 0 || r > 255 || g > 255 || b > 255) {
-                                    ChatUtil.clientMessage("Red, Green and Blue must be between " + TextFormatting.GOLD + "0" + TextFormatting.WHITE + " and " + TextFormatting.GOLD + "255");
-                                    return;
-                                }
-
-                                ((ColorSetting.RGB) setting).setRed(r);
-                                ((ColorSetting.RGB) setting).setGreen(g);
-                                ((ColorSetting.RGB) setting).setBlue(b);
+                                ((RGBSetting) setting).setRed(r);
+                                ((RGBSetting) setting).setGreen(g);
+                                ((RGBSetting) setting).setBlue(b);
+                                GateClient.gate.presetManager.saveActivePreset();
 
                                 ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "(" + r + ", " + g + ", " + b + ")");
                                 return;
@@ -138,10 +94,12 @@ public class SetCommand extends Command {
                             }
 
                             ChatUtil.clientMessage("Values must be " + TextFormatting.GOLD + "<red> <green> <blue>");
+
                         } else if (setting instanceof  EnumSetting) {
                             if (args.length == 4) {
-                                if (((EnumSetting<?>) setting).setValueFromName(args[3])) {
-                                    ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + ((EnumSetting<?>) setting).getCurrentValueName());
+                                if (((EnumSetting) setting).setValueFromName(args[3])) {
+                                    GateClient.gate.presetManager.saveActivePreset();
+                                    ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + ((EnumSetting) setting).getCurrentValueName());
                                     return;
                                 }
                             }
@@ -152,6 +110,7 @@ public class SetCommand extends Command {
                                 try {
                                     float f = Float.parseFloat(args[3]);
                                     if (((FloatSetting) setting).setValue(f)) {
+                                        GateClient.gate.presetManager.saveActivePreset();
                                         ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + f);
                                         return;
                                     }
@@ -172,7 +131,7 @@ public class SetCommand extends Command {
     }
 
     private boolean isModule(String s) {
-        for (Module module : GateClient.gate.moduleManager.moduleList) {
+        for (Module module : GateClient.gate.moduleManager.MODULE_LIST) {
             if (module.getId().equalsIgnoreCase(s)) {
                 this.module = module;
                 return true;
@@ -187,25 +146,21 @@ public class SetCommand extends Command {
         if (setting instanceof BooleanSetting) {
             value = "<true / false>";
             current = ((BooleanSetting) setting).getValue() ? "true" : "false";
-        } else if (setting instanceof ColorSetting.RGBA) {
-            value = "<red> <green> <blue> (<alpha>)";
-            current = ((ColorSetting.RGBA) setting).getRed() + ", " + ((ColorSetting.RGBA) setting).getGreen() + ", " +
-                    ((ColorSetting.RGBA) setting).getBlue() + ", " + ((ColorSetting.RGBA) setting).getAlpha();
-        } else if (setting instanceof  ColorSetting.RGB) {
+        } else if (setting instanceof  RGBSetting) {
             value = "<red> <green> <blue>";
-            current = ((ColorSetting.RGB) setting).getRed() + ", " + ((ColorSetting.RGB) setting).getGreen() + ", " +
-                    ((ColorSetting.RGB) setting).getBlue();
+            current = ((RGBSetting) setting).getRed() + ", " + ((RGBSetting) setting).getGreen() + ", " +
+                    ((RGBSetting) setting).getBlue();
         } else if (setting instanceof EnumSetting) {
             value = "<";
-            for (int i = 0; i < ((EnumSetting<?>) setting).getValues().length; i++) {
-                value = value.concat(((EnumSetting<?>) setting).getValues()[i].toString());
-                if (i == ((EnumSetting<?>) setting).getValues().length - 1) {
+            for (int i = 0; i < ((EnumSetting) setting).getValues().length; i++) {
+                value = value.concat(((EnumSetting) setting).getValues()[i].toString());
+                if (i == ((EnumSetting) setting).getValues().length - 1) {
                     value = value.concat(">");
                 } else {
                     value = value.concat(" / ");
                 }
             }
-            current = ((EnumSetting<?>) setting).getCurrentValueName() + "]";
+            current = ((EnumSetting) setting).getCurrentValueName() + "]";
         } else if (setting instanceof FloatSetting) {
             value = "<number between " + ((FloatSetting) setting).getMin() + " and " + ((FloatSetting) setting).getMax() + ">";
             current = ((FloatSetting) setting).getValue() + "";

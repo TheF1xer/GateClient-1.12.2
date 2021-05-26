@@ -3,7 +3,8 @@ package com.thef1xer.gateclient.modules.render;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
-import com.thef1xer.gateclient.settings.impl.ColorSetting;
+import com.thef1xer.gateclient.settings.impl.FloatSetting;
+import com.thef1xer.gateclient.settings.impl.RGBSetting;
 import com.thef1xer.gateclient.util.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -19,19 +20,21 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.lwjgl.opengl.GL11;
 
 public class Tracers extends Module {
     public static final Tracers INSTANCE = new Tracers();
 
-    public final BooleanSetting targetPlayer = new BooleanSetting("Target Players", "targetplayers", true);
-    public final BooleanSetting targetHostile = new BooleanSetting("Target Hostile Mobs", "targethostile", false);
-    public final ColorSetting.RGBA color = new ColorSetting.RGBA("Tracer Color", "color", 255, 255, 255, 1F);
+    public final BooleanSetting targetPlayer = new BooleanSetting("Players", "players", true);
+    public final BooleanSetting targetHostile = new BooleanSetting("Monsters", "monsters", false);
+    public final RGBSetting color = new RGBSetting("Tracer Color", "color", 255, 255, 255);
+    public final FloatSetting colorAlpha = new FloatSetting("Color Alpha", "coloralpha", 1F, 0F, 1F);
 
     public Tracers() {
         super("Tracers", "tracers", EnumModuleCategory.RENDER);
         targetPlayer.setParent("Entities to Target");
         targetHostile.setParent("Entities to Target");
-        this.addSettings(targetPlayer, targetHostile, color);
+        this.addSettings(targetPlayer, targetHostile, color, colorAlpha);
     }
 
     @Override
@@ -67,11 +70,11 @@ public class Tracers extends Module {
                     BufferBuilder buffer = tessellator.getBuffer();
                     Vec3d entityPos = MathUtil.interpolateEntity(entity);
 
-                    buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+                    buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
                     buffer.pos(playerVector.x, playerVector.y, playerVector.z)
-                            .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, color.getAlpha()).endVertex();
+                            .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, colorAlpha.getValue()).endVertex();
                     buffer.pos(entityPos.x - rm.viewerPosX, entityPos.y - rm.viewerPosY, entityPos.z - rm.viewerPosZ)
-                            .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, color.getAlpha()).endVertex();
+                            .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, colorAlpha.getValue()).endVertex();
                     tessellator.draw();
                 }
             }

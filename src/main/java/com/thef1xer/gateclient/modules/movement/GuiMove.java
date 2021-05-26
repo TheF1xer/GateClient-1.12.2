@@ -12,13 +12,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
 
-public class InventoryMove extends Module {
-    public static final InventoryMove INSTANCE = new InventoryMove();
+public class GuiMove extends Module {
+    public static final GuiMove INSTANCE = new GuiMove();
 
-    public BooleanSetting sneak = new BooleanSetting("Sneak in Inventory", "sneak", false);
+    public BooleanSetting sneak = new BooleanSetting("Sneak", "sneak", false);
 
-    public InventoryMove() {
-        super("Inventory Move", "inventorymove", EnumModuleCategory.MOVEMENT);
+    public GuiMove() {
+        super("GUI Move", "guimove", EnumModuleCategory.MOVEMENT);
         this.addSettings(sneak);
     }
 

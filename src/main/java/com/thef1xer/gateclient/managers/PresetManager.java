@@ -6,7 +6,7 @@ import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.preset.Preset;
 import com.thef1xer.gateclient.settings.*;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
-import com.thef1xer.gateclient.settings.impl.ColorSetting;
+import com.thef1xer.gateclient.settings.impl.RGBSetting;
 import com.thef1xer.gateclient.settings.impl.EnumSetting;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import com.thef1xer.gateclient.util.DirectoryUtil;
@@ -55,7 +55,7 @@ public class PresetManager {
                 JsonObject moduleObject = (JsonObject) element;
                 Set<Map.Entry<String, JsonElement>> moduleSet = moduleObject.entrySet();
 
-                for (Module module : GateClient.gate.moduleManager.moduleList) {
+                for (Module module : GateClient.gate.moduleManager.MODULE_LIST) {
 
                     if (!this.contains(moduleSet, "name", new JsonPrimitive(module.getName()))) {
                         continue;
@@ -98,46 +98,19 @@ public class PresetManager {
                                             if (settingKey.equals("value")) {
                                                 ((BooleanSetting) setting).setValue(settingVal.getAsBoolean());
                                             }
-                                        } else if (setting instanceof ColorSetting.RGBA) {
+                                        } else if (setting instanceof RGBSetting) {
                                             if (settingKey.equals("red")) {
-                                                ((ColorSetting.RGBA) setting).setRed(settingVal.getAsInt());
+                                                ((RGBSetting) setting).setRed(settingVal.getAsInt());
                                                 continue;
                                             }
 
                                             if (settingKey.equals("green")) {
-                                                ((ColorSetting.RGBA) setting).setGreen(settingVal.getAsInt());
+                                                ((RGBSetting) setting).setGreen(settingVal.getAsInt());
                                                 continue;
                                             }
 
                                             if (settingKey.equals("blue")) {
-                                                ((ColorSetting.RGBA) setting).setBlue(settingVal.getAsInt());
-                                                continue;
-                                            }
-
-                                            if (settingKey.equals("alpha")) {
-                                                ((ColorSetting.RGBA) setting).setAlpha(settingVal.getAsFloat());
-                                            }
-                                        } else if (setting instanceof ColorSetting.RGB) {
-                                            if (settingKey.equals("red")) {
-                                                ((ColorSetting.RGB) setting).setRed(settingVal.getAsInt());
-                                                continue;
-                                            }
-
-                                            if (settingKey.equals("green")) {
-                                                ((ColorSetting.RGB) setting).setGreen(settingVal.getAsInt());
-                                                continue;
-                                            }
-
-                                            if (settingKey.equals("blue")) {
-                                                ((ColorSetting.RGB) setting).setBlue(settingVal.getAsInt());
-                                            }
-                                        } else if (setting instanceof EnumSetting) {
-                                            if (settingKey.equals("value")) {
-                                                ((EnumSetting<?>) setting).setValueFromName(settingVal.getAsString());
-                                            }
-                                        } else if (setting instanceof FloatSetting) {
-                                            if (settingKey.equals("value")) {
-                                                ((FloatSetting) setting).setValue(settingVal.getAsFloat());
+                                                ((RGBSetting) setting).setBlue(settingVal.getAsInt());
                                             }
                                         }
                                     }
@@ -159,7 +132,7 @@ public class PresetManager {
         JsonObject presetJson = new JsonObject();
 
         JsonArray moduleArray = new JsonArray();
-        for (Module module : GateClient.gate.moduleManager.moduleList) {
+        for (Module module : GateClient.gate.moduleManager.MODULE_LIST) {
             JsonObject moduleObject = new JsonObject();
             moduleObject.addProperty("name", module.getName());
             moduleObject.addProperty("enabled", module.isEnabled());
@@ -172,17 +145,12 @@ public class PresetManager {
                 settingObject.addProperty("id", setting.getId());
                 if (setting instanceof BooleanSetting) {
                     settingObject.addProperty("value", ((BooleanSetting) setting).getValue());
-                } else if (setting instanceof ColorSetting.RGBA) {
-                    settingObject.addProperty("red", ((ColorSetting.RGBA) setting).getRed());
-                    settingObject.addProperty("green", ((ColorSetting.RGBA) setting).getGreen());
-                    settingObject.addProperty("blue", ((ColorSetting.RGBA) setting).getBlue());
-                    settingObject.addProperty("alpha", ((ColorSetting.RGBA) setting).getAlpha());
-                } else if (setting instanceof ColorSetting.RGB) {
-                    settingObject.addProperty("red", ((ColorSetting.RGB) setting).getRed());
-                    settingObject.addProperty("green", ((ColorSetting.RGB) setting).getGreen());
-                    settingObject.addProperty("blue", ((ColorSetting.RGB) setting).getBlue());
+                } else if (setting instanceof RGBSetting) {
+                    settingObject.addProperty("red", ((RGBSetting) setting).getRed());
+                    settingObject.addProperty("green", ((RGBSetting) setting).getGreen());
+                    settingObject.addProperty("blue", ((RGBSetting) setting).getBlue());
                 } else if (setting instanceof EnumSetting) {
-                    settingObject.addProperty("value", ((EnumSetting<?>) setting).getCurrentValueName());
+                    settingObject.addProperty("value", ((EnumSetting) setting).getCurrentValueName());
                 } else if (setting instanceof FloatSetting) {
                     settingObject.addProperty("value", ((FloatSetting) setting).getValue());
                 }

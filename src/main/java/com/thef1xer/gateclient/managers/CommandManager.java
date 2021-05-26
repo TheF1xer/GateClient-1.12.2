@@ -8,15 +8,15 @@ import java.util.List;
 
 public class CommandManager {
     public String prefix = ".";
-    public List<Command> commandList = new ArrayList<>();
+    public final List<Command> COMMAND_LIST = new ArrayList<>();
 
     public void init() {
-        commandList.add(new BindCommand());
-        commandList.add(new HelpCommand());
-        commandList.add(new ModuleListCommand());
-        commandList.add(new PresetCommand());
-        commandList.add(new SayCommand());
-        commandList.add(new SetCommand());
-        commandList.add(new ToggleCommand());
+        COMMAND_LIST.add(new BindCommand());
+        COMMAND_LIST.add(new HelpCommand());
+        COMMAND_LIST.add(new ModuleListCommand());
+        COMMAND_LIST.add(new PresetCommand());
+        COMMAND_LIST.add(new SayCommand());
+        COMMAND_LIST.add(new SetCommand());
+        COMMAND_LIST.add(new ToggleCommand());
     }
 }

@@ -1,7 +1,7 @@
 package com.thef1xer.gateclient.gui.hud;
 
 import com.thef1xer.gateclient.gui.hud.components.CoordsComponent;
-import com.thef1xer.gateclient.gui.hud.components.ModulesComponent;
+import com.thef1xer.gateclient.gui.hud.components.ModuleListComponent;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class HUD {
     public boolean noOverlay = false;
 
-    public ModulesComponent modulesComponent = new ModulesComponent();
+    public ModuleListComponent modulesComponent = new ModuleListComponent();
     public CoordsComponent coordsComponent = new CoordsComponent();
 
     public void init() {
@@ -19,8 +19,8 @@ public class HUD {
     @SubscribeEvent
     public void onOverlayRender(RenderGameOverlayEvent event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-            modulesComponent.renderComponent();
-            coordsComponent.renderComponent();
+            modulesComponent.renderComponent(event.getResolution());
+            coordsComponent.renderComponent(event.getResolution());
         }
 
         if (this.noOverlay) {
