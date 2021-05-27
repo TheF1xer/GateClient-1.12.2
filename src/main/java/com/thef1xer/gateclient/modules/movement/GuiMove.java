@@ -1,5 +1,6 @@
 package com.thef1xer.gateclient.modules.movement;
 
+import com.thef1xer.gateclient.gui.clickgui.ClickGui;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
@@ -39,7 +40,7 @@ public class GuiMove extends Module {
         Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.world != null && mc.player != null) {
-            if (mc.currentScreen instanceof GuiContainer || mc.currentScreen instanceof GuiIngameMenu || mc.currentScreen instanceof GuiOptions) {
+            if (mc.currentScreen instanceof GuiContainer || mc.currentScreen instanceof GuiIngameMenu || mc.currentScreen instanceof GuiOptions || mc.currentScreen instanceof ClickGui) {
                 if (Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
                     ++mc.player.movementInput.moveForward;
                     mc.player.movementInput.forwardKeyDown = true;
