@@ -20,11 +20,11 @@ public class ClickGui extends GuiScreen {
      */
 
     public void init() {
-        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.COMBAT, 0, 0));
-        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.HUD, 130, 0));
-        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.MOVEMENT, 260, 0));
-        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.PLAYER, 390, 0));
-        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.RENDER, 520, 0));
+        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.COMBAT, 20, 20));
+        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.HUD, 146, 20));
+        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.MOVEMENT, 272, 20));
+        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.PLAYER, 398, 20));
+        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.RENDER, 524, 20));
         this.onUpdate();
     }
 
