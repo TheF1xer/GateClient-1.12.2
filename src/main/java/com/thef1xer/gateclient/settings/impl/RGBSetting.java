@@ -21,7 +21,6 @@ public class RGBSetting extends Setting {
 
     public void setRed(int red) {
         this.red = red;
-        GateClient.gate.presetManager.saveActivePreset();
     }
 
     public int getGreen() {
@@ -30,7 +29,6 @@ public class RGBSetting extends Setting {
 
     public void setGreen(int green) {
         this.green = green;
-        GateClient.gate.presetManager.saveActivePreset();
     }
 
     public int getBlue() {
@@ -39,6 +37,5 @@ public class RGBSetting extends Setting {
 
     public void setBlue(int blue) {
         this.blue = blue;
-        GateClient.gate.presetManager.saveActivePreset();
     }
 }

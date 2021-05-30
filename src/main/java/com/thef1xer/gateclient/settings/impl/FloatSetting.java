@@ -26,7 +26,6 @@ public class FloatSetting extends Setting {
     public boolean setValue(float value) {
         if (value >= min && value <= max) {
             this.value = value;
-            GateClient.gate.presetManager.saveActivePreset();
             return true;
         }
         return false;

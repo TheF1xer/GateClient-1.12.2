@@ -1,5 +1,6 @@
 package com.thef1xer.gateclient.gui.clickgui;
 
+import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.gui.clickgui.components.CategoryComponent;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.hud.ClickGuiModule;
@@ -77,6 +78,7 @@ public class ClickGui extends GuiScreen {
     @Override
     public void onGuiClosed() {
         ClickGuiModule.INSTANCE.setEnabled(false);
+        GateClient.gate.presetManager.saveActivePreset();
         super.onGuiClosed();
     }
 

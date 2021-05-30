@@ -23,7 +23,6 @@ public class EnumSetting extends Setting {
 
     public void setCurrentValue(Enum<?> currentValue) {
         this.currentValue = currentValue;
-        GateClient.gate.presetManager.saveActivePreset();
     }
 
     public boolean setValueFromName(String name) {

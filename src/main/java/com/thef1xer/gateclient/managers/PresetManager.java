@@ -35,6 +35,7 @@ public class PresetManager {
     }
 
     public void loadActivePreset() {
+        System.out.println("Preset loaded");
         if (!this.presetExists(this.activePreset)) {
             this.activePreset.setFile(new File(DirectoryUtil.PRESET_FOLDER, "default.json"));
             GateClient.gate.configManager.save();
@@ -129,6 +130,7 @@ public class PresetManager {
     }
 
     public void saveActivePreset() {
+        System.out.println("Preset saved");
         JsonObject presetJson = new JsonObject();
 
         JsonArray moduleArray = new JsonArray();

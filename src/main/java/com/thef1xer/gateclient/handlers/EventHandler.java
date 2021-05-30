@@ -23,6 +23,7 @@ public class EventHandler {
                 for (Module module : GateClient.gate.moduleManager.MODULE_LIST) {
                     if (Keyboard.getEventKey() == module.getKeyBind()) {
                         module.toggle();
+                        GateClient.gate.presetManager.saveActivePreset();
                     }
                 }
             }

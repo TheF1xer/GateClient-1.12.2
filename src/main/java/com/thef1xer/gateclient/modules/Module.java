@@ -68,7 +68,6 @@ public class Module {
 
     public void toggle() {
         setEnabled(!this.enabled);
-        GateClient.gate.presetManager.saveActivePreset();
     }
 
     public void addSettings(Setting... settings) {
@@ -81,7 +80,6 @@ public class Module {
 
     public void setKeyBind(int key) {
         this.keyBind = key;
-        GateClient.gate.presetManager.saveActivePreset();
     }
 
     public EnumModuleCategory getModuleCategory() {

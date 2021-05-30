@@ -24,6 +24,7 @@ public class BindCommand extends Command {
                     module.setKeyBind(Keyboard.KEY_NONE);
                 }
                 ChatUtil.clientMessage("Key Binds cleared");
+                GateClient.gate.presetManager.saveActivePreset();
                 return;
             }
 
@@ -54,6 +55,7 @@ public class BindCommand extends Command {
             if (module.getId().equalsIgnoreCase(args[1])) {
                 module.setKeyBind(Keyboard.getKeyIndex(args[2].toUpperCase()));
                 ChatUtil.clientMessage(module.getName() + " bound to " + args[2].toUpperCase());
+                GateClient.gate.presetManager.saveActivePreset();
                 return;
             }
         }

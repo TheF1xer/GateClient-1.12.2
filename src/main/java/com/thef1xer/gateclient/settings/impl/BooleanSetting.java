@@ -21,6 +21,5 @@ public class BooleanSetting extends Setting {
 
     public void toggle() {
         this.setValue(!this.value);
-        GateClient.gate.presetManager.saveActivePreset();
     }
 }
