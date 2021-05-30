@@ -1,5 +1,6 @@
 package com.thef1xer.gateclient.settings.impl;
 
+import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.settings.Setting;
 
 public class EnumSetting extends Setting {
@@ -22,6 +23,7 @@ public class EnumSetting extends Setting {
 
     public void setCurrentValue(Enum<?> currentValue) {
         this.currentValue = currentValue;
+        GateClient.gate.presetManager.saveActivePreset();
     }
 
     public boolean setValueFromName(String name) {

@@ -52,13 +52,11 @@ public class SetCommand extends Command {
                             if (args.length == 4) {
                                 if (args[3].equalsIgnoreCase("true")) {
                                     ((BooleanSetting) setting).setValue(true);
-                                    GateClient.gate.presetManager.saveActivePreset();
 
                                     ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "true");
                                     return;
                                 } else if (args[3].equalsIgnoreCase("false")) {
                                     ((BooleanSetting) setting).setValue(false);
-                                    GateClient.gate.presetManager.saveActivePreset();
 
                                     ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "false");
                                     return;
@@ -86,7 +84,6 @@ public class SetCommand extends Command {
                                 ((RGBSetting) setting).setRed(r);
                                 ((RGBSetting) setting).setGreen(g);
                                 ((RGBSetting) setting).setBlue(b);
-                                GateClient.gate.presetManager.saveActivePreset();
 
                                 ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "(" + r + ", " + g + ", " + b + ")");
                                 return;
@@ -98,7 +95,6 @@ public class SetCommand extends Command {
                         } else if (setting instanceof  EnumSetting) {
                             if (args.length == 4) {
                                 if (((EnumSetting) setting).setValueFromName(args[3])) {
-                                    GateClient.gate.presetManager.saveActivePreset();
                                     ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + ((EnumSetting) setting).getCurrentValueName());
                                     return;
                                 }
@@ -110,7 +106,6 @@ public class SetCommand extends Command {
                                 try {
                                     float f = Float.parseFloat(args[3]);
                                     if (((FloatSetting) setting).setValue(f)) {
-                                        GateClient.gate.presetManager.saveActivePreset();
                                         ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + f);
                                         return;
                                     }

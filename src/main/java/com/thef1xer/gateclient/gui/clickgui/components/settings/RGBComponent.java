@@ -108,7 +108,6 @@ public class RGBComponent extends ClickComponent{
         public void mouseReleased(int mouseX, int mouseY, int state) {
             if (dragging) {
                 dragging = false;
-                GateClient.gate.presetManager.saveActivePreset();
             }
         }
     }

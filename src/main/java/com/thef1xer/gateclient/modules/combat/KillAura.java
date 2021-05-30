@@ -23,7 +23,7 @@ public class KillAura extends Module {
 
     public final EnumSetting priority = new EnumSetting("Priority", "priority", Priority.values(), Priority.CLOSEST);
     public final FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0F, 6F);
-    public final FloatSetting delay = new FloatSetting("Added Delay" , "delay", 0F, -100F, 100F);
+    public final FloatSetting delay = new FloatSetting("Added Delay" , "delay", 0F);
 
     private Entity target;
     private Entity focusTarget;

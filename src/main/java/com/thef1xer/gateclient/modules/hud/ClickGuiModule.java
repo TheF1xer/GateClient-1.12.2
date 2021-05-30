@@ -10,8 +10,7 @@ public class ClickGuiModule extends Module {
     public static final ClickGuiModule INSTANCE = new ClickGuiModule();
 
     public ClickGuiModule() {
-        super("Click GUI", "clickgui", EnumModuleCategory.HUD);
-        this.setKeyBind(Keyboard.KEY_RSHIFT);
+        super("Click GUI", "clickgui", Keyboard.KEY_RSHIFT, EnumModuleCategory.HUD);
     }
 
     @Override

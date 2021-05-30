@@ -3,6 +3,7 @@ package com.thef1xer.gateclient.modules.render;
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
+import net.minecraftforge.client.GuiIngameForge;
 
 public class NoOverlay extends Module {
     public static final NoOverlay INSTANCE = new NoOverlay();
@@ -14,12 +15,12 @@ public class NoOverlay extends Module {
     @Override
     public void onEnabled() {
         super.onEnabled();
-        GateClient.gate.hud.noOverlay = true;
+        GuiIngameForge.renderObjective = false;
     }
 
     @Override
     public void onDisabled() {
         super.onDisabled();
-        GateClient.gate.hud.noOverlay = false;
+        GuiIngameForge.renderObjective = true;
     }
 }

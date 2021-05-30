@@ -48,8 +48,6 @@ public class EventHandler {
                         }
                     } else {
                         command.onCommand(args);
-                        GateClient.gate.configManager.save();
-                        GateClient.gate.presetManager.saveActivePreset();
                     }
                     found = true;
                     break;

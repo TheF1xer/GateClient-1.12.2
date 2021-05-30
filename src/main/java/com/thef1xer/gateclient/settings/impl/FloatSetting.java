@@ -1,5 +1,6 @@
 package com.thef1xer.gateclient.settings.impl;
 
+import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.settings.Setting;
 
 public class FloatSetting extends Setting {
@@ -25,6 +26,7 @@ public class FloatSetting extends Setting {
     public boolean setValue(float value) {
         if (value >= min && value <= max) {
             this.value = value;
+            GateClient.gate.presetManager.saveActivePreset();
             return true;
         }
         return false;

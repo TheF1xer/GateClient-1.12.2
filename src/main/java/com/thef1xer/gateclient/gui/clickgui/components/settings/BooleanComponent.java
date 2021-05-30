@@ -27,7 +27,6 @@ public class BooleanComponent extends ClickComponent {
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (this.isMouseHover(mouseX, mouseY)) {
             this.setting.toggle();
-            GateClient.gate.presetManager.saveActivePreset();
         }
     }
 }

@@ -27,6 +27,15 @@ public class Module {
         this.addSettings(drawOnHud);
     }
 
+    public Module(String name, String id, int keyBind, EnumModuleCategory category) {
+        this.name = name;
+        this.id = id;
+        this.keyBind = keyBind;
+        this.moduleCategory = category;
+        this.keyBind = Keyboard.KEY_NONE;
+        this.addSettings(drawOnHud);
+    }
+
     public void onEnabled() {
 
     }
@@ -72,6 +81,7 @@ public class Module {
 
     public void setKeyBind(int key) {
         this.keyBind = key;
+        GateClient.gate.presetManager.saveActivePreset();
     }
 
     public EnumModuleCategory getModuleCategory() {

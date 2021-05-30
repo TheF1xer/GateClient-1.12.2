@@ -1,5 +1,6 @@
 package com.thef1xer.gateclient.settings.impl;
 
+import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.settings.Setting;
 
 public class RGBSetting extends Setting {
@@ -20,6 +21,7 @@ public class RGBSetting extends Setting {
 
     public void setRed(int red) {
         this.red = red;
+        GateClient.gate.presetManager.saveActivePreset();
     }
 
     public int getGreen() {
@@ -28,6 +30,7 @@ public class RGBSetting extends Setting {
 
     public void setGreen(int green) {
         this.green = green;
+        GateClient.gate.presetManager.saveActivePreset();
     }
 
     public int getBlue() {
@@ -36,5 +39,6 @@ public class RGBSetting extends Setting {
 
     public void setBlue(int blue) {
         this.blue = blue;
+        GateClient.gate.presetManager.saveActivePreset();
     }
 }

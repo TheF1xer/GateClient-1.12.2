@@ -1,5 +1,6 @@
 package com.thef1xer.gateclient.settings.impl;
 
+import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.settings.Setting;
 
 public class BooleanSetting extends Setting {
@@ -20,5 +21,6 @@ public class BooleanSetting extends Setting {
 
     public void toggle() {
         this.setValue(!this.value);
+        GateClient.gate.presetManager.saveActivePreset();
     }
 }

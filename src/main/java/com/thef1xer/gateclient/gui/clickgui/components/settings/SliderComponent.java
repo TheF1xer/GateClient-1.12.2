@@ -24,8 +24,7 @@ public class SliderComponent extends ClickComponent {
         fontRenderer.drawString(s, this.posX + this.width - this.border - fontRenderer.getStringWidth(s), this.posY + this.border, 0xFFFFFFFF, true);
         RenderUtil.draw2DRect(this.posX + border, this.posY + height - border - 3, this.posX + width - border, this.posY + height - border - 1, 0.1F, 0.1F, 0.1F, 1F);
 
-        float f = setting.getValue() < setting.getMax() ? setting.getValue() / setting.getMax() : 1F;
-        RenderUtil.draw2DRect(this.posX + border, this.posY + height - border - 3, this.posX + border + (width - 2 * border) * f, this.posY + height - border - 1, 0.85F, 0.43F, 0F, 1F);
+        RenderUtil.draw2DRect(this.posX + border, this.posY + height - border - 3, this.posX + border + (width - 2 * border) * setting.getValue() / setting.getMax(), this.posY + height - border - 1, 0.85F, 0.43F, 0F, 1F);
 
         if (this.dragging) {
             double wMin = this.posX + this.border;
@@ -36,7 +35,7 @@ public class SliderComponent extends ClickComponent {
             } else if (mouseX < wMin) {
                 setting.setValue(setting.getMin());
             } else {
-                float f1 = (mouseX - this.posX - this.border) / (this.width - 2 * this.border) * setting.getMax();
+                float f1 = (mouseX - this.posX - this.border) / (this.width - 2 * this.border) * (setting.getMax() - setting.getMin()) + setting.getMin();
                 setting.setValue(Math.round(f1 * 10F) / 10F);
             }
         }
@@ -53,7 +52,6 @@ public class SliderComponent extends ClickComponent {
     public void mouseReleased(int mouseX, int mouseY, int state) {
         if (this.dragging) {
             this.dragging = false;
-            GateClient.gate.presetManager.saveActivePreset();
         }
     }
 }
