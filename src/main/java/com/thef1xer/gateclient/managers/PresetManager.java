@@ -99,6 +99,14 @@ public class PresetManager {
                                             if (settingKey.equals("value")) {
                                                 ((BooleanSetting) setting).setValue(settingVal.getAsBoolean());
                                             }
+                                        } else if (setting instanceof EnumSetting) {
+                                            if (settingKey.equals("value")) {
+                                                ((EnumSetting) setting).setValueFromName(settingVal.getAsString());
+                                            }
+                                        } else if (setting instanceof FloatSetting) {
+                                            if (settingKey.equals("value")) {
+                                                ((FloatSetting) setting).setValue(settingVal.getAsFloat());
+                                            }
                                         } else if (setting instanceof RGBSetting) {
                                             if (settingKey.equals("red")) {
                                                 ((RGBSetting) setting).setRed(settingVal.getAsInt());
