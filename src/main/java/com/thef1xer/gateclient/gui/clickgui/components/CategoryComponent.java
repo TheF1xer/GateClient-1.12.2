@@ -22,7 +22,7 @@ public class CategoryComponent extends ClickComponent {
         this.height = 19;
 
         this.displayName = category.getName();
-        for (Module module : GateClient.gate.moduleManager.MODULE_LIST) {
+        for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
             if (module.getModuleCategory() == category) {
                 this.modules.add(new ModuleComponent(module, posX, 0));
             }

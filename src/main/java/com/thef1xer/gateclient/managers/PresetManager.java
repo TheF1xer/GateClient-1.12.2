@@ -38,7 +38,7 @@ public class PresetManager {
         System.out.println("Preset loaded");
         if (!this.presetExists(this.activePreset)) {
             this.activePreset.setFile(new File(DirectoryUtil.PRESET_FOLDER, "default.json"));
-            GateClient.gate.configManager.save();
+            GateClient.getGate().configManager.save();
             if (!this.presetExists(this.activePreset)) {
                 this.saveActivePreset();
             }
@@ -56,7 +56,7 @@ public class PresetManager {
                 JsonObject moduleObject = (JsonObject) element;
                 Set<Map.Entry<String, JsonElement>> moduleSet = moduleObject.entrySet();
 
-                for (Module module : GateClient.gate.moduleManager.MODULE_LIST) {
+                for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
 
                     if (!this.contains(moduleSet, "name", new JsonPrimitive(module.getName()))) {
                         continue;
@@ -142,7 +142,7 @@ public class PresetManager {
         JsonObject presetJson = new JsonObject();
 
         JsonArray moduleArray = new JsonArray();
-        for (Module module : GateClient.gate.moduleManager.MODULE_LIST) {
+        for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
             JsonObject moduleObject = new JsonObject();
             moduleObject.addProperty("name", module.getName());
             moduleObject.addProperty("enabled", module.isEnabled());

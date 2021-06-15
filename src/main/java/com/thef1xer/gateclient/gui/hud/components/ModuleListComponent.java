@@ -15,7 +15,7 @@ public class ModuleListComponent extends HUDComponent {
     private List<Module> modulesSorted;
 
     public void init() {
-        this.modulesSorted = new ArrayList<>(GateClient.gate.moduleManager.MODULE_LIST);
+        this.modulesSorted = new ArrayList<>(GateClient.getGate().moduleManager.MODULE_LIST);
         this.modulesSorted.sort(new Comparator<Module>() {
             public int compare(Module module1, Module module2) {
                 if (fr.getStringWidth(module1.getName()) < fr.getStringWidth(module2.getName())) {

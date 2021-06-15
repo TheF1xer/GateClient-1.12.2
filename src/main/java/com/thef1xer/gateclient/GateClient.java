@@ -21,7 +21,11 @@ public class GateClient {
     public EventHandler eventHandler;
 
     @Mod.Instance
-    public static GateClient gate;
+    private static GateClient gate;
+
+    public static GateClient getGate() {
+        return GateClient.gate;
+    }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {

@@ -16,17 +16,17 @@ public class PresetCommand extends Command {
     @Override
     public void onCommand(String[] args) {
         if (args.length == 1) {
-            String preset = this.removeExtension(GateClient.gate.presetManager.activePreset.getFile().getName());
+            String preset = this.removeExtension(GateClient.getGate().presetManager.activePreset.getFile().getName());
             ChatUtil.clientMessage("Current Preset: " + TextFormatting.GOLD + preset);
             return;
         }
 
         if (args.length == 2) {
             if (args[1].equalsIgnoreCase("list")) {
-                GateClient.gate.presetManager.updatePresetList();
+                GateClient.getGate().presetManager.updatePresetList();
                 ChatUtil.clientMessage(TextFormatting.BOLD + "Preset List:");
-                for (File file : GateClient.gate.presetManager.presetList) {
-                    if (GateClient.gate.presetManager.activePreset.getFile().equals(file)) {
+                for (File file : GateClient.getGate().presetManager.presetList) {
+                    if (GateClient.getGate().presetManager.activePreset.getFile().equals(file)) {
                         ChatUtil.clientMessage(TextFormatting.GOLD + this.removeExtension(file.getName()));
                     } else {
                         ChatUtil.clientMessage(this.removeExtension(file.getName()));
@@ -36,13 +36,13 @@ public class PresetCommand extends Command {
             }
 
             if (args[1].equalsIgnoreCase("clear")) {
-                GateClient.gate.presetManager.updatePresetList();
-                for (File file : GateClient.gate.presetManager.presetList) {
+                GateClient.getGate().presetManager.updatePresetList();
+                for (File file : GateClient.getGate().presetManager.presetList) {
                     file.delete();
                 }
-                GateClient.gate.presetManager.activePreset.setFile(new File(DirectoryUtil.PRESET_FOLDER ,"default.json"));
-                GateClient.gate.presetManager.saveActivePreset();
-                GateClient.gate.configManager.save();
+                GateClient.getGate().presetManager.activePreset.setFile(new File(DirectoryUtil.PRESET_FOLDER ,"default.json"));
+                GateClient.getGate().presetManager.saveActivePreset();
+                GateClient.getGate().configManager.save();
                 ChatUtil.clientMessage("Preset list cleared");
                 return;
             }
@@ -50,12 +50,12 @@ public class PresetCommand extends Command {
 
         if (args.length == 3) {
             if (args[1].equalsIgnoreCase("load")) {
-                GateClient.gate.presetManager.updatePresetList();
-                for (File file : GateClient.gate.presetManager.presetList) {
+                GateClient.getGate().presetManager.updatePresetList();
+                for (File file : GateClient.getGate().presetManager.presetList) {
                     if (file.getName().equalsIgnoreCase(args[2] + ".json")) {
-                        GateClient.gate.presetManager.activePreset.setFile(file);
-                        GateClient.gate.presetManager.loadActivePreset();
-                        GateClient.gate.configManager.save();
+                        GateClient.getGate().presetManager.activePreset.setFile(file);
+                        GateClient.getGate().presetManager.loadActivePreset();
+                        GateClient.getGate().configManager.save();
                         ChatUtil.clientMessage("Preset " + TextFormatting.GOLD + args[2].toLowerCase() + TextFormatting.RESET + " loaded");
                         return;
                     }
@@ -65,26 +65,26 @@ public class PresetCommand extends Command {
             }
 
             if (args[1].equalsIgnoreCase("create")) {
-                GateClient.gate.presetManager.updatePresetList();
-                for (File file : GateClient.gate.presetManager.presetList) {
+                GateClient.getGate().presetManager.updatePresetList();
+                for (File file : GateClient.getGate().presetManager.presetList) {
                     if (file.getName().equalsIgnoreCase(args[2] + ".json")) {
                         ChatUtil.clientMessage("That preset already exists, try another name");
                         return;
                     }
                 }
-                GateClient.gate.presetManager.activePreset.setFile(new File(DirectoryUtil.PRESET_FOLDER ,args[2] + ".json"));
-                GateClient.gate.presetManager.saveActivePreset();
+                GateClient.getGate().presetManager.activePreset.setFile(new File(DirectoryUtil.PRESET_FOLDER ,args[2] + ".json"));
+                GateClient.getGate().presetManager.saveActivePreset();
                 ChatUtil.clientMessage("Preset " + TextFormatting.GOLD + args[2] + TextFormatting.RESET + " created");
                 return;
             }
 
             if (args[1].equalsIgnoreCase("remove")) {
-                if (GateClient.gate.presetManager.activePreset.getFile().getName().equalsIgnoreCase(args[2] + ".json")) {
+                if (GateClient.getGate().presetManager.activePreset.getFile().getName().equalsIgnoreCase(args[2] + ".json")) {
                     ChatUtil.clientMessage("You can't remove a preset that is active");
                     return;
                 }
-                GateClient.gate.presetManager.updatePresetList();
-                for (File file : GateClient.gate.presetManager.presetList) {
+                GateClient.getGate().presetManager.updatePresetList();
+                for (File file : GateClient.getGate().presetManager.presetList) {
                     if (file.getName().equalsIgnoreCase(args[2] + ".json")) {
                         if (file.delete()) {
                             ChatUtil.clientMessage("Preset " + TextFormatting.GOLD + args[2] + TextFormatting.RESET + " removed");

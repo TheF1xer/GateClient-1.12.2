@@ -20,10 +20,10 @@ public class EventHandler {
     public void onKeyPressed(InputEvent.KeyInputEvent event) {
         if (Keyboard.isCreated() && Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().player != null) {
             if (Keyboard.getEventKeyState()) {
-                for (Module module : GateClient.gate.moduleManager.MODULE_LIST) {
+                for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
                     if (Keyboard.getEventKey() == module.getKeyBind()) {
                         module.toggle();
-                        GateClient.gate.presetManager.saveActivePreset();
+                        GateClient.getGate().presetManager.saveActivePreset();
                     }
                 }
             }
@@ -35,17 +35,17 @@ public class EventHandler {
         String message = event.getOriginalMessage();
 
         //Commands
-        if (message.startsWith(GateClient.gate.commandManager.prefix)) {
+        if (message.startsWith(GateClient.getGate().commandManager.getPrefix())) {
             Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(message);
-            String[] args = message.substring(GateClient.gate.commandManager.prefix.length()).split(" ");
+            String[] args = message.substring(GateClient.getGate().commandManager.getPrefix().length()).split(" ");
             boolean found = false;
 
-            for (Command command: GateClient.gate.commandManager.COMMAND_LIST) {
+            for (Command command: GateClient.getGate().commandManager.COMMAND_LIST) {
                 if (ChatUtil.isCommand(args[0], command)) {
                     if (args.length == 2 && args[1].equalsIgnoreCase("help")) {
                         ChatUtil.clientMessage("Syntax for " + TextFormatting.GOLD + command.getName() + TextFormatting.RESET + " command:");
                         for (String syntax : command.getSyntax()) {
-                            ChatUtil.clientMessage(TextFormatting.YELLOW + GateClient.gate.commandManager.prefix + syntax);
+                            ChatUtil.clientMessage(TextFormatting.YELLOW + GateClient.getGate().commandManager.getPrefix() + syntax);
                         }
                     } else {
                         command.onCommand(args);
