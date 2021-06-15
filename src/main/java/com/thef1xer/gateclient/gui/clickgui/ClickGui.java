@@ -56,6 +56,11 @@ public class ClickGui extends GuiScreen {
                 this.mc.setIngameFocus();
             }
         }
+
+        for (CategoryComponent component : this.categoryComponents) {
+            component.keyTyped(typedChar, keyCode);
+        }
+
         super.keyTyped(typedChar, keyCode);
     }
 

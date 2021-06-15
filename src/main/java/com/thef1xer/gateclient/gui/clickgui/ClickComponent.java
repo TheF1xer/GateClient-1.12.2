@@ -32,6 +32,10 @@ public class ClickComponent {
 
     }
 
+    public void keyTyped(char typedChar, int keyCode) {
+
+    }
+
     protected boolean isMouseHover(int mouseX, int mouseY) {
         return mouseX > this.posX && mouseX < this.posX + this.width &&
                 mouseY > this.posY && mouseY < this.posY + this.height;

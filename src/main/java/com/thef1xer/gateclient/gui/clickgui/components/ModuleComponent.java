@@ -1,10 +1,7 @@
 package com.thef1xer.gateclient.gui.clickgui.components;
 
 import com.thef1xer.gateclient.gui.clickgui.ClickComponent;
-import com.thef1xer.gateclient.gui.clickgui.components.settings.BooleanComponent;
-import com.thef1xer.gateclient.gui.clickgui.components.settings.EnumComponent;
-import com.thef1xer.gateclient.gui.clickgui.components.settings.RGBComponent;
-import com.thef1xer.gateclient.gui.clickgui.components.settings.SliderComponent;
+import com.thef1xer.gateclient.gui.clickgui.components.settings.*;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.Setting;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
@@ -25,6 +22,8 @@ public class ModuleComponent extends ClickComponent {
     public ModuleComponent(Module module, float posX, float posY) {
         super(posX, posY);
         this.module = module;
+
+        this.settings.add(new KeybindComponent(module, posX, 0));
 
         for (Setting setting : module.getSettings()) {
             if (setting instanceof BooleanSetting) {
@@ -91,6 +90,13 @@ public class ModuleComponent extends ClickComponent {
             for (ClickComponent setting : this.settings) {
                 setting.mouseReleased(mouseX, mouseY, state);
             }
+        }
+    }
+
+    @Override
+    public void keyTyped(char typedChar, int keyCode) {
+        for (ClickComponent component : this.settings) {
+            component.keyTyped(typedChar, keyCode);
         }
     }
 

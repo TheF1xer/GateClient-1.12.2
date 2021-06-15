@@ -70,4 +70,11 @@ public class CategoryComponent extends ClickComponent {
             }
         }
     }
+
+    @Override
+    public void keyTyped(char typedChar, int keyCode) {
+        for (ModuleComponent module : this.modules) {
+            module.keyTyped(typedChar, keyCode);
+        }
+    }
 }
