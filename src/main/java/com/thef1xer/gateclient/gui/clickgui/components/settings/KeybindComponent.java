@@ -28,13 +28,13 @@ public class KeybindComponent extends ClickComponent {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-        if (this.isMouseHover(mouseX, mouseY)) {
-            if (this.listening) {
-                if (mouseButton == 1) {
-                    this.module.setKeyBind(0);
-                }
-                this.listening = false;
-            } else {
+        if (this.listening) {
+            if (isMouseHover(mouseX, mouseY) && mouseButton == 1) {
+                this.module.setKeyBind(0);
+            }
+            this.listening = false;
+        } else {
+            if (isMouseHover(mouseX, mouseY)) {
                 this.listening = true;
             }
         }
