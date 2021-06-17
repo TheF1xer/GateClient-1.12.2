@@ -11,4 +11,11 @@ public class MathUtil {
                 entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks,
                 entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks);
     }
+
+    /*
+    yaw in degrees, returns unit vector (x, z)
+     */
+    public static double[] getDirection(float yaw) {
+        return new double[]{-Math.sin(Math.toRadians(yaw)), Math.cos(Math.toRadians(yaw))};
+    }
 }
