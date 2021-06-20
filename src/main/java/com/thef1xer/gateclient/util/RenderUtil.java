@@ -28,6 +28,20 @@ public class RenderUtil {
         renderEntityBoundingBox(entity, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, alpha);
     }
 
+    public static void renderEntityFilledBoundingBox(Entity entity, float red, float green, float blue, float alpha) {
+        RenderManager rm = Minecraft.getMinecraft().getRenderManager();
+        Vec3d entityPos = MathUtil.interpolateEntity(entity);
+
+        AxisAlignedBB bb = new AxisAlignedBB(entityPos.x - entity.width/2, entityPos.y, entityPos.z - entity.width/2,
+                entityPos.x + entity.width/2, entityPos.y + entity.height, entityPos.z + entity.width/2)
+                .offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
+        RenderGlobal.renderFilledBox(bb, red, green, blue, alpha);
+    }
+
+    public static void renderEntityFilledBoundingBox(Entity entity, RGBSetting color, float alpha) {
+        renderEntityFilledBoundingBox(entity, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, alpha);
+    }
+
     public static void draw2DRect(double minX, double minY, double maxX, double maxY, float red, float green, float blue, float alpha) {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();

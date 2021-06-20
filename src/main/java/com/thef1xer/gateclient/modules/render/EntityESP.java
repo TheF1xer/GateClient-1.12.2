@@ -8,6 +8,7 @@ import com.thef1xer.gateclient.settings.impl.RGBSetting;
 import com.thef1xer.gateclient.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -60,10 +61,13 @@ public class EntityESP extends Module {
         for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
             if (targetPlayer.getValue() && entity instanceof EntityPlayer && entity != Minecraft.getMinecraft().getRenderViewEntity()) {
                 RenderUtil.renderEntityBoundingBox(entity, playerColor, colorAlpha.getValue());
+                RenderUtil.renderEntityFilledBoundingBox(entity, playerColor, colorAlpha.getValue()/3);
             } else if (targetHostile.getValue() && entity.isCreatureType(EnumCreatureType.MONSTER, false)) {
                 RenderUtil.renderEntityBoundingBox(entity, hostileColor, colorAlpha.getValue());
+                RenderUtil.renderEntityFilledBoundingBox(entity, hostileColor, colorAlpha.getValue()/3);
             } else if (targetPassive.getValue() && (entity.isCreatureType(EnumCreatureType.AMBIENT, false) || entity.isCreatureType(EnumCreatureType.WATER_CREATURE, false) || entity.isCreatureType(EnumCreatureType.CREATURE, false))) {
                 RenderUtil.renderEntityBoundingBox(entity, passiveColor, colorAlpha.getValue());
+                RenderUtil.renderEntityFilledBoundingBox(entity, passiveColor, colorAlpha.getValue()/3);
             }
         }
 
