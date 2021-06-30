@@ -33,6 +33,7 @@ public class ModuleManager {
         MODULE_LIST.add(NoFall.INSTANCE);
         MODULE_LIST.add(NoSlow.INSTANCE);
         MODULE_LIST.add(SafeWalk.INSTANCE);
+        MODULE_LIST.add(Speed.INSTANCE);
         MODULE_LIST.add(Sprint.INSTANCE);
         //Player
         MODULE_LIST.add(AutoArmor.INSTANCE);
