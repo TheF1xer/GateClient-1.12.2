@@ -5,6 +5,7 @@ import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Speed extends Module {
@@ -26,11 +27,10 @@ public class Speed extends Module {
         super.onDisabled();
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onMove(PlayerMoveEvent event) {
         //Max Velocity = 0.2863436192274094047655691820943506607929515418502202643171
         //Just Strafe Mode available
-        //TODO: Add priority
 
         if (Minecraft.getMinecraft().player.isSneaking() || Minecraft.getMinecraft().player.isInWater() || Minecraft.getMinecraft().player.isInLava() || Minecraft.getMinecraft().player.isOnLadder() || Minecraft.getMinecraft().player.isElytraFlying() || Minecraft.getMinecraft().player.capabilities.isFlying) {
             return;

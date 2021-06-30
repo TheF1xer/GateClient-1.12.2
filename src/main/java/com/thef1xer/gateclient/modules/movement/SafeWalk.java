@@ -6,6 +6,7 @@ import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.EnumSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class SafeWalk extends Module {
@@ -30,7 +31,7 @@ public class SafeWalk extends Module {
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onMove(PlayerMoveEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.player.onGround) {
