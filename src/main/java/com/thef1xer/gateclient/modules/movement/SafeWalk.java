@@ -35,6 +35,9 @@ public class SafeWalk extends Module {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.player.onGround) {
             if (this.mode.getCurrentValue() == Mode.STOP) {
+                if (mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(0, -1, 0)).isEmpty()) {
+                    return;
+                }
 
                 while (mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(event.x, -1, 0)).isEmpty()) {
                     if (event.x < 0.05D && event.x >= -0.05D) {
