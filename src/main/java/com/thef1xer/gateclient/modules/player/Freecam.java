@@ -1,7 +1,7 @@
 package com.thef1xer.gateclient.modules.player;
 
 import com.thef1xer.gateclient.events.PlayerIsUserEvent;
-import com.thef1xer.gateclient.events.SendPacketEvent;
+import com.thef1xer.gateclient.events.PacketEvent;
 import com.thef1xer.gateclient.events.SetOpaqueCubeEvent;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
@@ -97,7 +97,7 @@ public class Freecam extends Module {
     }
 
     @SubscribeEvent
-    public void onPacket(SendPacketEvent event) {
+    public void onPacket(PacketEvent event) {
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity useEntity = (CPacketUseEntity) event.getPacket();
             if (useEntity.getEntityFromWorld(Minecraft.getMinecraft().world) == Minecraft.getMinecraft().player) {

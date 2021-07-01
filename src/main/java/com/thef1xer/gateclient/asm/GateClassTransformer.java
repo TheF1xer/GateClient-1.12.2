@@ -14,7 +14,7 @@ public class GateClassTransformer implements IClassTransformer {
     private static final String[] transformedClasses = {
             "net.minecraft.client.renderer.chunk.VisGraph",
             "net.minecraft.client.renderer.EntityRenderer",
-            "net.minecraft.client.network.NetHandlerPlayClient",
+            "net.minecraft.network.NetworkManager",
             "net.minecraft.client.renderer.BlockRendererDispatcher",
             "net.minecraft.block.state.BlockStateContainer$StateImplementation",
             "net.minecraft.block.BlockLiquid",
@@ -42,7 +42,7 @@ public class GateClassTransformer implements IClassTransformer {
                     classVisitor = new EntityRendererVisitor(classWriter, isObfuscated);
                     break;
                 case 2:
-                    classVisitor = new NetHandlerPlayClientVisitor(classWriter, isObfuscated);
+                    classVisitor = new NetworkManagerVisitor(classWriter, isObfuscated);
                     break;
                 case 3:
                     classVisitor = new BlockRendererDispatcherVisitor(classWriter, isObfuscated);

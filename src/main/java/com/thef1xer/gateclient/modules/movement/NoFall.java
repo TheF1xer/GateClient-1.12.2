@@ -1,6 +1,6 @@
 package com.thef1xer.gateclient.modules.movement;
 
-import com.thef1xer.gateclient.events.SendPacketEvent;
+import com.thef1xer.gateclient.events.PacketEvent;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import net.minecraft.client.Minecraft;
@@ -29,7 +29,7 @@ public class NoFall extends Module {
     }
 
     @SubscribeEvent
-    public void onPacket(SendPacketEvent event) {
+    public void onPacket(PacketEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
         if (event.getPacket() instanceof CPacketPlayer && !((CPacketPlayer) event.getPacket()).isOnGround() && mc.player.fallDistance > 3) {
             EntityPlayerSP player = Minecraft.getMinecraft().player;

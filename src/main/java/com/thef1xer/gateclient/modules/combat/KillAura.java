@@ -1,6 +1,6 @@
 package com.thef1xer.gateclient.modules.combat;
 
-import com.thef1xer.gateclient.events.SendPacketEvent;
+import com.thef1xer.gateclient.events.PacketEvent;
 import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.EnumSetting;
@@ -85,7 +85,7 @@ public class KillAura extends Module {
     }
 
     @SubscribeEvent
-    public void onPacketEvent(SendPacketEvent event) {
+    public void onPacketEvent(PacketEvent event) {
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
             if (packet.getAction() == CPacketUseEntity.Action.ATTACK) {
