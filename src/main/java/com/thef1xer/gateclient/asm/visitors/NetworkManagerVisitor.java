@@ -7,7 +7,7 @@ import org.objectweb.asm.MethodVisitor;
 import static org.objectweb.asm.Opcodes.*;
 
 /*
-Posts an SendPacketEvent every time that a Packet is being sent
+Posts an PacketEvent every time that a Packet is being sent
  */
 public class NetworkManagerVisitor extends ClassVisitor {
     final String SEND_PACKET;
@@ -19,11 +19,11 @@ public class NetworkManagerVisitor extends ClassVisitor {
 
     public NetworkManagerVisitor(ClassVisitor classVisitor, boolean isObfuscated) {
         super(ASM5, classVisitor);
-        this.SEND_PACKET = isObfuscated ? "gw/a" : "sendPacket";
+        this.SEND_PACKET = isObfuscated ? "a" : "sendPacket";
         this.SEND_PACKET_DESCRIPTOR = isObfuscated ? "(Lht;)V" : "(Lnet/minecraft/network/Packet;)V";
-        this.SEND_PACKET_DESCRIPTOR2 = isObfuscated ? "(Lht;)V" : "(Lht;Lio/netty/util/concurrent/GenericFutureListener;[Lio/netty/util/concurrent/GenericFutureListener;)V";
+        this.SEND_PACKET_DESCRIPTOR2 = isObfuscated ? "(Lht;Lio/netty/util/concurrent/GenericFutureListener;[Lio/netty/util/concurrent/GenericFutureListener;)V" : "(Lnet/minecraft/network/Packet;Lio/netty/util/concurrent/GenericFutureListener;[Lio/netty/util/concurrent/GenericFutureListener;)V";
 
-        this.CHANNEL_READ_0 = isObfuscated ? "gw/a" : "channelRead0";
+        this.CHANNEL_READ_0 = isObfuscated ? "a" : "channelRead0";
         this.CHANNEL_READ_0_DESCRIPTOR = isObfuscated ? "(Lio/netty/channel/ChannelHandlerContext;Lht;)V" : "(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/Packet;)V";
     }
 
