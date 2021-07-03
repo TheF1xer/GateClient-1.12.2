@@ -36,6 +36,7 @@ public class Freecam extends Module {
         super.onEnabled();
         MinecraftForge.EVENT_BUS.register(this);
         this.activeThisSession = true;
+        Minecraft.getMinecraft().renderGlobal.loadRenderers();
     }
 
     @Override
@@ -56,11 +57,14 @@ public class Freecam extends Module {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
+        //TODO: Fix sneak and already existing movement inputs
+
         if (Minecraft.getMinecraft().world == null || !Minecraft.getMinecraft().world.isRemote) {
             camera = null;
             return;
         }
 
+        //We use a "camera" entity here so that it doesn't interact with Baritone
         if (camera == null) {
             lastThirdPerson = Minecraft.getMinecraft().gameSettings.thirdPersonView;
 
@@ -82,12 +86,13 @@ public class Freecam extends Module {
         float vertical = (Minecraft.getMinecraft().player.movementInput.jump ? verticalSpeed.getValue() : 0) -
                 (Minecraft.getMinecraft().player.movementInput.sneak ? verticalSpeed.getValue() : 0);
 
-        Vec3d vector = new Vec3d(strafe, vertical, forward).rotateYaw( (float) -Math.toRadians(camera.rotationYaw));
+        Vec3d vector = new Vec3d(strafe, vertical, forward).rotateYaw((float) -Math.toRadians(camera.rotationYaw));
         camera.setPositionAndRotationDirect(camera.posX + vector.x, camera.posY + vector.y, camera.posZ + vector.z, camera.rotationYaw, camera.rotationPitch, 3, false);
     }
 
     @SubscribeEvent
     public void onIsUser(PlayerIsUserEvent event) {
+        //Allows you to watch yourself while Freecam is active
         event.setCanceled(true);
     }
 
@@ -98,6 +103,7 @@ public class Freecam extends Module {
 
     @SubscribeEvent
     public void onPacket(PacketEvent event) {
+        //If you hit yourself you will get disconnected, this prevents that
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity useEntity = (CPacketUseEntity) event.getPacket();
             if (useEntity.getEntityFromWorld(Minecraft.getMinecraft().world) == Minecraft.getMinecraft().player) {

@@ -7,7 +7,7 @@ import org.objectweb.asm.MethodVisitor;
 import static org.objectweb.asm.Opcodes.*;
 
 /*
-Posts an PacketEvent every time that a Packet is being sent
+Posts an PacketEvent every time that a Packet is being sent and received
  */
 public class NetworkManagerVisitor extends ClassVisitor {
     final String SEND_PACKET;

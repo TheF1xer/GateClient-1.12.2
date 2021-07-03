@@ -5,6 +5,9 @@ import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.*;
 
+/*
+Posts a ShouldSideBeRendered and a GetAmbientOcclusionLightValue event
+ */
 public class BlockStateContainerVisitor extends ClassVisitor {
     final String SHOULD_SIDE;
     final String SHOULD_SIDE_DESCRIPTOR;

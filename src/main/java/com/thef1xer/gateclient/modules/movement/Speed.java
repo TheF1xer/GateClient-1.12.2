@@ -27,6 +27,7 @@ public class Speed extends Module {
         super.onDisabled();
     }
 
+    //Priority must be HIGHEST because this must be the first speed change made
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onMove(PlayerMoveEvent event) {
         //Max Velocity = 0.2863436192274094047655691820943506607929515418502202643171
@@ -36,6 +37,7 @@ public class Speed extends Module {
             return;
         }
 
+        //Max speed calculated with the source code (rounded up)
         float playerSpeed = 0.28634362F;
         float forward = Minecraft.getMinecraft().player.moveForward;
         float strafe = Minecraft.getMinecraft().player.moveStrafing;
@@ -46,6 +48,7 @@ public class Speed extends Module {
         } else {
             float yaw = Minecraft.getMinecraft().player.rotationYaw;
 
+            //Change yaw depending on the direction the playing is travelling
             if (forward > 0) {
 
                 if (strafe > 0) {

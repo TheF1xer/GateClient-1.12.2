@@ -60,6 +60,7 @@ public class XRay extends Module {
 
     @SubscribeEvent
     public void onGetAmbientOcclusion(GetAmbientOcclusionLightValueEvent event) {
+        //If this isn't active, the block will look black
         event.setLightValue(1.0F);
     }
 

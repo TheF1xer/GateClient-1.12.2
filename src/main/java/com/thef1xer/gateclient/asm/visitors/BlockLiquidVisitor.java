@@ -5,6 +5,9 @@ import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.*;
 
+/*
+Posts an GetLiquidCollisionBoundingBoxEvent that allows you to change the bounding box
+ */
 public class BlockLiquidVisitor extends ClassVisitor {
     final String GET_COLLISION;
     final String GET_COLLISION_DESC;

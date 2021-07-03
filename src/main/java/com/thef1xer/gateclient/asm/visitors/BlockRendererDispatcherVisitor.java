@@ -6,6 +6,9 @@ import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.*;
 
+/*
+Posts an RenderModelEvent every time a block is rendered
+ */
 public class BlockRendererDispatcherVisitor extends ClassVisitor {
     final String RENDER_MODEL_FLAT;
     final String RENDER_BLOCK_DESCRIPTOR;

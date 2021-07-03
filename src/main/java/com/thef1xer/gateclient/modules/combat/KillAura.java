@@ -53,6 +53,7 @@ public class KillAura extends Module {
             return;
         }
 
+        //Select target depending on the mode
         if (priority.getCurrentValue() == Priority.CLOSEST) {
             for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
                 if (isTarget(entity)) {
@@ -75,6 +76,7 @@ public class KillAura extends Module {
             }
         }
 
+        //Attack the target
         if (target != null) {
             if (Minecraft.getMinecraft().player.getCooledAttackStrength(-delay.getValue()) == 1.0F) {
                 Minecraft.getMinecraft().player.connection.sendPacket(new CPacketUseEntity(target));
@@ -86,6 +88,8 @@ public class KillAura extends Module {
 
     @SubscribeEvent
     public void onPacketEvent(PacketEvent event) {
+
+        //Select target if mode if Focus
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
             if (packet.getAction() == CPacketUseEntity.Action.ATTACK) {
@@ -93,6 +97,7 @@ public class KillAura extends Module {
             }
         }
 
+        //Send Rotation
         if (target != null) {
             if (event.getPacket() instanceof CPacketPlayer.PositionRotation || event.getPacket() instanceof CPacketPlayer.Rotation) {
                 double deltaX = target.posX - Minecraft.getMinecraft().player.posX;

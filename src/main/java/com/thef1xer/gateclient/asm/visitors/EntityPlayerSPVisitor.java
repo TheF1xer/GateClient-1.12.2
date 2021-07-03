@@ -6,6 +6,9 @@ import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.*;
 
+/*
+Posts an PlayerIsUserEvent that allows you to see yourself in third person
+ */
 public class EntityPlayerSPVisitor extends ClassVisitor {
     final String IS_USER;
     final String IS_USER_DESC;
