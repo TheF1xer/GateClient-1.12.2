@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.modules.movement;
 
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -11,7 +10,7 @@ public class Sprint extends Module {
     public static final Sprint INSTANCE = new Sprint();
 
     public Sprint() {
-        super("Sprint", "sprint", EnumModuleCategory.MOVEMENT);
+        super("Sprint", "sprint", Module.ModuleCategory.MOVEMENT);
     }
 
     @Override

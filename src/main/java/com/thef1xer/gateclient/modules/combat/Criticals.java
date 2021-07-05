@@ -1,7 +1,6 @@
 package com.thef1xer.gateclient.modules.combat;
 
 import com.thef1xer.gateclient.events.PacketEvent;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,7 +13,7 @@ public class Criticals extends Module {
     public static final Criticals INSTANCE = new Criticals();
 
     public Criticals() {
-        super("Criticals", "criticals", EnumModuleCategory.COMBAT);
+        super("Criticals", "criticals", Module.ModuleCategory.COMBAT);
     }
 
     @Override

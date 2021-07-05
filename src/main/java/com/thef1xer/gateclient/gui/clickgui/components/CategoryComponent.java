@@ -2,7 +2,6 @@ package com.thef1xer.gateclient.gui.clickgui.components;
 
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.gui.clickgui.ClickComponent;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.util.RenderUtil;
 
@@ -16,7 +15,7 @@ public class CategoryComponent extends ClickComponent {
     private boolean expanded = true;
     private final float fontX;
 
-    public CategoryComponent(EnumModuleCategory category, float posX, float posY) {
+    public CategoryComponent(Module.ModuleCategory category, float posX, float posY) {
         super(posX, posY);
         this.border = 5;
         this.height = 19;

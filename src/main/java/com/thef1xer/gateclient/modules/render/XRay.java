@@ -4,7 +4,6 @@ import com.thef1xer.gateclient.events.GetAmbientOcclusionLightValueEvent;
 import com.thef1xer.gateclient.events.RenderModelEvent;
 import com.thef1xer.gateclient.events.SetOpaqueCubeEvent;
 import com.thef1xer.gateclient.events.ShouldSideBeRenderedEvent;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -18,7 +17,7 @@ public class XRay extends Module {
     private float lastGamma;
 
     public XRay() {
-        super("XRay", "xray", EnumModuleCategory.RENDER);
+        super("XRay", "xray", Module.ModuleCategory.RENDER);
         this.lastGamma = Minecraft.getMinecraft().gameSettings.gammaSetting;
     }
 

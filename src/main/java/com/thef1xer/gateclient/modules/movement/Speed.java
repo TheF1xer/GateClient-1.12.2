@@ -1,7 +1,6 @@
 package com.thef1xer.gateclient.modules.movement;
 
 import com.thef1xer.gateclient.events.PlayerMoveEvent;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -12,7 +11,7 @@ public class Speed extends Module {
     public static final Speed INSTANCE = new Speed();
 
     public Speed() {
-        super("Speed", "speed", EnumModuleCategory.MOVEMENT);
+        super("Speed", "speed", Module.ModuleCategory.MOVEMENT);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.thef1xer.gateclient.modules.combat;
 
 import com.thef1xer.gateclient.events.PacketEvent;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.EnumSetting;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
@@ -29,7 +28,7 @@ public class KillAura extends Module {
     private Entity focusTarget;
 
     public KillAura() {
-        super("Kill Aura", "killaura", EnumModuleCategory.COMBAT);
+        super("Kill Aura", "killaura", Module.ModuleCategory.COMBAT);
         this.addSettings(priority, reach, delay);
     }
 

@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.modules.render;
 
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
@@ -8,7 +7,6 @@ import com.thef1xer.gateclient.settings.impl.RGBSetting;
 import com.thef1xer.gateclient.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +27,7 @@ public class EntityESP extends Module {
     public final FloatSetting colorAlpha = new FloatSetting("Color Alpha", "coloralpha", 1F, 0F, 1F);
 
     public EntityESP() {
-        super("Entity ESP", "entityesp", EnumModuleCategory.RENDER);
+        super("Entity ESP", "entityesp", Module.ModuleCategory.RENDER);
         targetPlayer.setParent("Target");
         targetHostile.setParent("Target");
         playerColor.setParent("Color");

@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.modules.movement;
 
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
 import net.minecraft.client.Minecraft;
@@ -15,7 +14,7 @@ public class NoSlow extends Module {
     public final BooleanSetting item = new BooleanSetting("Item", "item", true);
 
     public NoSlow() {
-        super("NoSlow", "noslow", EnumModuleCategory.MOVEMENT);
+        super("NoSlow", "noslow", Module.ModuleCategory.MOVEMENT);
         this.addSettings(sneak, item);
     }
 

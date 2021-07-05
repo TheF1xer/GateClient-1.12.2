@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.modules.render;
 
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -13,7 +12,7 @@ public class FullBright extends Module {
     private float lastGamma;
 
     public FullBright() {
-        super("Full Bright", "fullbright", EnumModuleCategory.RENDER);
+        super("Full Bright", "fullbright", Module.ModuleCategory.RENDER);
         this.lastGamma = Minecraft.getMinecraft().gameSettings.gammaSetting;
     }
 

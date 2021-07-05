@@ -3,7 +3,6 @@ package com.thef1xer.gateclient.modules.player;
 import com.thef1xer.gateclient.events.PlayerIsUserEvent;
 import com.thef1xer.gateclient.events.PacketEvent;
 import com.thef1xer.gateclient.events.SetOpaqueCubeEvent;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import net.minecraft.client.Minecraft;
@@ -25,7 +24,7 @@ public class Freecam extends Module {
     private boolean activeThisSession = false;
 
     public Freecam() {
-        super("Freecam", "freecam", EnumModuleCategory.PLAYER);
+        super("Freecam", "freecam", Module.ModuleCategory.PLAYER);
         verticalSpeed.setParent("Speed");
         horizontalSpeed.setParent("Speed");
         this.addSettings(verticalSpeed, horizontalSpeed);

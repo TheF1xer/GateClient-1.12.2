@@ -1,7 +1,6 @@
 package com.thef1xer.gateclient.modules.movement;
 
 import com.thef1xer.gateclient.events.PacketEvent;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import net.minecraft.client.Minecraft;
@@ -18,7 +17,7 @@ public class Velocity extends Module {
     public final FloatSetting vertical = new FloatSetting("Vertical", "vertical", 0, 0, 1);
 
     public Velocity() {
-        super("Velocity", "velocity", EnumModuleCategory.MOVEMENT);
+        super("Velocity", "velocity", Module.ModuleCategory.MOVEMENT);
         this.addSettings(horizontal, vertical);
     }
 

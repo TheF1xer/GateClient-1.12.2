@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.modules.render;
 
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import com.thef1xer.gateclient.settings.impl.RGBSetting;
@@ -26,7 +25,7 @@ public class StorageESP extends Module {
     public final FloatSetting colorAlpha = new FloatSetting("Color Alpha", "coloralpha", 1F, 0F, 1F);
 
     public StorageESP() {
-        super("Storage ESP", "storageesp", EnumModuleCategory.RENDER);
+        super("Storage ESP", "storageesp", Module.ModuleCategory.RENDER);
         chestColor.setParent("Color");
         shulkerColor.setParent("Color");
         enderChestColor.setParent("Color");

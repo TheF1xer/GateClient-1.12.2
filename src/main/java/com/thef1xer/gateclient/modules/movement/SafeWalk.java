@@ -1,7 +1,6 @@
 package com.thef1xer.gateclient.modules.movement;
 
 import com.thef1xer.gateclient.events.PlayerMoveEvent;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.EnumSetting;
 import net.minecraft.client.Minecraft;
@@ -15,7 +14,7 @@ public class SafeWalk extends Module {
     public final EnumSetting mode = new EnumSetting("Mode", "mode", Mode.values(), Mode.STOP);
 
     public SafeWalk() {
-        super("Safe Walk", "safewalk", EnumModuleCategory.MOVEMENT);
+        super("Safe Walk", "safewalk", Module.ModuleCategory.MOVEMENT);
         this.addSettings(mode);
     }
 

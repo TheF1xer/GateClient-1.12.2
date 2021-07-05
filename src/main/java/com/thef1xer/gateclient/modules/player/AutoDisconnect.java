@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.modules.player;
 
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
@@ -23,7 +22,7 @@ public class AutoDisconnect extends Module {
     public final BooleanSetting disable = new BooleanSetting("Disable", "disable", true);
 
     public AutoDisconnect() {
-        super("Auto Disconnect", "autodisconnect", EnumModuleCategory.PLAYER);
+        super("Auto Disconnect", "autodisconnect", Module.ModuleCategory.PLAYER);
         this.addSettings(players, health, ignoreTotems, disable);
     }
 

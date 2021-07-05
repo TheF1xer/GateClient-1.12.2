@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.modules.player;
 
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
@@ -16,7 +15,7 @@ public class AutoArmor extends Module {
     public static final AutoArmor INSTANCE = new AutoArmor();
 
     public AutoArmor() {
-        super("Auto Armor", "autoarmor", EnumModuleCategory.PLAYER);
+        super("Auto Armor", "autoarmor", Module.ModuleCategory.PLAYER);
     }
 
     @Override

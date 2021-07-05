@@ -1,7 +1,6 @@
 package com.thef1xer.gateclient.modules.movement;
 
 import com.thef1xer.gateclient.events.PacketEvent;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -13,7 +12,7 @@ public class NoFall extends Module {
     public static final NoFall INSTANCE = new NoFall();
 
     public NoFall() {
-        super("NoFall", "nofall", EnumModuleCategory.MOVEMENT);
+        super("NoFall", "nofall", Module.ModuleCategory.MOVEMENT);
     }
 
     @Override

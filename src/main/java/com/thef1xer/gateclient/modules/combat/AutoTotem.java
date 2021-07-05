@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.modules.combat;
 
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
@@ -16,7 +15,7 @@ public class AutoTotem extends Module {
     public static final AutoTotem INSTANCE = new AutoTotem();
 
     public AutoTotem() {
-        super("Auto Totem", "autototem", EnumModuleCategory.COMBAT);
+        super("Auto Totem", "autototem", Module.ModuleCategory.COMBAT);
     }
 
     @Override

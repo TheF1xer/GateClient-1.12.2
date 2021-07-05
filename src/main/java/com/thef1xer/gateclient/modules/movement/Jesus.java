@@ -1,7 +1,6 @@
 package com.thef1xer.gateclient.modules.movement;
 
 import com.thef1xer.gateclient.events.GetLiquidCollisionBoundingBoxEvent;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import net.minecraft.client.Minecraft;
@@ -15,7 +14,7 @@ public class Jesus extends Module {
     public final FloatSetting offset = new FloatSetting("Offset", "offset", 0.2F, 0F, 1F);
 
     public Jesus() {
-        super("Jesus", "jesus", EnumModuleCategory.MOVEMENT);
+        super("Jesus", "jesus", Module.ModuleCategory.MOVEMENT);
         this.addSettings(offset);
     }
 

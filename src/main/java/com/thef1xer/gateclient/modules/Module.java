@@ -14,12 +14,12 @@ public class Module {
     private final String id;
     private boolean enabled = false;
     private int keyBind;
-    private final EnumModuleCategory moduleCategory;
+    private final ModuleCategory moduleCategory;
     private final List<Setting> settings = new ArrayList<>();
 
     public final BooleanSetting drawOnHud = new BooleanSetting("Draw on Hud", "drawonhud", true);
 
-    public Module(String name, String id, EnumModuleCategory category) {
+    public Module(String name, String id, ModuleCategory category) {
         this.name = name;
         this.id = id;
         this.moduleCategory = category;
@@ -27,7 +27,7 @@ public class Module {
         this.addSettings(drawOnHud);
     }
 
-    public Module(String name, String id, int keyBind, EnumModuleCategory category) {
+    public Module(String name, String id, int keyBind, ModuleCategory category) {
         this.name = name;
         this.id = id;
         this.keyBind = keyBind;
@@ -82,11 +82,35 @@ public class Module {
         this.keyBind = key;
     }
 
-    public EnumModuleCategory getModuleCategory() {
+    public ModuleCategory getModuleCategory() {
         return this.moduleCategory;
     }
 
     public List<Setting> getSettings() {
         return settings;
+    }
+
+    public enum ModuleCategory {
+        //TODO: Color rework?
+        COMBAT("Combat", 0xE54343),
+        HUD("HUD", 0xDC33E4),
+        MOVEMENT("Movement", 0x6399FF),
+        PLAYER("Player", 0xFF8031),
+        RENDER("Render", 0xFFDF29);
+
+        private final String name;
+        private final int color;
+        ModuleCategory(String name, int color) {
+            this.name = name;
+            this.color = color;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getColor() {
+            return color;
+        }
     }
 }

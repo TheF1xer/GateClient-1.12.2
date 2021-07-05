@@ -1,7 +1,6 @@
 package com.thef1xer.gateclient.modules.movement;
 
 import com.thef1xer.gateclient.gui.clickgui.ClickGui;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
 import net.minecraft.client.Minecraft;
@@ -19,7 +18,7 @@ public class GuiMove extends Module {
     public BooleanSetting sneak = new BooleanSetting("Sneak", "sneak", false);
 
     public GuiMove() {
-        super("GUI Move", "guimove", EnumModuleCategory.MOVEMENT);
+        super("GUI Move", "guimove", Module.ModuleCategory.MOVEMENT);
         this.addSettings(sneak);
     }
 

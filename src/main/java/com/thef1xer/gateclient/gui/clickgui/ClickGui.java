@@ -2,7 +2,7 @@ package com.thef1xer.gateclient.gui.clickgui;
 
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.gui.clickgui.components.CategoryComponent;
-import com.thef1xer.gateclient.modules.EnumModuleCategory;
+import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.modules.hud.ClickGuiModule;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -21,11 +21,11 @@ public class ClickGui extends GuiScreen {
      */
 
     public void init() {
-        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.COMBAT, 20, 20));
-        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.HUD, 146, 20));
-        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.MOVEMENT, 272, 20));
-        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.PLAYER, 398, 20));
-        this.categoryComponents.add(new CategoryComponent(EnumModuleCategory.RENDER, 524, 20));
+        this.categoryComponents.add(new CategoryComponent(Module.ModuleCategory.COMBAT, 20, 20));
+        this.categoryComponents.add(new CategoryComponent(Module.ModuleCategory.HUD, 146, 20));
+        this.categoryComponents.add(new CategoryComponent(Module.ModuleCategory.MOVEMENT, 272, 20));
+        this.categoryComponents.add(new CategoryComponent(Module.ModuleCategory.PLAYER, 398, 20));
+        this.categoryComponents.add(new CategoryComponent(Module.ModuleCategory.RENDER, 524, 20));
         this.onUpdate();
     }
 
