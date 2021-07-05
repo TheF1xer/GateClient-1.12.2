@@ -21,7 +21,7 @@ public class Freecam extends Module {
     public final FloatSetting horizontalSpeed = new FloatSetting("Horizontal Speed", "horizontalspeed", 3F);
 
     private int lastThirdPerson;
-    private EntityOtherPlayerMP camera;
+    public EntityOtherPlayerMP camera;
     private boolean activeThisSession = false;
 
     public Freecam() {

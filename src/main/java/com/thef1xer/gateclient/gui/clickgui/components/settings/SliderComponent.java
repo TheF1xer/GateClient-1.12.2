@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.gui.clickgui.components.settings;
 
-import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.gui.clickgui.ClickComponent;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import com.thef1xer.gateclient.util.RenderUtil;
@@ -36,7 +35,7 @@ public class SliderComponent extends ClickComponent {
                 setting.setValue(setting.getMin());
             } else {
                 float f1 = (mouseX - this.posX - this.border) / (this.width - 2 * this.border) * (setting.getMax() - setting.getMin()) + setting.getMin();
-                setting.setValue(Math.round(f1 * 10F) / 10F);
+                setting.setValueWithStep(f1);
             }
         }
     }

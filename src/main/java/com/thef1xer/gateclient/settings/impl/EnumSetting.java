@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.settings.impl;
 
-import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.settings.Setting;
 
 public class EnumSetting extends Setting {

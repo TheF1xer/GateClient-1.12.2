@@ -8,6 +8,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -30,7 +31,7 @@ public class AutoTotem extends Module {
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onTick(TickEvent.ClientTickEvent event) {
         if (Minecraft.getMinecraft().currentScreen instanceof GuiContainer) {
             return;

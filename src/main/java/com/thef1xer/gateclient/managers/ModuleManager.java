@@ -9,6 +9,7 @@ import com.thef1xer.gateclient.modules.hud.ModuleList;
 import com.thef1xer.gateclient.modules.movement.*;
 import com.thef1xer.gateclient.modules.player.AutoArmor;
 import com.thef1xer.gateclient.modules.combat.AutoTotem;
+import com.thef1xer.gateclient.modules.player.AutoDisconnect;
 import com.thef1xer.gateclient.modules.player.Freecam;
 import com.thef1xer.gateclient.modules.render.*;
 
@@ -38,6 +39,7 @@ public class ModuleManager {
         MODULE_LIST.add(Velocity.INSTANCE);
         //Player
         MODULE_LIST.add(AutoArmor.INSTANCE);
+        MODULE_LIST.add(AutoDisconnect.INSTANCE);
         MODULE_LIST.add(Freecam.INSTANCE);
         //Render
         MODULE_LIST.add(EntityESP.INSTANCE);
