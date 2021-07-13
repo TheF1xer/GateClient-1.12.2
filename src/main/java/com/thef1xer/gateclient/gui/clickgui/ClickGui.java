@@ -83,7 +83,9 @@ public class ClickGui extends GuiScreen {
     @Override
     public void onGuiClosed() {
         ClickGuiModule.INSTANCE.setEnabled(false);
-        GateClient.getGate().presetManager.saveActivePreset();
+        if (GateClient.getGate().presetManager.isAutoSave()) {
+            GateClient.getGate().presetManager.saveActivePreset();
+        }
         super.onGuiClosed();
     }
 

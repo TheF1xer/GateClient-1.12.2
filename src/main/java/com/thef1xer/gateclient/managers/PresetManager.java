@@ -3,7 +3,6 @@ package com.thef1xer.gateclient.managers;
 import com.google.gson.*;
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.modules.Module;
-import com.thef1xer.gateclient.preset.Preset;
 import com.thef1xer.gateclient.settings.*;
 import com.thef1xer.gateclient.settings.impl.BooleanSetting;
 import com.thef1xer.gateclient.settings.impl.RGBSetting;
@@ -15,20 +14,42 @@ import java.io.*;
 import java.util.*;
 
 public class PresetManager {
-    public List<File> presetList = new ArrayList<>();
-    public final Preset activePreset = new Preset();
+    //TODO: Rewrite all of this when it stops working (it barely does right now)
+
+    public final List<File> PRESET_LIST = new ArrayList<>();
+    private File activePreset;
+    private boolean autoSave;
 
     public void init() {
         this.updatePresetList();
         this.loadActivePreset();
     }
 
+    public void setActivePreset(File activePreset) {
+        this.activePreset = activePreset;
+    }
+
+    public File getActivePreset() {
+        return activePreset;
+    }
+
+    public void setAutoSave(boolean autoSave) {
+        if (this.autoSave != autoSave) {
+            this.autoSave = autoSave;
+            this.saveActivePreset();
+        }
+    }
+
+    public boolean isAutoSave() {
+        return autoSave;
+    }
+
     public void updatePresetList() {
-        this.presetList = new ArrayList<>();
+        this.PRESET_LIST.clear();
         if (DirectoryUtil.PRESET_FOLDER.listFiles() != null) {
             for (File file : DirectoryUtil.PRESET_FOLDER.listFiles()) {
                 if (!file.isDirectory() && DirectoryUtil.isJson(file)) {
-                    this.presetList.add(file);
+                    this.PRESET_LIST.add(file);
                 }
             }
         }
@@ -36,17 +57,21 @@ public class PresetManager {
 
     public void loadActivePreset() {
         System.out.println("Preset loaded");
-        if (!this.presetExists(this.activePreset)) {
-            this.activePreset.setFile(new File(DirectoryUtil.PRESET_FOLDER, "default.json"));
+        if (!this.presetExists(this.getActivePreset())) {
+            this.setActivePreset(new File(DirectoryUtil.PRESET_FOLDER, "default.json"));
             GateClient.getGate().configManager.save();
-            if (!this.presetExists(this.activePreset)) {
+            if (!this.presetExists(this.getActivePreset())) {
+                this.setAutoSave(true);
                 this.saveActivePreset();
             }
         }
 
         JsonParser parser = new JsonParser();
         try {
-            JsonObject object = parser.parse(new FileReader(this.activePreset.getFile())).getAsJsonObject();
+            //Small optimizations can be done here
+            JsonObject object = parser.parse(new FileReader(this.getActivePreset())).getAsJsonObject();
+            JsonElement autoSave = object.get("auto save");
+            this.setAutoSave(autoSave != null ? autoSave.getAsBoolean() : true);
             JsonArray moduleArray = object.getAsJsonArray("modules");
 
             for (JsonElement element : moduleArray) {
@@ -138,8 +163,8 @@ public class PresetManager {
     }
 
     public void saveActivePreset() {
-        System.out.println("Preset saved");
         JsonObject presetJson = new JsonObject();
+        presetJson.addProperty("auto save", this.isAutoSave());
 
         JsonArray moduleArray = new JsonArray();
         for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
@@ -175,18 +200,27 @@ public class PresetManager {
         presetJson.add("modules", moduleArray);
 
         try {
-            FileWriter writer = new FileWriter(this.activePreset.getFile());
+            FileWriter writer = new FileWriter(this.getActivePreset());
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             writer.write(gson.toJson(presetJson));
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("Preset saved");
     }
 
-    private boolean presetExists(Preset preset) {
-        for (File file : presetList) {
-            if (file.getPath().equals(preset.getFile().getPath())) {
+    public void createNewPreset(String path) {
+        this.setActivePreset(new File(DirectoryUtil.PRESET_FOLDER, path));
+        this.setAutoSave(true);
+        this.saveActivePreset();
+        GateClient.getGate().configManager.save();
+    }
+
+    private boolean presetExists(File preset) {
+        for (File file : PRESET_LIST) {
+            if (file.getPath().equals(preset.getPath())) {
                 return true;
             }
         }

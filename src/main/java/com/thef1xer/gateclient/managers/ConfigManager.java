@@ -2,7 +2,6 @@ package com.thef1xer.gateclient.managers;
 
 import com.google.gson.*;
 import com.thef1xer.gateclient.GateClient;
-import com.thef1xer.gateclient.preset.Preset;
 import com.thef1xer.gateclient.util.DirectoryUtil;
 
 import java.io.*;
@@ -18,9 +17,8 @@ public class ConfigManager {
     }
 
     public void save() {
-        Preset activePreset = GateClient.getGate().presetManager.activePreset;
         JsonObject config = new JsonObject();
-        config.addProperty("Active Config", activePreset.getFile() != null ? activePreset.getFile().toString() : new File(DirectoryUtil.PRESET_FOLDER, "default.json").toString());
+        config.addProperty("Active Config", GateClient.getGate().presetManager.getActivePreset() != null ? GateClient.getGate().presetManager.getActivePreset().toString() : new File(DirectoryUtil.PRESET_FOLDER, "default.json").toString());
         config.addProperty("Prefix", GateClient.getGate().commandManager.getPrefix());
         try {
             FileWriter writer = new FileWriter(configFile);
@@ -47,7 +45,7 @@ public class ConfigManager {
                 JsonElement val = entry.getValue();
 
                 if (key.equals("Active Config")) {
-                    GateClient.getGate().presetManager.activePreset.setFile(new File(val.getAsString()));
+                    GateClient.getGate().presetManager.setActivePreset(new File(val.getAsString()));
                     continue;
                 }
 

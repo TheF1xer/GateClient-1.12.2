@@ -13,4 +13,15 @@ public class DirectoryUtil {
         int index = name.lastIndexOf(".");
         return name.substring(index).equals(".json");
     }
+
+    public static String removeExtension(String stringIn) {
+        StringBuilder newString = new StringBuilder();
+        for (char n : stringIn.toCharArray()) {
+            if (n == '.') {
+                break;
+            }
+            newString.append(n);
+        }
+        return newString.toString();
+    }
 }

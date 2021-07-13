@@ -1,6 +1,5 @@
 package com.thef1xer.gateclient.gui.clickgui.components.settings;
 
-import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.gui.clickgui.ClickComponent;
 import com.thef1xer.gateclient.settings.impl.RGBSetting;
 import com.thef1xer.gateclient.util.RenderUtil;

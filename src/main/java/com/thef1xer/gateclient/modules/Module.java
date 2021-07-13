@@ -91,7 +91,6 @@ public class Module {
     }
 
     public enum ModuleCategory {
-        //TODO: Color rework?
         COMBAT("Combat", 0xE54343),
         HUD("HUD", 0xDC33E4),
         MOVEMENT("Movement", 0x6399FF),

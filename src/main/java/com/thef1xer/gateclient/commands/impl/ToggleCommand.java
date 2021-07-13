@@ -28,7 +28,9 @@ public class ToggleCommand extends Command {
             if (module.getId().equalsIgnoreCase(name)) {
                 module.toggle();
                 ChatUtil.clientMessage(module.getName() + " module toggled");
-                GateClient.getGate().presetManager.saveActivePreset();
+                if (GateClient.getGate().presetManager.isAutoSave()) {
+                    GateClient.getGate().presetManager.saveActivePreset();
+                }
                 return true;
             }
         }
