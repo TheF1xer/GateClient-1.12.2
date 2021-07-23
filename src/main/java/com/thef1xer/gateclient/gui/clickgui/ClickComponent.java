@@ -4,6 +4,7 @@ import com.thef1xer.gateclient.GateClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClickComponent {
@@ -12,6 +13,8 @@ public class ClickComponent {
     public int border = 3;
     public float width = 106;
     public float height = 15;
+    protected List<ClickComponent> children = new ArrayList<>();
+    protected boolean expanded = false;
 
     public ClickComponent(float posX, float posY) {
         this.posX = posX;
@@ -46,7 +49,7 @@ public class ClickComponent {
         return offsetY + this.height;
     }
 
-    public float updateChildren(List<? extends ClickComponent> children) {
+    public float updateChildren() {
         float offsetY = this.posY + this.height;
         for (ClickComponent component : children) {
             offsetY = component.updatedByParent(offsetY);

@@ -14,7 +14,7 @@ import java.io.*;
 import java.util.*;
 
 public class PresetManager {
-    //TODO: Rewrite all of this when it stops working (it barely does right now)
+    //This might break and need a rework
 
     public final List<File> PRESET_LIST = new ArrayList<>();
     private File activePreset;

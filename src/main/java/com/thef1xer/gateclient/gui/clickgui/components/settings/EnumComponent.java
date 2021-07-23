@@ -9,7 +9,6 @@ import java.util.List;
 
 public class EnumComponent extends ClickComponent {
     private final EnumSetting setting;
-    private boolean expanded = false;
     private final List<Option> options = new ArrayList<>();
 
     public EnumComponent(EnumSetting setting, float posX, float posY) {
@@ -35,7 +34,16 @@ public class EnumComponent extends ClickComponent {
     @Override
     public float updatedByParent(float offsetY) {
         this.posY = offsetY;
-        return this.expanded ? this.updateChildren(this.options) : offsetY + this.height;
+        return this.expanded ? this.updateChildren() : offsetY + this.height;
+    }
+
+    @Override
+    public float updateChildren() {
+        float offsetY = this.posY + this.height;
+        for (ClickComponent component : options) {
+            offsetY = component.updatedByParent(offsetY);
+        }
+        return offsetY;
     }
 
     @Override

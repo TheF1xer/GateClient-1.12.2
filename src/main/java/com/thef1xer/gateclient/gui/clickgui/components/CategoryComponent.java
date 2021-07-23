@@ -10,9 +10,6 @@ import java.util.List;
 
 public class CategoryComponent extends ClickComponent {
     private final String displayName;
-    private final List<ModuleComponent> modules = new ArrayList<>();
-
-    private boolean expanded = true;
     private final float fontX;
 
     public CategoryComponent(Module.ModuleCategory category, float posX, float posY) {
@@ -23,7 +20,7 @@ public class CategoryComponent extends ClickComponent {
         this.displayName = category.getName();
         for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
             if (module.getModuleCategory() == category) {
-                this.modules.add(new ModuleComponent(module, posX, 0));
+                this.children.add(new ModuleComponent(module, posX, 0));
             }
         }
 
@@ -32,7 +29,7 @@ public class CategoryComponent extends ClickComponent {
 
     public void onUpdate() {
         if (this.expanded) {
-            this.updateChildren(this.modules);
+            this.updateChildren();
         }
     }
 
@@ -41,7 +38,7 @@ public class CategoryComponent extends ClickComponent {
         RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, 0.18F, 0.38F, 0.9F, 1F);
         fontRenderer.drawString(this.displayName, this.posX + this.fontX, this.posY + this.border, 0xFFFFFFFF, true);
         if (this.expanded) {
-            for (ModuleComponent module : this.modules) {
+            for (ClickComponent module : this.children) {
                 module.drawComponent(mouseX, mouseY, partialTicks);
             }
         }
@@ -55,7 +52,7 @@ public class CategoryComponent extends ClickComponent {
         }
 
         if (this.expanded) {
-            for (ModuleComponent module : this.modules) {
+            for (ClickComponent module : this.children) {
                 module.mouseClicked(mouseX, mouseY, mouseButton);
             }
         }
@@ -64,7 +61,7 @@ public class CategoryComponent extends ClickComponent {
     @Override
     public void mouseReleased(int mouseX, int mouseY, int state) {
         if (this.expanded) {
-            for (ModuleComponent module : this.modules) {
+            for (ClickComponent module : this.children) {
                 module.mouseReleased(mouseX, mouseY, state);
             }
         }
@@ -72,7 +69,7 @@ public class CategoryComponent extends ClickComponent {
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-        for (ModuleComponent module : this.modules) {
+        for (ClickComponent module : this.children) {
             module.keyTyped(typedChar, keyCode);
         }
     }

@@ -15,7 +15,6 @@ import java.util.List;
 
 public class ModuleComponent extends ClickComponent {
     private final Module module;
-    private final List<ClickComponent> settings = new ArrayList<>();
 
     private boolean expanded = false;
 
@@ -23,17 +22,17 @@ public class ModuleComponent extends ClickComponent {
         super(posX, posY);
         this.module = module;
 
-        this.settings.add(new KeybindComponent(module, posX, 0));
+        this.children.add(new KeybindComponent(module, posX, 0));
 
         for (Setting setting : module.getSettings()) {
             if (setting instanceof BooleanSetting) {
-                this.settings.add(new BooleanComponent((BooleanSetting) setting, posX, 0));
+                this.children.add(new BooleanComponent((BooleanSetting) setting, posX, 0));
             } else if (setting instanceof EnumSetting) {
-                this.settings.add(new EnumComponent((EnumSetting) setting, posX, 0));
+                this.children.add(new EnumComponent((EnumSetting) setting, posX, 0));
             } else if (setting instanceof FloatSetting) {
-                this.settings.add(new SliderComponent((FloatSetting) setting, posX, 0));
+                this.children.add(new SliderComponent((FloatSetting) setting, posX, 0));
             } else if (setting instanceof RGBSetting) {
-                this.settings.add(new RGBComponent((RGBSetting) setting, posX, 0));
+                this.children.add(new RGBComponent((RGBSetting) setting, posX, 0));
             }
         }
     }
@@ -60,7 +59,7 @@ public class ModuleComponent extends ClickComponent {
         fontRenderer.drawString(module.getName(), this.posX + this.border, this.posY + this.border, textColor, true);
 
         if (this.expanded) {
-            for (ClickComponent setting : this.settings) {
+            for (ClickComponent setting : this.children) {
                 setting.drawComponent(mouseX, mouseY, partialTicks);
             }
         }
@@ -78,7 +77,7 @@ public class ModuleComponent extends ClickComponent {
         }
 
         if (this.expanded) {
-            for (ClickComponent setting : this.settings) {
+            for (ClickComponent setting : this.children) {
                 setting.mouseClicked(mouseX, mouseY, mouseButton);
             }
         }
@@ -87,7 +86,7 @@ public class ModuleComponent extends ClickComponent {
     @Override
     public void mouseReleased(int mouseX, int mouseY, int state) {
         if (this.expanded) {
-            for (ClickComponent setting : this.settings) {
+            for (ClickComponent setting : this.children) {
                 setting.mouseReleased(mouseX, mouseY, state);
             }
         }
@@ -95,7 +94,7 @@ public class ModuleComponent extends ClickComponent {
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-        for (ClickComponent component : this.settings) {
+        for (ClickComponent component : this.children) {
             component.keyTyped(typedChar, keyCode);
         }
     }
@@ -103,6 +102,6 @@ public class ModuleComponent extends ClickComponent {
     @Override
     public float updatedByParent(float offsetY) {
         this.posY = offsetY;
-        return this.expanded ? this.updateChildren(this.settings) : offsetY + this.height;
+        return this.expanded ? this.updateChildren() : offsetY + this.height;
     }
 }

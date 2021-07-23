@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RGBComponent extends ClickComponent{
-    //TODO: Try to rework someday (If I find a better method) (mouseClicked method maybe?)
+    //TODO: Try to rework someday, this code is a mess (If I find a better method) (mouseClicked method maybe?)
 
     private final RGBSetting setting;
-    private boolean expanded = false;
     private final List<ColorSlider> sliders = new ArrayList<>();
 
     public RGBComponent(RGBSetting setting, float posX, float posY) {
@@ -60,7 +59,16 @@ public class RGBComponent extends ClickComponent{
     @Override
     public float updatedByParent(float offsetY) {
         this.posY = offsetY;
-        return this.expanded ? this.updateChildren(this.sliders) : offsetY + this.height;
+        return this.expanded ? this.updateChildren() : offsetY + this.height;
+    }
+
+    @Override
+    public float updateChildren() {
+        float offsetY = this.posY + this.height;
+        for (ClickComponent component : this.sliders) {
+            offsetY = component.updatedByParent(offsetY);
+        }
+        return offsetY;
     }
 
     public static class ColorSlider extends ClickComponent {
