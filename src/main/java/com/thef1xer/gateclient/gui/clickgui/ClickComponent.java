@@ -39,6 +39,10 @@ public class ClickComponent {
 
     }
 
+    public boolean isExpanded() {
+        return expanded;
+    }
+
     protected boolean isMouseHover(int mouseX, int mouseY) {
         return mouseX > this.posX && mouseX < this.posX + this.width &&
                 mouseY > this.posY && mouseY < this.posY + this.height;

@@ -16,6 +16,7 @@ public class CategoryComponent extends ClickComponent {
         super(posX, posY);
         this.border = 5;
         this.height = 19;
+        this.expanded = true;
 
         this.displayName = category.getName();
         for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
@@ -25,12 +26,6 @@ public class CategoryComponent extends ClickComponent {
         }
 
         this.fontX = (this.width - fontRenderer.getStringWidth(displayName)) / 2F;
-    }
-
-    public void onUpdate() {
-        if (this.expanded) {
-            this.updateChildren();
-        }
     }
 
     @Override

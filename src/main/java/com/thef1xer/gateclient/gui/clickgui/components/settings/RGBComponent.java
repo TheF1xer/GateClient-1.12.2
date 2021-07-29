@@ -30,6 +30,9 @@ public class RGBComponent extends ClickComponent{
             this.setting.setRed(this.sliders.get(0).renderSlider("Red", setting.getRed(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
             this.setting.setGreen(this.sliders.get(1).renderSlider("Green", setting.getGreen(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
             this.setting.setBlue(this.sliders.get(2).renderSlider("Blue", setting.getBlue(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
+            RenderUtil.draw2DTriangleRight(posX + width - 2 * border - 7, posY + border, posX + width - 2 * border - 2, posY + height - border, 1F, 1F, 1F, 1F);
+        } else {
+            RenderUtil.draw2DTriangleDown(posX + width - 2 * border - 9, posY + border + 2, posX + width - 2 * border, posY + height - border - 2, 1F, 1F, 1F, 1F);
         }
     }
 

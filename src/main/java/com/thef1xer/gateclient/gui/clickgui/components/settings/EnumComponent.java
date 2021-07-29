@@ -28,6 +28,9 @@ public class EnumComponent extends ClickComponent {
             for (Option option: this.options) {
                 option.renderCheck(this.setting.getCurrentValue() == option.getOption());
             }
+            RenderUtil.draw2DTriangleRight(posX + width - 2 * border - 7, posY + border, posX + width - 2 * border - 2, posY + height - border, 1F, 1F, 1F, 1F);
+        } else {
+            RenderUtil.draw2DTriangleDown(posX + width - 2 * border - 9, posY + border + 2, posX + width - 2 * border, posY + height - border - 2, 1F, 1F, 1F, 1F);
         }
     }
 

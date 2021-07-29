@@ -2,6 +2,7 @@ package com.thef1xer.gateclient.gui.clickgui;
 
 import com.thef1xer.gateclient.GateClient;
 import com.thef1xer.gateclient.gui.clickgui.components.CategoryComponent;
+import com.thef1xer.gateclient.gui.clickgui.components.PresetComponent;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.modules.hud.ClickGuiModule;
 import net.minecraft.client.gui.GuiScreen;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClickGui extends GuiScreen {
-    private final List<CategoryComponent> categoryComponents = new ArrayList<>();
+    private final List<ClickComponent> components = new ArrayList<>();
 
     /*
     Edit initGui()
@@ -21,17 +22,20 @@ public class ClickGui extends GuiScreen {
      */
 
     public void init() {
-        this.categoryComponents.add(new CategoryComponent(Module.ModuleCategory.COMBAT, 20, 20));
-        this.categoryComponents.add(new CategoryComponent(Module.ModuleCategory.HUD, 146, 20));
-        this.categoryComponents.add(new CategoryComponent(Module.ModuleCategory.MOVEMENT, 272, 20));
-        this.categoryComponents.add(new CategoryComponent(Module.ModuleCategory.PLAYER, 398, 20));
-        this.categoryComponents.add(new CategoryComponent(Module.ModuleCategory.RENDER, 524, 20));
+        this.components.add(new CategoryComponent(Module.ModuleCategory.COMBAT, 20, 20));
+        this.components.add(new CategoryComponent(Module.ModuleCategory.HUD, 146, 20));
+        this.components.add(new CategoryComponent(Module.ModuleCategory.MOVEMENT, 272, 20));
+        this.components.add(new CategoryComponent(Module.ModuleCategory.PLAYER, 398, 20));
+        this.components.add(new CategoryComponent(Module.ModuleCategory.RENDER, 524, 20));
+        this.components.add(new PresetComponent(650, 20));
         this.onUpdate();
     }
 
     public void onUpdate() {
-        for (CategoryComponent component : this.categoryComponents) {
-            component.onUpdate();
+        for (ClickComponent component : this.components) {
+            if (component.isExpanded()) {
+                component.updateChildren();
+            }
         }
     }
 
@@ -41,7 +45,7 @@ public class ClickGui extends GuiScreen {
         GlStateManager.pushMatrix();
         GlStateManager.enableTexture2D();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        for (CategoryComponent category : this.categoryComponents) {
+        for (ClickComponent category : this.components) {
             category.drawComponent(mouseX, mouseY, partialTicks);
         }
         GlStateManager.disableTexture2D();
@@ -57,7 +61,7 @@ public class ClickGui extends GuiScreen {
             }
         }
 
-        for (CategoryComponent component : this.categoryComponents) {
+        for (ClickComponent component : this.components) {
             component.keyTyped(typedChar, keyCode);
         }
 
@@ -66,7 +70,7 @@ public class ClickGui extends GuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        for (CategoryComponent component : this.categoryComponents) {
+        for (ClickComponent component : this.components) {
             component.mouseClicked(mouseX, mouseY, mouseButton);
         }
         super.mouseClicked(mouseX, mouseY, mouseButton);
@@ -74,7 +78,7 @@ public class ClickGui extends GuiScreen {
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
-        for (CategoryComponent component : this.categoryComponents) {
+        for (ClickComponent component : this.components) {
             component.mouseReleased(mouseX, mouseY, state);
         }
         super.mouseReleased(mouseX, mouseY, state);

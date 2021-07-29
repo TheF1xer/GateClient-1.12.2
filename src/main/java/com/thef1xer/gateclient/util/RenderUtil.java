@@ -42,6 +42,36 @@ public class RenderUtil {
         renderEntityFilledBoundingBox(entity, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, alpha);
     }
 
+    public static void draw2DTriangleDown(double minX, double minY, double maxX, double maxY, float red, float green, float blue, float alpha) {
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
+        GlStateManager.color(red, green, blue, alpha);
+        buffer.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
+        buffer.pos(minX, minY, 0D).endVertex();
+        buffer.pos((maxX + minX) / 2, maxY, 0D).endVertex();
+        buffer.pos(maxX, minY, 0D).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
+    public static void draw2DTriangleRight(double minX, double minY, double maxX, double maxY, float red, float green, float blue, float alpha) {
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
+        GlStateManager.color(red, green, blue, alpha);
+        buffer.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
+        buffer.pos(minX, minY, 0D).endVertex();
+        buffer.pos(minX, maxY, 0D).endVertex();
+        buffer.pos(maxX, (minY + maxY) / 2, 0D).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
     public static void draw2DRect(double minX, double minY, double maxX, double maxY, float red, float green, float blue, float alpha) {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
