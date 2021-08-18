@@ -28,9 +28,9 @@ public class EnumComponent extends ClickComponent {
             for (Option option: this.options) {
                 option.renderCheck(this.setting.getCurrentValue() == option.getOption());
             }
-            RenderUtil.draw2DTriangleRight(posX + width - 2 * border - 7, posY + border, posX + width - 2 * border - 2, posY + height - border, 1F, 1F, 1F, 1F);
+            RenderUtil.draw2DTriangleRight(posX + width - 2 * border - 6, posY + border, posX + width - 2 * border - 2, posY + height - border, 1F, 1F, 1F, 1F);
         } else {
-            RenderUtil.draw2DTriangleDown(posX + width - 2 * border - 9, posY + border + 2, posX + width - 2 * border, posY + height - border - 2, 1F, 1F, 1F, 1F);
+            RenderUtil.draw2DTriangleDown(posX + width - 2 * border - 8, posY + border + 2, posX + width - 2 * border, posY + height - border - 2, 1F, 1F, 1F, 1F);
         }
     }
 
@@ -81,9 +81,9 @@ public class EnumComponent extends ClickComponent {
         public void renderCheck(boolean isCurrent) {
             RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, 0.15F, 0.15F, 0.15F, 1F);
             if (isCurrent) {
-                RenderUtil.draw2DRect(this.posX + 2 * this.border, this.posY + this.border, this.posX + 2 * this.border + 9, this.posY + this.border + 9, 0.85F, 0.43F, 0F, 1F);
+                RenderUtil.draw2DRect(this.posX + 2 * this.border, this.posY + this.border, this.posX + 2 * this.border + 8, this.posY + this.border + 8, 0.85F, 0.43F, 0F, 1F);
             }
-            RenderUtil.draw2DRectLines(this.posX + 2 * this.border, this.posY + this.border, this.posX + 2 * this.border + 9, this.posY + this.border + 9, 0.8F, 0.8F, 0.8F, 0.8F);
+            RenderUtil.draw2DRectLines(this.posX + 2 * this.border, this.posY + this.border, this.posX + 2 * this.border + 8, this.posY + this.border + 8, 0.8F, 0.8F, 0.8F, 0.8F);
             fontRenderer.drawString(option.toString(), this.posX + 3 * this.border + 9, this.posY + this.border, 0xFFFFFFFF, true);
         }
 

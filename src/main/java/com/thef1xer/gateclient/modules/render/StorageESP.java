@@ -21,7 +21,7 @@ public class StorageESP extends Module {
 
     public final RGBSetting chestColor = new RGBSetting("Chest Color", "chestcolor", 50, 50, 190);
     public final RGBSetting shulkerColor = new RGBSetting("Shulker Color", "shulkercolor", 255, 80, 240);
-    public final RGBSetting enderChestColor = new RGBSetting("Ender Chest Color", "endercolor", 130, 0, 150);
+    public final RGBSetting enderChestColor = new RGBSetting("E-Chest Color", "echestcolor", 130, 0, 150);
     public final FloatSetting colorAlpha = new FloatSetting("Color Alpha", "coloralpha", 1F, 0F, 1F);
 
     public StorageESP() {

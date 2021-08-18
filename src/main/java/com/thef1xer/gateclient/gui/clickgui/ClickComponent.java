@@ -12,7 +12,7 @@ public class ClickComponent {
     public float posY;
     public int border = 3;
     public float width = 106;
-    public float height = 15;
+    public float height = 14;
     protected List<ClickComponent> children = new ArrayList<>();
     protected boolean expanded = false;
 

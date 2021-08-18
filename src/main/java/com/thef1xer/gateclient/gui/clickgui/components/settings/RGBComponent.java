@@ -27,12 +27,12 @@ public class RGBComponent extends ClickComponent{
         fontRenderer.drawString(setting.getName(), this.posX + this.border, this.posY + this.border, 0xFFFFFFFF, true);
 
         if (this.expanded) {
+            RenderUtil.draw2DTriangleRight(posX + width - 2 * border - 6, posY + border, posX + width - 2 * border - 2, posY + height - border, 1F, 1F, 1F, 1F);
             this.setting.setRed(this.sliders.get(0).renderSlider("Red", setting.getRed(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
             this.setting.setGreen(this.sliders.get(1).renderSlider("Green", setting.getGreen(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
             this.setting.setBlue(this.sliders.get(2).renderSlider("Blue", setting.getBlue(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
-            RenderUtil.draw2DTriangleRight(posX + width - 2 * border - 7, posY + border, posX + width - 2 * border - 2, posY + height - border, 1F, 1F, 1F, 1F);
         } else {
-            RenderUtil.draw2DTriangleDown(posX + width - 2 * border - 9, posY + border + 2, posX + width - 2 * border, posY + height - border - 2, 1F, 1F, 1F, 1F);
+            RenderUtil.draw2DTriangleDown(posX + width - 2 * border - 8, posY + border + 2, posX + width - 2 * border, posY + height - border - 2, 1F, 1F, 1F, 1F);
         }
     }
 
@@ -83,10 +83,14 @@ public class RGBComponent extends ClickComponent{
         }
 
         public int renderSlider(String color, int slider, int red, int green, int blue, int mouseX){
+            //Background
             RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, 0.15F, 0.15F, 0.15F, 1F);
+
+            //Text
             this.fontRenderer.drawString(color, this.posX + 2 * this.border, this.posY + this.border, (red << 16) | (green << 8) | (blue), true);
             this.fontRenderer.drawString(((Integer)slider).toString(), this.posX + this.width - fontRenderer.getStringWidth(((Integer)slider).toString()) - 2 * this.border, this.posY + this.border, 0xFFFFFFFF, true);
 
+            //Slider
             RenderUtil.draw2DRect(this.posX + 2 * border, this.posY + height - border - 3, this.posX + width - 2 * border, this.posY + height - border - 1, 0F, 0F, 0F, 1F);
             RenderUtil.draw2DRect(this.posX + 2 * border, this.posY + height - border - 3, this.posX + 2 * border + (width - 4 * border) * slider / 255, this.posY + height - border - 1, 0.85F, 0.43F, 0F, 1F);
 

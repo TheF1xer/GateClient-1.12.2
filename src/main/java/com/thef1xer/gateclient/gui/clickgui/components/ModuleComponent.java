@@ -39,6 +39,7 @@ public class ModuleComponent extends ClickComponent {
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
+        //Colors
         float r, g, b;
         int textColor = 0xFFFFFFFF;
         if (this.module.isEnabled()) {
@@ -55,6 +56,8 @@ public class ModuleComponent extends ClickComponent {
             b = 0.1F;
             textColor = 0xFFAAAAAA;
         }
+
+        //Render
         RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, r, g, b, 1F);
         fontRenderer.drawString(module.getName(), this.posX + this.border, this.posY + this.border, textColor, true);
 

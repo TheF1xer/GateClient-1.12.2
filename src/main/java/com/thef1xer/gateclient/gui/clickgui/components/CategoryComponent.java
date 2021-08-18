@@ -15,7 +15,7 @@ public class CategoryComponent extends ClickComponent {
     public CategoryComponent(Module.ModuleCategory category, float posX, float posY) {
         super(posX, posY);
         this.border = 5;
-        this.height = 19;
+        this.height = 18;
         this.expanded = true;
 
         this.displayName = category.getName();
