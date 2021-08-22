@@ -9,6 +9,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Jesus extends Module {
+    //TODO: This module doesn't work on many servers, try to fix
+
     public static final Jesus INSTANCE = new Jesus();
 
     public final FloatSetting offset = new FloatSetting("Offset", "offset", 0.2F, 0F, 1F);

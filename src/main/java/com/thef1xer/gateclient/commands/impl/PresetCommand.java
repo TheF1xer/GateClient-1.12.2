@@ -58,7 +58,6 @@ public class PresetCommand extends Command {
                 for (File file : GateClient.getGate().presetManager.PRESET_LIST) {
                     if (file.getName().equalsIgnoreCase(args[2] + ".json")) {
                         GateClient.getGate().presetManager.setActivePreset(file);
-                        GateClient.getGate().presetManager.loadActivePreset();
                         GateClient.getGate().configManager.save();
                         ChatUtil.clientMessage("Preset " + TextFormatting.GOLD + args[2].toLowerCase() + TextFormatting.RESET + " loaded");
                         return;
