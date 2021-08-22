@@ -91,6 +91,7 @@ public class PresetComponent extends ClickComponent {
                 fontRenderer.drawString(DirectoryUtil.removeExtension(preset.getName()), posX + border + 2, posY + height + border + 2 + offset, 0xFFFFFFFF, true);
                 offset += 12;
             }
+            RenderUtil.draw2DTriangleRight(posX + width - 2 * border - 6, posY + height + border + 2, posX + width - 2 * border - 2, posY + height + border + 10, 1F, 1F, 1F, 1F);
         } else {
             RenderUtil.draw2DTriangleDown(posX + width - 2 * border - 8, posY + height + border + 4, posX + width - 2 * border, posY + height + border + 8, 1F, 1F, 1F, 1F);
         }
