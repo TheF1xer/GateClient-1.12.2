@@ -5,6 +5,7 @@ import com.thef1xer.gateclient.gui.clickgui.ClickComponent;
 import com.thef1xer.gateclient.managers.PresetManager;
 import com.thef1xer.gateclient.util.DirectoryUtil;
 import com.thef1xer.gateclient.util.RenderUtil;
+import net.minecraft.client.renderer.GlStateManager;
 
 import java.io.File;
 
@@ -27,10 +28,10 @@ public class PresetComponent extends ClickComponent {
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
         //Header
-        RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, 0.18F, 0.38F, 0.9F, 1F);
-        fontRenderer.drawString("Presets", this.posX + this.fontX, this.posY + this.border, 0xFFFFFFFF, true);
+        RenderUtil.draw2DRect(posX, posY, posX + width, posY + height, 0.18F, 0.38F, 0.9F, 1F);
+        fontRenderer.drawString("Presets", posX + fontX, posY + border, 0xFFFFFFFF, true);
 
-        if(!this.expanded) return;
+        if(!expanded) return;
 
         if (createButtonExpanded) {
             RenderUtil.draw2DRect(posX, posY + height, posX + width, posY + height + 5 * border + 70, 0.1F, 0.1F, 0.1F, 1F);
@@ -40,6 +41,8 @@ public class PresetComponent extends ClickComponent {
 
         renderAutoSave();
 
+        GlStateManager.glLineWidth(2);
+
         renderLoadButton(mouseX, mouseY);
 
         renderSaveButton(mouseX, mouseY);
@@ -48,6 +51,8 @@ public class PresetComponent extends ClickComponent {
 
         //This must go last!
         renderPresetList(mouseX, mouseY);
+
+        GlStateManager.glLineWidth(1);
     }
 
     private void renderAutoSave() {

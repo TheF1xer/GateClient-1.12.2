@@ -45,6 +45,7 @@ public class ClickGui extends GuiScreen {
         GlStateManager.pushMatrix();
         GlStateManager.enableTexture2D();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.glLineWidth(1);
         for (ClickComponent category : this.components) {
             category.drawComponent(mouseX, mouseY, partialTicks);
         }
