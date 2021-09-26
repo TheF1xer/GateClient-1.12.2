@@ -17,12 +17,12 @@ public class KeybindComponent extends ClickComponent {
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
         RenderUtil.draw2DRect(this.posX, this.posY, this.posX + this.width, this.posY + this.height, 0.15F, 0.15F, 0.15F, 1F);
-        fontRenderer.drawString("Keybind", posX + border, posY + border, 0xFFFFFFFF, true);
+        fontRenderer.drawString("Keybind", posX + padding, posY + padding, 0xFFFFFFFF, true);
         if (listening) {
-            fontRenderer.drawString("...", posX + width - border - fontRenderer.getStringWidth("..."), posY + border, 0xFFFFFFFF, true);
+            fontRenderer.drawString("...", posX + width - padding - fontRenderer.getStringWidth("..."), posY + padding, 0xFFFFFFFF, true);
         } else {
             String key = Keyboard.getKeyName(module.getKeyBind());
-            fontRenderer.drawString(key, posX + width - border - fontRenderer.getStringWidth(key), posY + border, 0xFFFFFFFF, true);
+            fontRenderer.drawString(key, posX + width - padding - fontRenderer.getStringWidth(key), posY + padding, 0xFFFFFFFF, true);
         }
     }
 

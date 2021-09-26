@@ -10,9 +10,6 @@ import com.thef1xer.gateclient.settings.impl.RGBSetting;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
 import com.thef1xer.gateclient.util.RenderUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ModuleComponent extends ClickComponent {
     private final Module module;
 
@@ -59,7 +56,7 @@ public class ModuleComponent extends ClickComponent {
 
         //Render
         RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, r, g, b, 1F);
-        fontRenderer.drawString(module.getName(), this.posX + this.border, this.posY + this.border, textColor, true);
+        fontRenderer.drawString(module.getName(), this.posX + this.padding, this.posY + this.padding, textColor, true);
 
         if (this.expanded) {
             for (ClickComponent setting : this.children) {

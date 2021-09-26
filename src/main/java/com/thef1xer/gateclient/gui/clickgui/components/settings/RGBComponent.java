@@ -24,15 +24,15 @@ public class RGBComponent extends ClickComponent{
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
         RenderUtil.draw2DRect(this.posX, this.posY, this.posX + this.width, this.posY + this.height, 0.15F, 0.15F, 0.15F, 1F);
-        fontRenderer.drawString(setting.getName(), this.posX + this.border, this.posY + this.border, 0xFFFFFFFF, true);
+        fontRenderer.drawString(setting.getName(), this.posX + this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
 
         if (this.expanded) {
-            RenderUtil.draw2DTriangleRight(posX + width - 2 * border - 6, posY + border, posX + width - 2 * border - 2, posY + height - border, 1F, 1F, 1F, 1F);
+            RenderUtil.draw2DTriangleRight(posX + width - 2 * padding - 6, posY + padding, posX + width - 2 * padding - 2, posY + height - padding, 1F, 1F, 1F, 1F);
             this.setting.setRed(this.sliders.get(0).renderSlider("Red", setting.getRed(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
             this.setting.setGreen(this.sliders.get(1).renderSlider("Green", setting.getGreen(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
             this.setting.setBlue(this.sliders.get(2).renderSlider("Blue", setting.getBlue(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
         } else {
-            RenderUtil.draw2DTriangleDown(posX + width - 2 * border - 8, posY + border + 2, posX + width - 2 * border, posY + height - border - 2, 1F, 1F, 1F, 1F);
+            RenderUtil.draw2DTriangleDown(posX + width - 2 * padding - 8, posY + padding + 2, posX + width - 2 * padding, posY + height - padding - 2, 1F, 1F, 1F, 1F);
         }
     }
 
@@ -87,24 +87,24 @@ public class RGBComponent extends ClickComponent{
             RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, 0.15F, 0.15F, 0.15F, 1F);
 
             //Text
-            this.fontRenderer.drawString(color, this.posX + 2 * this.border, this.posY + this.border, (red << 16) | (green << 8) | (blue), true);
-            this.fontRenderer.drawString(((Integer)slider).toString(), this.posX + this.width - fontRenderer.getStringWidth(((Integer)slider).toString()) - 2 * this.border, this.posY + this.border, 0xFFFFFFFF, true);
+            this.fontRenderer.drawString(color, this.posX + 2 * this.padding, this.posY + this.padding, (red << 16) | (green << 8) | (blue), true);
+            this.fontRenderer.drawString(((Integer)slider).toString(), this.posX + this.width - fontRenderer.getStringWidth(((Integer)slider).toString()) - 2 * this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
 
             //Slider
-            RenderUtil.draw2DRect(this.posX + 2 * border, this.posY + height - border - 3, this.posX + width - 2 * border, this.posY + height - border - 1, 0F, 0F, 0F, 1F);
-            RenderUtil.draw2DRect(this.posX + 2 * border, this.posY + height - border - 3, this.posX + 2 * border + (width - 4 * border) * slider / 255, this.posY + height - border - 1, 0.85F, 0.43F, 0F, 1F);
+            RenderUtil.draw2DRect(this.posX + 2 * padding, this.posY + height - padding - 3, this.posX + width - 2 * padding, this.posY + height - padding - 1, 0F, 0F, 0F, 1F);
+            RenderUtil.draw2DRect(this.posX + 2 * padding, this.posY + height - padding - 3, this.posX + 2 * padding + (width - 4 * padding) * slider / 255F, this.posY + height - padding - 1, 0.85F, 0.43F, 0F, 1F);
 
 
             if (dragging) {
-                double wMin = posX + 2 * border;
-                double wMax = posX + width - 2 * border;
+                double wMin = posX + 2 * padding;
+                double wMax = posX + width - 2 * padding;
 
                 if (mouseX > wMax) {
                     return 255;
                 } else if (mouseX < wMin) {
                     return 0;
                 } else {
-                    return Math.round(255 * (float) (mouseX - wMin) / (width - 4 * border));
+                    return Math.round(255 * (float) (mouseX - wMin) / (width - 4 * padding));
                 }
             }
 

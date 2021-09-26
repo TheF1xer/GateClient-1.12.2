@@ -10,9 +10,9 @@ import java.util.List;
 public class ClickComponent {
     public float posX;
     public float posY;
-    public int border = 3;
-    public float width = 106;
-    public float height = 14;
+    public int padding = 3;
+    public int width = 106;
+    public int height = 14;
     protected List<ClickComponent> children = new ArrayList<>();
     protected boolean expanded = false;
 

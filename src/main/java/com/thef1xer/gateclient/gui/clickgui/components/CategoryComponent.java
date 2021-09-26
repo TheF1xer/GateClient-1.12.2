@@ -5,16 +5,13 @@ import com.thef1xer.gateclient.gui.clickgui.ClickComponent;
 import com.thef1xer.gateclient.modules.Module;
 import com.thef1xer.gateclient.util.RenderUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CategoryComponent extends ClickComponent {
     private final String displayName;
     private final float fontX;
 
     public CategoryComponent(Module.ModuleCategory category, float posX, float posY) {
         super(posX, posY);
-        this.border = 5;
+        this.padding = 5;
         this.height = 18;
         this.expanded = true;
 
@@ -31,7 +28,7 @@ public class CategoryComponent extends ClickComponent {
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
         RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, 0.18F, 0.38F, 0.9F, 1F);
-        fontRenderer.drawString(this.displayName, this.posX + this.fontX, this.posY + this.border, 0xFFFFFFFF, true);
+        fontRenderer.drawString(this.displayName, this.posX + this.fontX, this.posY + this.padding, 0xFFFFFFFF, true);
         if (this.expanded) {
             for (ClickComponent module : this.children) {
                 module.drawComponent(mouseX, mouseY, partialTicks);
