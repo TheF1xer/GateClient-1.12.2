@@ -8,7 +8,9 @@ import com.thef1xer.gateclient.settings.impl.BooleanSetting;
 import com.thef1xer.gateclient.settings.impl.RGBSetting;
 import com.thef1xer.gateclient.settings.impl.EnumSetting;
 import com.thef1xer.gateclient.settings.impl.FloatSetting;
+import com.thef1xer.gateclient.util.ChatUtil;
 import com.thef1xer.gateclient.util.DirectoryUtil;
+import net.minecraft.util.text.TextFormatting;
 
 import java.io.*;
 import java.util.*;
@@ -71,7 +73,7 @@ public class PresetManager {
             //Small optimizations can be done here
             JsonObject object = parser.parse(new FileReader(this.getActivePreset())).getAsJsonObject();
             JsonElement autoSave = object.get("auto save");
-            this.setAutoSave(autoSave != null ? autoSave.getAsBoolean() : true);
+            setAutoSave(autoSave != null ? autoSave.getAsBoolean() : true);
             JsonArray moduleArray = object.getAsJsonArray("modules");
 
             for (JsonElement element : moduleArray) {
@@ -211,11 +213,43 @@ public class PresetManager {
         System.out.println("Preset saved");
     }
 
-    public void createNewPreset(String path) {
-        this.setActivePreset(new File(DirectoryUtil.PRESET_FOLDER, path));
-        this.setAutoSave(true);
-        this.saveActivePreset();
+    public boolean createNewPreset(String path) {
+        updatePresetList();
+        for (File file : PRESET_LIST) {
+            if (file.getName().equalsIgnoreCase(path)) {
+                return false;
+            }
+        }
+
+        setActivePreset(new File(DirectoryUtil.PRESET_FOLDER, path));
+        setAutoSave(true);
+        saveActivePreset();
         GateClient.getGate().configManager.save();
+        return true;
+    }
+
+    public boolean removePreset(String presetName) {
+        updatePresetList();
+        for (File file : PRESET_LIST) {
+            if (file.getName().equalsIgnoreCase(presetName)) {
+                return file.delete();
+            }
+        }
+        return false;
+    }
+
+    public void removeActivePreset() {
+        getActivePreset().delete();
+        updatePresetList();
+        if (PRESET_LIST.size() != 0) {
+            setActivePreset(PRESET_LIST.get(0));
+            loadActivePreset();
+        } else {
+            setActivePreset(new File(DirectoryUtil.PRESET_FOLDER, "default.json"));
+            setAutoSave(true);
+            saveActivePreset();
+            GateClient.getGate().configManager.save();
+        }
     }
 
     private boolean presetExists(File preset) {
