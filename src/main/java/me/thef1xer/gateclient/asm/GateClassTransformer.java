@@ -1,6 +1,5 @@
 package me.thef1xer.gateclient.asm;
 
-import com.thef1xer.gateclient.asm.visitors.*;
 import me.thef1xer.gateclient.asm.visitors.*;
 import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.ClassReader;

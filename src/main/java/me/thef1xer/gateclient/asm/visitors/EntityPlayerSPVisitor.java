@@ -45,7 +45,7 @@ public class EntityPlayerSPVisitor extends ClassVisitor {
         @Override
         public void visitInsn(int opcode) {
             if (opcode == IRETURN) {
-                mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "isUser", "()Z", false);
+                mv.visitMethodInsn(INVOKESTATIC, "me/thef1xer/gateclient/util/EventFactory", "isUser", "()Z", false);
             }
             super.visitInsn(opcode);
         }
@@ -58,12 +58,12 @@ public class EntityPlayerSPVisitor extends ClassVisitor {
 
         @Override
         public void visitCode() {
-            mv.visitTypeInsn(NEW, "com/thef1xer/gateclient/events/PlayerMoveEvent");
+            mv.visitTypeInsn(NEW, "me/thef1xer/gateclient/events/PlayerMoveEvent");
             mv.visitInsn(DUP);
             mv.visitVarInsn(DLOAD, 2);
             mv.visitVarInsn(DLOAD, 4);
             mv.visitVarInsn(DLOAD, 6);
-            mv.visitMethodInsn(INVOKESPECIAL, "com/thef1xer/gateclient/events/PlayerMoveEvent", "<init>", "(DDD)V", false);
+            mv.visitMethodInsn(INVOKESPECIAL, "me/thef1xer/gateclient/events/PlayerMoveEvent", "<init>", "(DDD)V", false);
             mv.visitVarInsn(ASTORE, 8);
             mv.visitFieldInsn(GETSTATIC, "net/minecraftforge/common/MinecraftForge", "EVENT_BUS", "Lnet/minecraftforge/fml/common/eventhandler/EventBus;");
             mv.visitVarInsn(ALOAD, 8);
@@ -72,15 +72,15 @@ public class EntityPlayerSPVisitor extends ClassVisitor {
             mv.visitJumpInsn(IFEQ, l0);
             mv.visitInsn(RETURN);
             mv.visitLabel(l0);
-            mv.visitFrame(F_APPEND, 1, new Object[]{"com/thef1xer/gateclient/events/PlayerMoveEvent"}, 0, null);
+            mv.visitFrame(F_APPEND, 1, new Object[]{"me/thef1xer/gateclient/events/PlayerMoveEvent"}, 0, null);
             mv.visitVarInsn(ALOAD, 8);
-            mv.visitFieldInsn(GETFIELD, "com/thef1xer/gateclient/events/PlayerMoveEvent", "x", "D");
+            mv.visitFieldInsn(GETFIELD, "me/thef1xer/gateclient/events/PlayerMoveEvent", "x", "D");
             mv.visitVarInsn(DSTORE, 2);
             mv.visitVarInsn(ALOAD, 8);
-            mv.visitFieldInsn(GETFIELD, "com/thef1xer/gateclient/events/PlayerMoveEvent", "y", "D");
+            mv.visitFieldInsn(GETFIELD, "me/thef1xer/gateclient/events/PlayerMoveEvent", "y", "D");
             mv.visitVarInsn(DSTORE, 4);
             mv.visitVarInsn(ALOAD, 8);
-            mv.visitFieldInsn(GETFIELD, "com/thef1xer/gateclient/events/PlayerMoveEvent", "z", "D");
+            mv.visitFieldInsn(GETFIELD, "me/thef1xer/gateclient/events/PlayerMoveEvent", "z", "D");
             mv.visitVarInsn(DSTORE, 6);
             super.visitCode();
         }

@@ -49,7 +49,7 @@ public class NetworkManagerVisitor extends ClassVisitor {
         public void visitCode() {
             super.visitCode();
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "onPacket", "(Lnet/minecraft/network/Packet;)Lnet/minecraft/network/Packet;", false);
+            mv.visitMethodInsn(INVOKESTATIC, "me/thef1xer/gateclient/util/EventFactory", "onPacket", "(Lnet/minecraft/network/Packet;)Lnet/minecraft/network/Packet;", false);
             mv.visitVarInsn(ASTORE, 1);
             mv.visitVarInsn(ALOAD, 1);
             Label l0 = new Label();
@@ -70,7 +70,7 @@ public class NetworkManagerVisitor extends ClassVisitor {
         public void visitCode() {
             super.visitCode();
             mv.visitVarInsn(ALOAD, 2);
-            mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "onPacket", "(Lnet/minecraft/network/Packet;)Lnet/minecraft/network/Packet;", false);
+            mv.visitMethodInsn(INVOKESTATIC, "me/thef1xer/gateclient/util/EventFactory", "onPacket", "(Lnet/minecraft/network/Packet;)Lnet/minecraft/network/Packet;", false);
             mv.visitVarInsn(ASTORE, 2);
             mv.visitVarInsn(ALOAD, 2);
             Label l0 = new Label();

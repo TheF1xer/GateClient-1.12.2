@@ -3,7 +3,6 @@ package me.thef1xer.gateclient.commands.impl;
 import me.thef1xer.gateclient.GateClient;
 import me.thef1xer.gateclient.commands.Command;
 import me.thef1xer.gateclient.modules.Module;
-import com.thef1xer.gateclient.settings.*;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.settings.impl.RGBSetting;
 import me.thef1xer.gateclient.settings.impl.EnumSetting;

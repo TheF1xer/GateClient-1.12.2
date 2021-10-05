@@ -21,16 +21,16 @@ public class EnumComponent extends ClickComponent {
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
-        RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, 0.15F, 0.15F, 0.15F, 1F);
+        RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
         fontRenderer.drawString(setting.getName(), this.posX + this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
 
         if (this.expanded) {
             for (Option option: this.options) {
                 option.renderCheck(this.setting.getCurrentValue() == option.getOption());
             }
-            RenderUtil.draw2DTriangleRight(posX + width - 2 * padding - 6, posY + padding, posX + width - 2 * padding - 2, posY + height - padding, 1F, 1F, 1F, 1F);
+            RenderUtil.draw2DTriangleRight(posX + width - 2 * padding - 6, posY + padding, 4, height - 2 * padding, 1F, 1F, 1F, 1F);
         } else {
-            RenderUtil.draw2DTriangleDown(posX + width - 2 * padding - 8, posY + padding + 2, posX + width - 2 * padding, posY + height - padding - 2, 1F, 1F, 1F, 1F);
+            RenderUtil.draw2DTriangleDown(posX + width - 2 * padding - 8, posY + padding + 2, 8, height - 2 * padding - 4, 1F, 1F, 1F, 1F);
         }
     }
 
@@ -79,11 +79,11 @@ public class EnumComponent extends ClickComponent {
         }
 
         public void renderCheck(boolean isCurrent) {
-            RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, 0.15F, 0.15F, 0.15F, 1F);
+            RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
             if (isCurrent) {
-                RenderUtil.draw2DRect(this.posX + 2 * this.padding, this.posY + this.padding, this.posX + 2 * this.padding + 8, this.posY + this.padding + 8, 0.85F, 0.43F, 0F, 1F);
+                RenderUtil.draw2DRect(posX + 2 * padding, posY + padding, 8, 8, 0.85F, 0.43F, 0F, 1F);
             }
-            RenderUtil.draw2DRectLines(this.posX + 2 * this.padding, this.posY + this.padding, this.posX + 2 * this.padding + 8, this.posY + this.padding + 8, 0.8F, 0.8F, 0.8F, 0.8F);
+            RenderUtil.draw2DRectLines(posX + 2 * padding, posY + padding, 8, 8, 0.8F, 0.8F, 0.8F, 0.8F);
             fontRenderer.drawString(option.toString(), this.posX + 3 * this.padding + 9, this.posY + this.padding, 0xFFFFFFFF, true);
         }
 

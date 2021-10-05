@@ -50,7 +50,7 @@ public class BlockStateContainerVisitor extends ClassVisitor {
                 mv.visitVarInsn(ALOAD, 1);
                 mv.visitVarInsn(ALOAD, 2);
                 mv.visitVarInsn(ALOAD, 3);
-                mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "shouldSideBeRendered", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;)Z", false);
+                mv.visitMethodInsn(INVOKESTATIC, "me/thef1xer/gateclient/util/EventFactory", "shouldSideBeRendered", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;)Z", false);
             }
             super.visitInsn(opcode);
         }
@@ -65,7 +65,7 @@ public class BlockStateContainerVisitor extends ClassVisitor {
         public void visitInsn(int opcode) {
             if (opcode == FRETURN){
                 mv.visitVarInsn(ALOAD, 0);
-                mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "getAmbientOcclusionLightValue","(Lnet/minecraft/block/state/IBlockState;)F", false);
+                mv.visitMethodInsn(INVOKESTATIC, "me/thef1xer/gateclient/util/EventFactory", "getAmbientOcclusionLightValue","(Lnet/minecraft/block/state/IBlockState;)F", false);
             }
 
             super.visitInsn(opcode);

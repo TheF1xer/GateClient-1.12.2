@@ -1,7 +1,6 @@
 package me.thef1xer.gateclient;
 
 import me.thef1xer.gateclient.gui.hud.HUD;
-import com.thef1xer.gateclient.managers.*;
 import me.thef1xer.gateclient.managers.*;
 import me.thef1xer.gateclient.util.Reference;
 import me.thef1xer.gateclient.handlers.EventHandler;

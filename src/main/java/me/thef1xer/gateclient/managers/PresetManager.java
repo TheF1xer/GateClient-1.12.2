@@ -3,7 +3,6 @@ package me.thef1xer.gateclient.managers;
 import com.google.gson.*;
 import me.thef1xer.gateclient.GateClient;
 import me.thef1xer.gateclient.modules.Module;
-import com.thef1xer.gateclient.settings.*;
 import me.thef1xer.gateclient.settings.Setting;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.settings.impl.RGBSetting;
@@ -238,6 +237,7 @@ public class PresetManager {
     }
 
     public void removeActivePreset() {
+        //TODO: TEST!!! Compile and test
         getActivePreset().delete();
         updatePresetList();
         if (PRESET_LIST.size() != 0) {

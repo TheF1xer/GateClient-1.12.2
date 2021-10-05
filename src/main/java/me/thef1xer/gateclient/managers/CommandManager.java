@@ -1,7 +1,5 @@
 package me.thef1xer.gateclient.managers;
 
-import com.thef1xer.gateclient.commands.*;
-import com.thef1xer.gateclient.commands.impl.*;
 import me.thef1xer.gateclient.commands.Command;
 import me.thef1xer.gateclient.commands.impl.*;
 

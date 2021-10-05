@@ -23,16 +23,16 @@ public class RGBComponent extends ClickComponent{
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
-        RenderUtil.draw2DRect(this.posX, this.posY, this.posX + this.width, this.posY + this.height, 0.15F, 0.15F, 0.15F, 1F);
+        RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
         fontRenderer.drawString(setting.getName(), this.posX + this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
 
         if (this.expanded) {
-            RenderUtil.draw2DTriangleRight(posX + width - 2 * padding - 6, posY + padding, posX + width - 2 * padding - 2, posY + height - padding, 1F, 1F, 1F, 1F);
+            RenderUtil.draw2DTriangleRight(posX + width - 2 * padding - 6, posY + padding, 4, height - 2 * padding, 1F, 1F, 1F, 1F);
             this.setting.setRed(this.sliders.get(0).renderSlider("Red", setting.getRed(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
             this.setting.setGreen(this.sliders.get(1).renderSlider("Green", setting.getGreen(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
             this.setting.setBlue(this.sliders.get(2).renderSlider("Blue", setting.getBlue(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
         } else {
-            RenderUtil.draw2DTriangleDown(posX + width - 2 * padding - 8, posY + padding + 2, posX + width - 2 * padding, posY + height - padding - 2, 1F, 1F, 1F, 1F);
+            RenderUtil.draw2DTriangleDown(posX + width - 2 * padding - 8, posY + padding + 2, 8, height - 2 * padding - 4, 1F, 1F, 1F, 1F);
         }
     }
 
@@ -84,15 +84,15 @@ public class RGBComponent extends ClickComponent{
 
         public int renderSlider(String color, int slider, int red, int green, int blue, int mouseX){
             //Background
-            RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, 0.15F, 0.15F, 0.15F, 1F);
+            RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
 
             //Text
-            this.fontRenderer.drawString(color, this.posX + 2 * this.padding, this.posY + this.padding, (red << 16) | (green << 8) | (blue), true);
-            this.fontRenderer.drawString(((Integer)slider).toString(), this.posX + this.width - fontRenderer.getStringWidth(((Integer)slider).toString()) - 2 * this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
+            fontRenderer.drawString(color, this.posX + 2 * this.padding, this.posY + this.padding, (red << 16) | (green << 8) | (blue), true);
+            fontRenderer.drawString(((Integer)slider).toString(), this.posX + this.width - fontRenderer.getStringWidth(((Integer)slider).toString()) - 2 * this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
 
             //Slider
-            RenderUtil.draw2DRect(this.posX + 2 * padding, this.posY + height - padding - 3, this.posX + width - 2 * padding, this.posY + height - padding - 1, 0F, 0F, 0F, 1F);
-            RenderUtil.draw2DRect(this.posX + 2 * padding, this.posY + height - padding - 3, this.posX + 2 * padding + (width - 4 * padding) * slider / 255F, this.posY + height - padding - 1, 0.85F, 0.43F, 0F, 1F);
+            RenderUtil.draw2DRect(posX + 2 * padding, posY + height - padding - 3, width - 4 * padding, 2, 0F, 0F, 0F, 1F);
+            RenderUtil.draw2DRect(posX + 2 * padding, posY + height - padding - 3, (width - 4 * padding) * slider / 255F, 2, 0.85F, 0.43F, 0F, 1F);
 
 
             if (dragging) {

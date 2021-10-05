@@ -16,7 +16,7 @@ public class KeybindComponent extends ClickComponent {
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
-        RenderUtil.draw2DRect(this.posX, this.posY, this.posX + this.width, this.posY + this.height, 0.15F, 0.15F, 0.15F, 1F);
+        RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
         fontRenderer.drawString("Keybind", posX + padding, posY + padding, 0xFFFFFFFF, true);
         if (listening) {
             fontRenderer.drawString("...", posX + width - padding - fontRenderer.getStringWidth("..."), posY + padding, 0xFFFFFFFF, true);

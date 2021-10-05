@@ -6,11 +6,11 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 @IFMLLoadingPlugin.MCVersion("1.12.2")
-@IFMLLoadingPlugin.TransformerExclusions({"com.thef1xer.gateclient.asm"})
+@IFMLLoadingPlugin.TransformerExclusions({"me.thef1xer.gateclient.asm"})
 public class GateCoreMod implements IFMLLoadingPlugin {
     @Override
     public String[] getASMTransformerClass() {
-        return new String[]{"com.thef1xer.gateclient.asm.GateClassTransformer"};
+        return new String[]{"me.thef1xer.gateclient.asm.GateClassTransformer"};
     }
 
     @Override

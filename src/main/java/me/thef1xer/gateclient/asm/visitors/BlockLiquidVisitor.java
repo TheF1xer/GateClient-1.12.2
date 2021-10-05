@@ -36,7 +36,7 @@ public class BlockLiquidVisitor extends ClassVisitor {
         @Override
         public void visitInsn(int opcode) {
             if (opcode == ARETURN) {
-                mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "getCollisionBoundingBox", "()Lnet/minecraft/util/math/AxisAlignedBB;", false);
+                mv.visitMethodInsn(INVOKESTATIC, "me/thef1xer/gateclient/util/EventFactory", "getCollisionBoundingBox", "()Lnet/minecraft/util/math/AxisAlignedBB;", false);
             }
             super.visitInsn(opcode);
         }

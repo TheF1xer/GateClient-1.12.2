@@ -1,7 +1,6 @@
 package me.thef1xer.gateclient.gui.clickgui.components;
 
 import me.thef1xer.gateclient.gui.clickgui.ClickComponent;
-import com.thef1xer.gateclient.gui.clickgui.components.settings.*;
 import me.thef1xer.gateclient.gui.clickgui.components.settings.*;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.Setting;
@@ -56,7 +55,7 @@ public class ModuleComponent extends ClickComponent {
         }
 
         //Render
-        RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, r, g, b, 1F);
+        RenderUtil.draw2DRect(posX, posY, width, height, r, g, b, 1F);
         fontRenderer.drawString(module.getName(), this.posX + this.padding, this.posY + this.padding, textColor, true);
 
         if (this.expanded) {

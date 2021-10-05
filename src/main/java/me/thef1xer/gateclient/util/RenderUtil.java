@@ -42,63 +42,63 @@ public class RenderUtil {
         renderEntityFilledBoundingBox(entity, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, alpha);
     }
 
-    public static void draw2DTriangleDown(double minX, double minY, double maxX, double maxY, float red, float green, float blue, float alpha) {
+    public static void draw2DTriangleDown(double x, double y, double width, double height, float red, float green, float blue, float alpha) {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         GlStateManager.color(red, green, blue, alpha);
         buffer.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
-        buffer.pos(minX, minY, 0D).endVertex();
-        buffer.pos((maxX + minX) / 2, maxY, 0D).endVertex();
-        buffer.pos(maxX, minY, 0D).endVertex();
+        buffer.pos(x, y, 0D).endVertex();
+        buffer.pos(x + width / 2, y + height, 0D).endVertex();
+        buffer.pos(x + width, y, 0D).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
 
-    public static void draw2DTriangleRight(double minX, double minY, double maxX, double maxY, float red, float green, float blue, float alpha) {
+    public static void draw2DTriangleRight(double x, double y, double width, double height, float red, float green, float blue, float alpha) {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         GlStateManager.color(red, green, blue, alpha);
         buffer.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
-        buffer.pos(minX, minY, 0D).endVertex();
-        buffer.pos(minX, maxY, 0D).endVertex();
-        buffer.pos(maxX, (minY + maxY) / 2, 0D).endVertex();
+        buffer.pos(x, y, 0D).endVertex();
+        buffer.pos(x, y + height, 0D).endVertex();
+        buffer.pos(x + width, y + height / 2, 0D).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
 
-    public static void draw2DRect(double minX, double minY, double maxX, double maxY, float red, float green, float blue, float alpha) {
+    public static void draw2DRect(double x, double y, double width, double height, float red, float green, float blue, float alpha) {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         GlStateManager.color(red, green, blue, alpha);
         buffer.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION);
-        buffer.pos(minX, minY, 0D).endVertex();
-        buffer.pos(minX, maxY, 0D).endVertex();
-        buffer.pos(maxX, minY, 0D).endVertex();
-        buffer.pos(maxX, maxY, 0D).endVertex();
+        buffer.pos(x, y, 0D).endVertex();
+        buffer.pos(x, y + height, 0D).endVertex();
+        buffer.pos(x + width, y, 0D).endVertex();
+        buffer.pos(x + width, y + height, 0D).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
 
-    public static void draw2DRectLines(double minX, double minY, double maxX, double maxY, float red, float green, float blue, float alpha) {
+    public static void draw2DRectLines(double x, double y, double width, double height, float red, float green, float blue, float alpha) {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         GlStateManager.color(red, green, blue, alpha);
         buffer.begin(GL11.GL_LINE_LOOP, DefaultVertexFormats.POSITION);
-        buffer.pos(minX, minY, 0D).endVertex();
-        buffer.pos(minX, maxY, 0D).endVertex();
-        buffer.pos(maxX, maxY, 0D).endVertex();
-        buffer.pos(maxX, minY, 0D).endVertex();
+        buffer.pos(x, y, 0D).endVertex();
+        buffer.pos(x, y + height, 0D).endVertex();
+        buffer.pos(x + width, y + height, 0D).endVertex();
+        buffer.pos(x + width, y, 0D).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();

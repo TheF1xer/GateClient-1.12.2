@@ -1,6 +1,5 @@
 package me.thef1xer.gateclient.util;
 
-import com.thef1xer.gateclient.events.*;
 import me.thef1xer.gateclient.events.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.network.Packet;

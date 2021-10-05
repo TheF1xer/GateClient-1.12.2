@@ -42,7 +42,7 @@ public class VisGraphVisitor extends ClassVisitor {
             Label l0 = new Label();
             mv.visitLabel(l0);
             mv.visitLineNumber(29, l0);
-            mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "setOpaqueCube", "()Z", false);
+            mv.visitMethodInsn(INVOKESTATIC, "me/thef1xer/gateclient/util/EventFactory", "setOpaqueCube", "()Z", false);
             Label l1 = new Label();
             mv.visitJumpInsn(IFEQ, l1);
             Label l2 = new Label();

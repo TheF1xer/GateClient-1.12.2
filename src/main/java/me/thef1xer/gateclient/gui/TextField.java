@@ -33,7 +33,7 @@ public class TextField {
 
         //Cursor draw
         if (focused && tickCounter <= 15) {
-            RenderUtil.draw2DRect(stringEnd, posY, stringEnd + 1, posY + 8, 1F, 1F, 1F, 1F);
+            RenderUtil.draw2DRect(stringEnd, posY, 1, 8, 1F, 1F, 1F, 1F);
         }
 
         updateTickCounter();

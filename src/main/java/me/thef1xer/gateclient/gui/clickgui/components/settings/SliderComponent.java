@@ -17,14 +17,14 @@ public class SliderComponent extends ClickComponent {
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
         //Background and Name
-        RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, 0.15F, 0.15F, 0.15F, 1F);
+        RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
         fontRenderer.drawString(setting.getName(), this.posX + this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
 
         //Slider
         String s = ((Float) (Math.round(setting.getValue() * 10F) / 10F)).toString();
         fontRenderer.drawString(s, this.posX + this.width - this.padding - fontRenderer.getStringWidth(s), this.posY + this.padding, 0xFFFFFFFF, true);
-        RenderUtil.draw2DRect(this.posX + padding, this.posY + height - padding - 3, this.posX + width - padding, this.posY + height - padding - 1, 0.1F, 0.1F, 0.1F, 1F);
-        RenderUtil.draw2DRect(this.posX + padding, this.posY + height - padding - 3, this.posX + padding + (width - 2 * padding) * setting.getValue() / setting.getMax(), this.posY + height - padding - 1, 0.85F, 0.43F, 0F, 1F);
+        RenderUtil.draw2DRect(posX + padding, posY + height - padding - 3, width - 2* padding, 2, 0.1F, 0.1F, 0.1F, 1F);
+        RenderUtil.draw2DRect(posX + padding, posY + height - padding - 3, (width - 2 * padding) * setting.getValue() / setting.getMax(), 2, 0.85F, 0.43F, 0F, 1F);
 
         if (this.dragging) {
             double wMin = this.posX + this.padding;

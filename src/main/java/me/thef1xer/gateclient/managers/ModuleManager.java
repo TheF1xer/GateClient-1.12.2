@@ -6,12 +6,10 @@ import me.thef1xer.gateclient.modules.combat.KillAura;
 import me.thef1xer.gateclient.modules.hud.ClickGuiModule;
 import me.thef1xer.gateclient.modules.hud.Coords;
 import me.thef1xer.gateclient.modules.hud.ModuleList;
-import com.thef1xer.gateclient.modules.movement.*;
 import me.thef1xer.gateclient.modules.player.AutoArmor;
 import me.thef1xer.gateclient.modules.combat.AutoTotem;
 import me.thef1xer.gateclient.modules.player.AutoDisconnect;
 import me.thef1xer.gateclient.modules.player.Freecam;
-import com.thef1xer.gateclient.modules.render.*;
 import me.thef1xer.gateclient.modules.movement.*;
 import me.thef1xer.gateclient.modules.render.*;
 

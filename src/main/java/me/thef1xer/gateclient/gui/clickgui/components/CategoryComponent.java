@@ -27,8 +27,8 @@ public class CategoryComponent extends ClickComponent {
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
-        RenderUtil.draw2DRect(this.posX, this.posY, this.posX + width, this.posY + height, 0.18F, 0.38F, 0.9F, 1F);
-        fontRenderer.drawString(this.displayName, this.posX + this.fontX, this.posY + this.padding, 0xFFFFFFFF, true);
+        RenderUtil.draw2DRect(posX, posY, width, height, 0.18F, 0.38F, 0.9F, 1F);
+        fontRenderer.drawString(displayName, posX + fontX, posY + padding, 0xFFFFFFFF, true);
         if (this.expanded) {
             for (ClickComponent module : this.children) {
                 module.drawComponent(mouseX, mouseY, partialTicks);

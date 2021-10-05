@@ -14,7 +14,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = '1.2'
-group = 'com.thef1xer.gateclient'
+group = 'me.thef1xer.gateclient'
 archivesBaseName = 'gateclient'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
@@ -48,7 +48,7 @@ jar {
     manifest {
         attributes([
                 'FMLCorePluginContainsFMLMod': 'true',
-                'FMLCorePlugin': 'com.thef1xer.gateclient.asm.GateCoreMod',
+                'FMLCorePlugin': 'me.thef1xer.gateclient.asm.GateCoreMod',
                 'ForceLoadAsMod': 'true',
                 "Specification-Title": "Gate Client",
                 "Specification-Vendor": "examplemodsareus",

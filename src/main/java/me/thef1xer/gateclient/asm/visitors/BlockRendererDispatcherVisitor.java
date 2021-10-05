@@ -39,7 +39,7 @@ public class BlockRendererDispatcherVisitor extends ClassVisitor {
         public void visitCode() {
             super.visitCode();
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESTATIC, "com/thef1xer/gateclient/util/EventFactory", "renderBlock", "(Lnet/minecraft/block/state/IBlockState;)Z", false);
+            mv.visitMethodInsn(INVOKESTATIC, "me/thef1xer/gateclient/util/EventFactory", "renderBlock", "(Lnet/minecraft/block/state/IBlockState;)Z", false);
             Label l1 = new Label();
             mv.visitJumpInsn(IFEQ, l1);
             Label l2 = new Label();
