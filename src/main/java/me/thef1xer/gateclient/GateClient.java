@@ -1,6 +1,6 @@
 package me.thef1xer.gateclient;
 
-import me.thef1xer.gateclient.gui.hud.HUD;
+import me.thef1xer.gateclient.managers.HUDManager;
 import me.thef1xer.gateclient.managers.*;
 import me.thef1xer.gateclient.util.Reference;
 import me.thef1xer.gateclient.handlers.EventHandler;
@@ -16,8 +16,8 @@ public class GateClient {
     public ConfigManager configManager;
     public PresetManager presetManager;
     public GuiManager guiManager;
+    public HUDManager hudManager;
 
-    public HUD hud;
     public EventHandler eventHandler;
 
     @Mod.Instance
@@ -34,21 +34,21 @@ public class GateClient {
         configManager = new ConfigManager();
         presetManager = new PresetManager();
         guiManager = new GuiManager();
+        hudManager = new HUDManager();
 
-        hud = new HUD();
         eventHandler = new EventHandler();
 
         MinecraftForge.EVENT_BUS.register(eventHandler);
-        MinecraftForge.EVENT_BUS.register(hud);
+        MinecraftForge.EVENT_BUS.register(hudManager);
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         moduleManager.init();
         commandManager.init();
-        hud.init();
         guiManager.init();
         configManager.init();
         presetManager.init();
+        hudManager.init();
     }
 }

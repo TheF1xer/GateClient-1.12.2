@@ -6,6 +6,7 @@ import me.thef1xer.gateclient.modules.combat.KillAura;
 import me.thef1xer.gateclient.modules.hud.ClickGuiModule;
 import me.thef1xer.gateclient.modules.hud.Coords;
 import me.thef1xer.gateclient.modules.hud.ModuleList;
+import me.thef1xer.gateclient.modules.hud.Watermark;
 import me.thef1xer.gateclient.modules.player.AutoArmor;
 import me.thef1xer.gateclient.modules.combat.AutoTotem;
 import me.thef1xer.gateclient.modules.player.AutoDisconnect;
@@ -28,6 +29,7 @@ public class ModuleManager {
         MODULE_LIST.add(ClickGuiModule.INSTANCE);
         MODULE_LIST.add(Coords.INSTANCE);
         MODULE_LIST.add(ModuleList.INSTANCE);
+        MODULE_LIST.add(Watermark.INSTANCE);
         //Movement
         MODULE_LIST.add(GuiMove.INSTANCE);
         MODULE_LIST.add(Jesus.INSTANCE);
