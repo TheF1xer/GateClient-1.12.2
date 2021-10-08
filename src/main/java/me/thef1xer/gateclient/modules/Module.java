@@ -19,11 +19,7 @@ public class Module {
     public final BooleanSetting drawOnHud = new BooleanSetting("Draw on Hud", "drawonhud", true);
 
     public Module(String name, String id, ModuleCategory category) {
-        this.name = name;
-        this.id = id;
-        this.moduleCategory = category;
-        this.keyBind = Keyboard.KEY_NONE;
-        this.addSettings(drawOnHud);
+        this(name, id, Keyboard.KEY_NONE, category);
     }
 
     public Module(String name, String id, int keyBind, ModuleCategory category) {
@@ -31,7 +27,6 @@ public class Module {
         this.id = id;
         this.keyBind = keyBind;
         this.moduleCategory = category;
-        this.keyBind = Keyboard.KEY_NONE;
         this.addSettings(drawOnHud);
     }
 

@@ -2,6 +2,7 @@ package me.thef1xer.gateclient.managers;
 
 import me.thef1xer.gateclient.modules.hud.Coords;
 import me.thef1xer.gateclient.modules.hud.ModuleList;
+import me.thef1xer.gateclient.modules.hud.Watermark;
 import me.thef1xer.gateclient.modules.render.NoOverlay;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -20,6 +21,10 @@ public class HUDManager {
 
             if (Coords.INSTANCE.isEnabled()) {
                 Coords.INSTANCE.drawCoords(event.getResolution());
+            }
+
+            if (Watermark.INSTANCE.isEnabled()) {
+                Watermark.INSTANCE.drawWatermark();
             }
         }
 

@@ -9,7 +9,7 @@ public class ClickGuiModule extends Module {
     public static final ClickGuiModule INSTANCE = new ClickGuiModule();
 
     public ClickGuiModule() {
-        super("Click GUI", "clickgui", Keyboard.KEY_RSHIFT, Module.ModuleCategory.HUD);
+        super("Click GUI", "clickgui", Keyboard.KEY_RSHIFT, ModuleCategory.HUD);
     }
 
     @Override

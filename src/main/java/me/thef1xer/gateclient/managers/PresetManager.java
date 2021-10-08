@@ -56,13 +56,15 @@ public class PresetManager {
     }
 
     public void loadActivePreset() {
-        System.out.println("Preset loaded");
-        if (!this.presetExists(this.getActivePreset())) {
-            this.setActivePreset(new File(DirectoryUtil.PRESET_FOLDER, "default.json"));
+        if (!presetExists(getActivePreset())) {
+            System.out.println("Preset not found");
+            setActivePreset(new File(DirectoryUtil.PRESET_FOLDER, "default.json"));
             GateClient.getGate().configManager.save();
-            if (!this.presetExists(this.getActivePreset())) {
-                this.setAutoSave(true);
-                this.saveActivePreset();
+
+            if (!presetExists(getActivePreset())) {
+                System.out.println("Default preset created");
+                setAutoSave(true);
+                saveActivePreset();
             }
         }
 
@@ -159,7 +161,8 @@ public class PresetManager {
             e.printStackTrace();
         }
 
-        this.saveActivePreset();
+        System.out.println("Preset loaded");
+        saveActivePreset();
     }
 
     public void saveActivePreset() {
@@ -237,7 +240,6 @@ public class PresetManager {
     }
 
     public void removeActivePreset() {
-        //TODO: TEST!!! Compile and test
         getActivePreset().delete();
         updatePresetList();
         if (PRESET_LIST.size() != 0) {
