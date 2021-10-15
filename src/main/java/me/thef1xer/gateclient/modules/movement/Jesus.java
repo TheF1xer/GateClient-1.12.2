@@ -16,7 +16,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Jesus extends Module {
-    //TODO: This module doesn't work on many servers, try to fix
 
     public static final Jesus INSTANCE = new Jesus();
 
@@ -50,6 +49,7 @@ public class Jesus extends Module {
         }
 
         if (mc.player.isInWater() || mc.player.isInLava()) {
+            //TODO fix weird NCP interaction when getting out of a liquid
             mc.player.motionY = 0.135D;
             return;
         }
