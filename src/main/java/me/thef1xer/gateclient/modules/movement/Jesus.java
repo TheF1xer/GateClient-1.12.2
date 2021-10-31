@@ -2,6 +2,7 @@ package me.thef1xer.gateclient.modules.movement;
 
 import me.thef1xer.gateclient.events.GetLiquidCollisionBoundingBoxEvent;
 import me.thef1xer.gateclient.events.PacketEvent;
+import me.thef1xer.gateclient.events.PlayerMoveEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import net.minecraft.block.Block;
@@ -44,15 +45,10 @@ public class Jesus extends Module {
             return;
         }
 
-        if (mc.player.isSneaking() || mc.player.fallDistance > 3F || mc.player.motionY > 0.1F) {
+        if (mc.player.isSneaking() || mc.player.fallDistance > 3F || isInLiquid() || mc.player.motionY >= 0.1f) {
             return;
         }
 
-        if (mc.player.isInWater() || mc.player.isInLava()) {
-            //TODO fix weird NCP interaction when getting out of a liquid
-            mc.player.motionY = 0.135D;
-            return;
-        }
         event.setCollisionBoundingBox(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D - offset.getValue(), 1.0D));
     }
 
@@ -60,6 +56,8 @@ public class Jesus extends Module {
     public void onPacket(PacketEvent event) {
         if (event.getPacket() instanceof CPacketPlayer.Position || event.getPacket() instanceof CPacketPlayer.PositionRotation) {
             if (isWaterWalking() && !mc.player.isSneaking()) {
+
+                //This keeps the player constantly moving up and down to bypass some anticheats
                 if (mc.player.ticksExisted % 2 == 0) {
                     EntityPlayerSP player = mc.player;
                     event.setPacket(new CPacketPlayer.PositionRotation(player.posX, player.posY + offset.getValue(),
@@ -69,9 +67,17 @@ public class Jesus extends Module {
         }
     }
 
+    @SubscribeEvent
+    public void onMove(PlayerMoveEvent event) {
+        //This gets the player out of the water
+        if (isInLiquid() && !mc.player.isSneaking()) {
+            event.y = 0.1D;
+        }
+    }
+
     private boolean isOverLiquid() {
         if (mc.player != null) {
-            AxisAlignedBB bb = mc.player.getEntityBoundingBox().offset(0, - offset.getValue(), 0);
+            AxisAlignedBB bb = mc.player.getEntityBoundingBox().offset(0, - 0.1D, 0);
 
             for (int x = MathHelper.floor(bb.minX); x < MathHelper.floor(bb.maxX) + 1; x++) {
                 for (int z = MathHelper.floor(bb.minZ); z < MathHelper.floor(bb.minZ) + 1; z++) {
@@ -89,8 +95,21 @@ public class Jesus extends Module {
     }
 
     private boolean isWaterWalking() {
-        return !mc.player.isInWater()
-                && !mc.player.isInLava()
+        return !isInLiquid()
                 && isOverLiquid();
+    }
+
+    private boolean isInLiquid() {
+        AxisAlignedBB bb = mc.player.getEntityBoundingBox().offset(0, offset.getValue(), 0);
+        for (int x = MathHelper.floor(bb.minX); x < MathHelper.ceil(bb.maxX); x++) {
+            for (int z = MathHelper.floor(bb.minZ); z < MathHelper.ceil(bb.minZ); z++) {
+                final Block block = mc.world.getBlockState(new BlockPos(x, bb.minY, z)).getBlock();
+
+                if (block instanceof BlockLiquid) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
