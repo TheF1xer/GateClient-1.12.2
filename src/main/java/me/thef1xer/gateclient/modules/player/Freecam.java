@@ -31,16 +31,16 @@ public class Freecam extends Module {
     }
 
     @Override
-    public void onEnabled() {
-        super.onEnabled();
+    public void onEnable() {
+        super.onEnable();
         MinecraftForge.EVENT_BUS.register(this);
         this.activeThisSession = true;
         Minecraft.getMinecraft().renderGlobal.loadRenderers();
     }
 
     @Override
-    public void onDisabled() {
-        super.onDisabled();
+    public void onDisable() {
+        super.onDisable();
 
         MinecraftForge.EVENT_BUS.unregister(this);
         if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().world.isRemote) {

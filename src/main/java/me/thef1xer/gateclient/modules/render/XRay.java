@@ -22,8 +22,8 @@ public class XRay extends Module {
     }
 
     @Override
-    public void onEnabled() {
-        super.onEnabled();
+    public void onEnable() {
+        super.onEnable();
         MinecraftForge.EVENT_BUS.register(this);
         Minecraft.getMinecraft().renderGlobal.loadRenderers();
         lastGamma = Minecraft.getMinecraft().gameSettings.gammaSetting;
@@ -31,8 +31,8 @@ public class XRay extends Module {
     }
 
     @Override
-    public void onDisabled() {
-        super.onDisabled();
+    public void onDisable() {
+        super.onDisable();
         MinecraftForge.EVENT_BUS.unregister(this);
         Minecraft.getMinecraft().renderGlobal.loadRenderers();
         if (!FullBright.INSTANCE.isEnabled()) {

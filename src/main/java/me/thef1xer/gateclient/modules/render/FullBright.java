@@ -17,15 +17,15 @@ public class FullBright extends Module {
     }
 
     @Override
-    public void onEnabled() {
-        super.onEnabled();
+    public void onEnable() {
+        super.onEnable();
         MinecraftForge.EVENT_BUS.register(this);
         lastGamma = Minecraft.getMinecraft().gameSettings.gammaSetting;
     }
 
     @Override
-    public void onDisabled() {
-        super.onDisabled();
+    public void onDisable() {
+        super.onDisable();
         MinecraftForge.EVENT_BUS.unregister(this);
         Minecraft.getMinecraft().gameSettings.gammaSetting = Math.min(lastGamma, 1F);
     }

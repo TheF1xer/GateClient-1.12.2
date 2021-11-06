@@ -30,12 +30,12 @@ public class Jesus extends Module {
     }
 
     @Override
-    public void onEnabled() {
+    public void onEnable() {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
-    public void onDisabled() {
+    public void onDisable() {
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 

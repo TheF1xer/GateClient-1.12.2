@@ -30,11 +30,11 @@ public class Module {
         this.addSettings(drawOnHud);
     }
 
-    public void onEnabled() {
+    public void onEnable() {
 
     }
 
-    public void onDisabled() {
+    public void onDisable() {
 
     }
 
@@ -53,10 +53,10 @@ public class Module {
     public void setEnabled(boolean set) {
         if (set) {
             this.enabled = true;
-            this.onEnabled();
+            this.onEnable();
         } else {
             this.enabled = false;
-            this.onDisabled();
+            this.onDisable();
         }
     }
 

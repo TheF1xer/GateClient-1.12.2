@@ -11,14 +11,14 @@ public class NoOverlay extends Module {
     }
 
     @Override
-    public void onEnabled() {
-        super.onEnabled();
+    public void onEnable() {
+        super.onEnable();
         GuiIngameForge.renderObjective = false;
     }
 
     @Override
-    public void onDisabled() {
-        super.onDisabled();
+    public void onDisable() {
+        super.onDisable();
         GuiIngameForge.renderObjective = true;
     }
 }

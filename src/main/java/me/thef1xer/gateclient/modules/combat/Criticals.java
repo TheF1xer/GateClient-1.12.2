@@ -17,14 +17,14 @@ public class Criticals extends Module {
     }
 
     @Override
-    public void onEnabled() {
-        super.onEnabled();
+    public void onEnable() {
+        super.onEnable();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
-    public void onDisabled() {
-        super.onDisabled();
+    public void onDisable() {
+        super.onDisable();
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 

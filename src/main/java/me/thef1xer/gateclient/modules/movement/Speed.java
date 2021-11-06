@@ -15,15 +15,15 @@ public class Speed extends Module {
     }
 
     @Override
-    public void onEnabled() {
+    public void onEnable() {
         MinecraftForge.EVENT_BUS.register(this);
-        super.onEnabled();
+        super.onEnable();
     }
 
     @Override
-    public void onDisabled() {
+    public void onDisable() {
         MinecraftForge.EVENT_BUS.unregister(this);
-        super.onDisabled();
+        super.onDisable();
     }
 
     //Priority must be HIGHEST because this must be the first speed change made
