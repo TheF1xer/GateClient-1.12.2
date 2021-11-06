@@ -31,6 +31,7 @@ public class ModuleManager {
         MODULE_LIST.add(ModuleList.INSTANCE);
         MODULE_LIST.add(Watermark.INSTANCE);
         //Movement
+        MODULE_LIST.add(Flight.INSTANCE);
         MODULE_LIST.add(GuiMove.INSTANCE);
         MODULE_LIST.add(Jesus.INSTANCE);
         MODULE_LIST.add(NoFall.INSTANCE);
