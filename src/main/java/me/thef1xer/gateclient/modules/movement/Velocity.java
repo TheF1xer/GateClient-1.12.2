@@ -1,6 +1,6 @@
 package me.thef1xer.gateclient.modules.movement;
 
-import me.thef1xer.gateclient.events.PacketEvent;
+import me.thef1xer.gateclient.events.ReceivePacketEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import net.minecraft.client.Minecraft;
@@ -34,7 +34,7 @@ public class Velocity extends Module {
     }
 
     @SubscribeEvent
-    public void onPacket(PacketEvent event) {
+    public void onReceivePacket(ReceivePacketEvent event) {
         //I could use access transformers but I don't really want to set them up
 
         if (Minecraft.getMinecraft().player == null) {

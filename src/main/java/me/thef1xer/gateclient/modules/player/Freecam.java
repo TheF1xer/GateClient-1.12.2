@@ -1,7 +1,7 @@
 package me.thef1xer.gateclient.modules.player;
 
 import me.thef1xer.gateclient.events.PlayerIsUserEvent;
-import me.thef1xer.gateclient.events.PacketEvent;
+import me.thef1xer.gateclient.events.SendPacketEvent;
 import me.thef1xer.gateclient.events.SetOpaqueCubeEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
@@ -101,7 +101,7 @@ public class Freecam extends Module {
     }
 
     @SubscribeEvent
-    public void onPacket(PacketEvent event) {
+    public void onSendPacket(SendPacketEvent event) {
         //If you hit yourself you will get disconnected, this prevents that
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity useEntity = (CPacketUseEntity) event.getPacket();

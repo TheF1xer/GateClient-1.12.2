@@ -31,16 +31,16 @@ public class ModuleList extends Module {
         int i = 0;
         for (Module module : this.modulesSorted) {
             if (module.isEnabled() && module.drawOnHud.getValue()) {
-                int color;
-                if (ModuleList.INSTANCE.color.getCurrentValue() == ModuleList.Color.RAINBOW) {
+                int hexColor;
+                if (color.getCurrentValue() == Color.RAINBOW) {
                     int[] rainbow = ColorUtil.getRainbow(5, 0.1F * i);
-                    color = ColorUtil.RGBtoHex(rainbow[0], rainbow[1], rainbow[2]);
-                } else if (ModuleList.INSTANCE.color.getCurrentValue() == ModuleList.Color.CATEGORY) {
-                    color = module.getModuleCategory().getColor();
+                    hexColor = ColorUtil.RGBtoHex(rainbow[0], rainbow[1], rainbow[2]);
+                } else if (color.getCurrentValue() == Color.CATEGORY) {
+                    hexColor = module.getModuleCategory().getColor();
                 } else {
-                    color = ColorUtil.RGBtoHex(ModuleList.INSTANCE.staticColor.getRed(), ModuleList.INSTANCE.staticColor.getGreen(), ModuleList.INSTANCE.staticColor.getBlue());
+                    hexColor = ColorUtil.RGBtoHex(staticColor.getRed(), staticColor.getGreen(), staticColor.getBlue());
                 }
-                fr.drawStringWithShadow(module.getName(), sr.getScaledWidth() - fr.getStringWidth(module.getName()) - 4, 4 + i * fr.FONT_HEIGHT, color);
+                fr.drawStringWithShadow(module.getName(), sr.getScaledWidth() - fr.getStringWidth(module.getName()) - 4, 4 + i * fr.FONT_HEIGHT, hexColor);
                 i++;
             }
         }

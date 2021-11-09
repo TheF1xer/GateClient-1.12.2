@@ -1,7 +1,7 @@
 package me.thef1xer.gateclient.modules.movement;
 
 import me.thef1xer.gateclient.events.GetLiquidCollisionBoundingBoxEvent;
-import me.thef1xer.gateclient.events.PacketEvent;
+import me.thef1xer.gateclient.events.SendPacketEvent;
 import me.thef1xer.gateclient.events.PlayerMoveEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
@@ -54,7 +54,7 @@ public class Jesus extends Module {
     }
 
     @SubscribeEvent
-    public void onPacket(PacketEvent event) {
+    public void onSendPacket(SendPacketEvent event) {
         if (event.getPacket() instanceof CPacketPlayer.Position || event.getPacket() instanceof CPacketPlayer.PositionRotation) {
             if (isWaterWalking() && !mc.player.isSneaking()) {
 

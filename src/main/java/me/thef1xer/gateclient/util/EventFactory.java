@@ -15,8 +15,13 @@ public class EventFactory {
         return MinecraftForge.EVENT_BUS.post(setOpaqueCube);
     }
 
-    public static Packet<?> onPacket(Packet<?> packet) {
-        PacketEvent event = new PacketEvent(packet);
+    public static Packet<?> onSendPacket(Packet<?> packet) {
+        SendPacketEvent event = new SendPacketEvent(packet);
+        return MinecraftForge.EVENT_BUS.post(event) ? null : event.getPacket();
+    }
+
+    public static Packet<?> onReceivePacket(Packet<?> packet) {
+        ReceivePacketEvent event = new ReceivePacketEvent(packet);
         return MinecraftForge.EVENT_BUS.post(event) ? null : event.getPacket();
     }
 

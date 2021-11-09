@@ -1,6 +1,6 @@
 package me.thef1xer.gateclient.modules.combat;
 
-import me.thef1xer.gateclient.events.PacketEvent;
+import me.thef1xer.gateclient.events.SendPacketEvent;
 import me.thef1xer.gateclient.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
@@ -29,7 +29,7 @@ public class Criticals extends Module {
     }
 
     @SubscribeEvent
-    public void onSendPacket(PacketEvent event) {
+    public void onSendPacket(SendPacketEvent event) {
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
             if (packet.getAction() == CPacketUseEntity.Action.ATTACK) {

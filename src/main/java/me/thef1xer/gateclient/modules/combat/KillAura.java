@@ -1,6 +1,6 @@
 package me.thef1xer.gateclient.modules.combat;
 
-import me.thef1xer.gateclient.events.PacketEvent;
+import me.thef1xer.gateclient.events.SendPacketEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.EnumSetting;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
@@ -86,7 +86,7 @@ public class KillAura extends Module {
     }
 
     @SubscribeEvent
-    public void onPacketEvent(PacketEvent event) {
+    public void onSendPacket(SendPacketEvent event) {
 
         //Select target if mode if Focus
         if (event.getPacket() instanceof CPacketUseEntity) {
