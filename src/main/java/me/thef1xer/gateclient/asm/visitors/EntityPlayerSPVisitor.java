@@ -16,12 +16,17 @@ public class EntityPlayerSPVisitor extends ClassVisitor {
     final String MOVE;
     final String MOVE_DESC;
 
+    final String ON_UPDATE_WALKING_PLAYER;
+    final String ON_UPDATE_WALKING_PLAYER_DESC;
+
     public EntityPlayerSPVisitor(ClassVisitor cv, boolean isObfuscated) {
         super(ASM5, cv);
         this.IS_USER = isObfuscated ? "cZ" : "isUser";
         this.IS_USER_DESC = "()Z";
         this.MOVE = isObfuscated ? "a" : "move";
         this.MOVE_DESC = isObfuscated ? "(Lvv;DDD)V" : "(Lnet/minecraft/entity/MoverType;DDD)V";
+        this.ON_UPDATE_WALKING_PLAYER = isObfuscated ? "N" : "onUpdateWalkingPlayer";
+        this.ON_UPDATE_WALKING_PLAYER_DESC = "()V";
     }
 
     @Override
@@ -33,6 +38,9 @@ public class EntityPlayerSPVisitor extends ClassVisitor {
         } else if (name.equals(MOVE) && desc.equals(MOVE_DESC)) {
             System.out.println("Method " + name + " transformed");
             mv = new MoveVisitor(mv);
+        } else if (name.equals(ON_UPDATE_WALKING_PLAYER) && desc.equals(ON_UPDATE_WALKING_PLAYER_DESC)) {
+            System.out.println("Method " + name + " transformed");
+            mv = new OnUpdateWalkingPlayer(mv);
         }
         return mv;
     }
@@ -83,6 +91,22 @@ public class EntityPlayerSPVisitor extends ClassVisitor {
             mv.visitFieldInsn(GETFIELD, "me/thef1xer/gateclient/events/PlayerMoveEvent", "z", "D");
             mv.visitVarInsn(DSTORE, 6);
             super.visitCode();
+        }
+    }
+
+    public static class OnUpdateWalkingPlayer extends MethodVisitor {
+        public OnUpdateWalkingPlayer(MethodVisitor mv) {
+            super(ASM5, mv);
+        }
+
+        @Override
+        public void visitCode() {
+            super.visitCode();
+            mv.visitMethodInsn(INVOKESTATIC, "me/thef1xer/gateclient/util/EventFactory", "onUpdateWalkingPlayer", "()Z", false);
+            Label l1 = new Label();
+            mv.visitJumpInsn(IFEQ, l1);
+            mv.visitInsn(RETURN);
+            mv.visitLabel(l1);
         }
     }
 }

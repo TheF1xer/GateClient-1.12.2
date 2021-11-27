@@ -3,6 +3,7 @@ package me.thef1xer.gateclient.modules.movement;
 import me.thef1xer.gateclient.events.GetLiquidCollisionBoundingBoxEvent;
 import me.thef1xer.gateclient.events.SendPacketEvent;
 import me.thef1xer.gateclient.events.PlayerMoveEvent;
+import me.thef1xer.gateclient.events.UpdateWalkingPlayerEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import net.minecraft.block.Block;
@@ -54,16 +55,15 @@ public class Jesus extends Module {
     }
 
     @SubscribeEvent
-    public void onSendPacket(SendPacketEvent event) {
-        if (event.getPacket() instanceof CPacketPlayer.Position || event.getPacket() instanceof CPacketPlayer.PositionRotation) {
-            if (isWaterWalking() && !mc.player.isSneaking()) {
+    public void onUndateWalking(UpdateWalkingPlayerEvent event) {
+        if (isWaterWalking() && !mc.player.isSneaking()) {
 
-                //This keeps the player constantly moving up and down to bypass some anticheats
-                if (mc.player.ticksExisted % 2 == 0) {
-                    EntityPlayerSP player = mc.player;
-                    event.setPacket(new CPacketPlayer.PositionRotation(player.posX, player.posY + offset.getValue(),
-                            player.posZ, player.rotationYaw, player.rotationPitch, player.onGround));
-                }
+            //This keeps the player constantly moving up and down to bypass some anticheats
+            if (mc.player.ticksExisted % 2 == 0) {
+                EntityPlayerSP player = mc.player;
+                mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(player.posX, player.posY + offset.getValue(),
+                        player.posZ, player.rotationYaw, player.rotationPitch, player.onGround));
+                event.setCanceled(true);
             }
         }
     }

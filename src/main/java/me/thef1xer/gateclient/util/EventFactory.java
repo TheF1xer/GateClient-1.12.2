@@ -50,4 +50,8 @@ public class EventFactory {
     public static boolean isUser() {
         return !MinecraftForge.EVENT_BUS.post(new PlayerIsUserEvent());
     }
+
+    public static boolean onUpdateWalkingPlayer() {
+        return MinecraftForge.EVENT_BUS.post(new UpdateWalkingPlayerEvent());
+    }
 }

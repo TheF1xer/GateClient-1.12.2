@@ -34,4 +34,47 @@ public class PlayerUtil {
 
         Minecraft.getMinecraft().playerController.updateController();
     }
+
+    public static double[] getPlayerMoveVec() {
+        float yaw = Minecraft.getMinecraft().player.rotationYaw;
+        float forward = Minecraft.getMinecraft().player.moveForward;
+        float strafe = Minecraft.getMinecraft().player.moveStrafing;
+
+        //If the player is not moving, there is no move vector
+        if (forward == 0 && strafe == 0) {
+            return new double[] {0, 0};
+        }
+
+        //Change yaw depending on the direction the playing is travelling
+        if (forward > 0) {
+
+            //Moving forward
+            if (strafe > 0) {
+                yaw = yaw - 45;
+            } else if (strafe < 0) {
+                yaw = yaw + 45;
+            }
+
+        } else if (forward < 0) {
+
+            //Moving backwards
+            yaw = yaw - 180;
+            if (strafe > 0) {
+                yaw = yaw + 45;
+            } else if (strafe < 0) {
+                yaw = yaw - 45;
+            }
+
+        } else {
+
+            //Not moving forward nor backwards
+            if (strafe > 0) {
+                yaw = yaw - 90;
+            } else if (strafe < 0) {
+                yaw = yaw + 90;
+            }
+        }
+
+        return new double[] {-Math.sin(Math.toRadians(yaw)), Math.cos(Math.toRadians(yaw))};
+    }
 }
