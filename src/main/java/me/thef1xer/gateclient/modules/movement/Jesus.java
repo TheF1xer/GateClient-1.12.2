@@ -50,7 +50,8 @@ public class Jesus extends Module {
             return;
         }
 
-        //Makes the liquid act as a solid block (my need testing in some edge cases)
+        //TODO: Fix bug that causes water to become solid when walking from the side
+        //Makes the liquid act as a solid block (might need testing in some edge cases)
         event.setCollisionBoundingBox(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D - offset.getValue(), 1.0D));
     }
 
