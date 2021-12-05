@@ -1,7 +1,6 @@
 package me.thef1xer.gateclient.modules.movement;
 
 import me.thef1xer.gateclient.events.GetLiquidCollisionBoundingBoxEvent;
-import me.thef1xer.gateclient.events.SendPacketEvent;
 import me.thef1xer.gateclient.events.PlayerMoveEvent;
 import me.thef1xer.gateclient.events.UpdateWalkingPlayerEvent;
 import me.thef1xer.gateclient.modules.Module;

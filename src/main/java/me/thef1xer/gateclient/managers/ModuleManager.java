@@ -48,6 +48,7 @@ public class ModuleManager {
         MODULE_LIST.add(EntityESP.INSTANCE);
         MODULE_LIST.add(StorageESP.INSTANCE);
         MODULE_LIST.add(FullBright.INSTANCE);
+        MODULE_LIST.add(Nametags.INSTANCE);
         MODULE_LIST.add(NoOverlay.INSTANCE);
         MODULE_LIST.add(Tracers.INSTANCE);
         MODULE_LIST.add(XRay.INSTANCE);

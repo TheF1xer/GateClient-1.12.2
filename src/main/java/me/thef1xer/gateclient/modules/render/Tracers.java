@@ -67,13 +67,16 @@ public class Tracers extends Module {
                 if (isTarget(entity) && entity != Minecraft.getMinecraft().getRenderViewEntity()) {
                     Tessellator tessellator = Tessellator.getInstance();
                     BufferBuilder buffer = tessellator.getBuffer();
-                    Vec3d entityPos = MathUtil.interpolateEntity(entity);
+                    double[] entityPos = MathUtil.interpolateEntity(entity);
 
                     buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
+
                     buffer.pos(playerVector.x, playerVector.y, playerVector.z)
                             .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, colorAlpha.getValue()).endVertex();
-                    buffer.pos(entityPos.x - rm.viewerPosX, entityPos.y - rm.viewerPosY, entityPos.z - rm.viewerPosZ)
+
+                    buffer.pos(entityPos[0] - rm.viewerPosX, entityPos[1] - rm.viewerPosY, entityPos[2] - rm.viewerPosZ)
                             .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, colorAlpha.getValue()).endVertex();
+
                     tessellator.draw();
                 }
             }
