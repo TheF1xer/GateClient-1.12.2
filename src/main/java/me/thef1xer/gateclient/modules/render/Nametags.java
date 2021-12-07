@@ -2,10 +2,12 @@ package me.thef1xer.gateclient.modules.render;
 
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.util.MathUtil;
+import me.thef1xer.gateclient.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -58,6 +60,8 @@ public class Nametags extends Module {
         FontRenderer fr = mc.fontRenderer;
         double dy = player.height + 0.5F - (player.isSneaking() ? 0.25F : 0.0F);
         boolean isThirdPersonFrontal = mc.gameSettings.thirdPersonView == 2;
+        String name = player.getDisplayNameString() + " " + TextFormatting.GREEN + (int) (player.getHealth() + player.getAbsorptionAmount());
+        int stringWidth = fr.getStringWidth(name);
 
         GlStateManager.pushMatrix();
 
@@ -66,11 +70,16 @@ public class Nametags extends Module {
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
+        //Transformations
         GlStateManager.translate(x, y + dy, z);
         GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate((isThirdPersonFrontal ? -1 : 1) * mc.getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
         GlStateManager.scale(-0.025F, -0.025F, 0.025F);
-        fr.drawString(player.getDisplayNameString(), - (fr.getStringWidth(player.getDisplayNameString()) / 2) ,0, 0xFFFFFFFF);
+
+        //Background Rectangle
+        RenderUtil.draw2DRect(- (float) (stringWidth / 2) - 1, - 1, stringWidth + 1, 10, 0, 0, 0, 0.5F);
+
+        fr.drawString(name, - (float) (stringWidth / 2),0, 0xFFFFFFFF, false);
 
         GlStateManager.disableBlend();
         GlStateManager.enableDepth();
