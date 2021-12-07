@@ -48,6 +48,8 @@ public class Nametags extends Module {
         }
 
         for (EntityPlayer player : mc.world.playerEntities) {
+            if (player == mc.getRenderViewEntity()) continue;
+
             double[] pos = MathUtil.interpolateEntity(player);
 
             drawNametag(player, pos[0] - mc.getRenderManager().viewerPosX,
@@ -60,8 +62,9 @@ public class Nametags extends Module {
         FontRenderer fr = mc.fontRenderer;
         double dy = player.height + 0.5F - (player.isSneaking() ? 0.25F : 0.0F);
         boolean isThirdPersonFrontal = mc.gameSettings.thirdPersonView == 2;
-        String name = player.getDisplayNameString() + " " + TextFormatting.GREEN + (int) (player.getHealth() + player.getAbsorptionAmount());
-        int stringWidth = fr.getStringWidth(name);
+
+        String nameAndHealth = player.getDisplayNameString() + " " + TextFormatting.GREEN + (int) (player.getHealth() + player.getAbsorptionAmount());
+        int stringWidth = fr.getStringWidth(nameAndHealth);
 
         GlStateManager.pushMatrix();
 
@@ -78,8 +81,11 @@ public class Nametags extends Module {
 
         //Background Rectangle
         RenderUtil.draw2DRect(- (float) (stringWidth / 2) - 1, - 1, stringWidth + 1, 10, 0, 0, 0, 0.5F);
+        GlStateManager.glLineWidth(1F);
+        RenderUtil.draw2DRectLines(- (float) (stringWidth / 2) - 1, - 1, stringWidth + 1, 10, 1, 1, 1, 1);
 
-        fr.drawString(name, - (float) (stringWidth / 2),0, 0xFFFFFFFF, false);
+        //Render Player Name and Health
+        fr.drawString(nameAndHealth, - (float) (stringWidth / 2),0, 0xFFFFFFFF, false);
 
         GlStateManager.disableBlend();
         GlStateManager.enableDepth();

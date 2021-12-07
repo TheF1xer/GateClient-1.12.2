@@ -19,6 +19,7 @@ public class Freecam extends Module {
     public final FloatSetting verticalSpeed = new FloatSetting("Vertical Speed", "verticalspeed", 3F);
     public final FloatSetting horizontalSpeed = new FloatSetting("Horizontal Speed", "horizontalspeed", 3F);
 
+    private Minecraft mc = Minecraft.getMinecraft();
     private int lastThirdPerson;
     public EntityOtherPlayerMP camera;
     private boolean activeThisSession = false;
@@ -35,7 +36,7 @@ public class Freecam extends Module {
         super.onEnable();
         MinecraftForge.EVENT_BUS.register(this);
         this.activeThisSession = true;
-        Minecraft.getMinecraft().renderGlobal.loadRenderers();
+        mc.renderGlobal.loadRenderers();
     }
 
     @Override
@@ -43,11 +44,11 @@ public class Freecam extends Module {
         super.onDisable();
 
         MinecraftForge.EVENT_BUS.unregister(this);
-        if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().world.isRemote) {
-            Minecraft.getMinecraft().setRenderViewEntity(Minecraft.getMinecraft().player);
+        if (mc.world != null && mc.world.isRemote) {
+            mc.setRenderViewEntity(mc.player);
             if (this.activeThisSession) {
-                Minecraft.getMinecraft().gameSettings.thirdPersonView = lastThirdPerson;
-                Minecraft.getMinecraft().world.removeEntity(camera);
+                mc.gameSettings.thirdPersonView = lastThirdPerson;
+                mc.world.removeEntity(camera);
             }
         }
         this.camera = null;
@@ -58,32 +59,32 @@ public class Freecam extends Module {
     public void onTick(TickEvent.ClientTickEvent event) {
         //TODO: Fix sneak and already existing movement inputs
 
-        if (Minecraft.getMinecraft().world == null || !Minecraft.getMinecraft().world.isRemote) {
+        if (mc.world == null || !mc.world.isRemote) {
             camera = null;
             return;
         }
 
         //We use a "camera" entity here so that it doesn't interact with Baritone
         if (camera == null) {
-            lastThirdPerson = Minecraft.getMinecraft().gameSettings.thirdPersonView;
+            lastThirdPerson = mc.gameSettings.thirdPersonView;
 
-            camera = new EntityOtherPlayerMP(Minecraft.getMinecraft().world, Minecraft.getMinecraft().getSession().getProfile());
-            Minecraft.getMinecraft().world.addEntityToWorld(333393333, camera);
-            camera.copyLocationAndAnglesFrom(Minecraft.getMinecraft().player);
-            Minecraft.getMinecraft().setRenderViewEntity(camera);
+            camera = new EntityOtherPlayerMP(mc.world, mc.getSession().getProfile());
+            mc.world.addEntityToWorld(333393333, camera);
+            camera.copyLocationAndAnglesFrom(mc.player);
+            mc.setRenderViewEntity(camera);
             camera.noClip = true;
         }
 
-        Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
-        camera.inventory = Minecraft.getMinecraft().player.inventory;
-        camera.setHealth(Minecraft.getMinecraft().player.getHealth());
+        mc.gameSettings.thirdPersonView = 0;
+        camera.inventory = mc.player.inventory;
+        camera.setHealth(mc.player.getHealth());
 
-        float forward = (Minecraft.getMinecraft().player.movementInput.forwardKeyDown ? horizontalSpeed.getValue() : 0) -
-                (Minecraft.getMinecraft().player.movementInput.backKeyDown ? horizontalSpeed.getValue() : 0);
-        float strafe = (Minecraft.getMinecraft().player.movementInput.leftKeyDown ? horizontalSpeed.getValue() : 0) -
-                (Minecraft.getMinecraft().player.movementInput.rightKeyDown ? horizontalSpeed.getValue() : 0);
-        float vertical = (Minecraft.getMinecraft().player.movementInput.jump ? verticalSpeed.getValue() : 0) -
-                (Minecraft.getMinecraft().player.movementInput.sneak ? verticalSpeed.getValue() : 0);
+        float forward = (mc.player.movementInput.forwardKeyDown ? horizontalSpeed.getValue() : 0) -
+                (mc.player.movementInput.backKeyDown ? horizontalSpeed.getValue() : 0);
+        float strafe = (mc.player.movementInput.leftKeyDown ? horizontalSpeed.getValue() : 0) -
+                (mc.player.movementInput.rightKeyDown ? horizontalSpeed.getValue() : 0);
+        float vertical = (mc.player.movementInput.jump ? verticalSpeed.getValue() : 0) -
+                (mc.player.movementInput.sneak ? verticalSpeed.getValue() : 0);
 
         Vec3d vector = new Vec3d(strafe, vertical, forward).rotateYaw((float) -Math.toRadians(camera.rotationYaw));
         camera.setPositionAndRotationDirect(camera.posX + vector.x, camera.posY + vector.y, camera.posZ + vector.z, camera.rotationYaw, camera.rotationPitch, 3, false);
@@ -105,7 +106,7 @@ public class Freecam extends Module {
         //If you hit yourself you will get disconnected, this prevents that
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity useEntity = (CPacketUseEntity) event.getPacket();
-            if (useEntity.getEntityFromWorld(Minecraft.getMinecraft().world) == Minecraft.getMinecraft().player) {
+            if (useEntity.getEntityFromWorld(mc.world) == mc.player) {
                 event.setCanceled(true);
             }
         }
