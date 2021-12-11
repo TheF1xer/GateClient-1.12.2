@@ -177,6 +177,7 @@ public class PresetComponent extends ClickComponent {
                 if (hoveredPreset != null) {
                     presetManager.setActivePreset(hoveredPreset);
                     presetManager.loadActivePreset();
+                    GateClient.getGate().configManager.save();
                     presetListExpanded = false;
                     return;
                 }

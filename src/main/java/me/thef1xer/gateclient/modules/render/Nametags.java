@@ -48,7 +48,7 @@ public class Nametags extends Module {
         }
 
         for (EntityPlayer player : mc.world.playerEntities) {
-            if (player == mc.getRenderViewEntity()) continue;
+            if (player == mc.getRenderViewEntity() || !player.isEntityAlive()) continue;
 
             double[] pos = MathUtil.interpolateEntity(player);
 
@@ -64,12 +64,18 @@ public class Nametags extends Module {
         double distanceAbovePlayer = player.height + 0.5F - (player.isSneaking() ? 0.25F : 0.0F);
         boolean isThirdPersonFrontal = mc.gameSettings.thirdPersonView == 2;
 
+        //Build the Ping - Name - Health String
+        int ping = 0;
+        if (mc.getConnection().getPlayerInfo(player.getUniqueID()) != null) {
+            ping = mc.getConnection().getPlayerInfo(player.getUniqueID()).getResponseTime();
+        }
 
-        String nameHealthPing = TextFormatting.GRAY.toString() + mc.getConnection().getPlayerInfo(player.getUniqueID()).getResponseTime() + "ms " +
+        String nameHealthPing = TextFormatting.GRAY.toString() + ping + "ms " +
                 TextFormatting.RESET.toString() + player.getDisplayNameString() + " " +
                 TextFormatting.GREEN.toString() + (int) (player.getHealth() + player.getAbsorptionAmount());
 
         int stringWidth = fr.getStringWidth(nameHealthPing);
+
 
         //Drawing
         GlStateManager.pushMatrix();
@@ -90,10 +96,10 @@ public class Nametags extends Module {
             GlStateManager.scale(-0.025F, -0.025F, 0.025F);
         }
 
-        //Background Rectangle
+        //Draw Background Rectangle
         RenderUtil.draw2DRect(- (float) (stringWidth / 2) - 2, - 2, stringWidth + 3, 12, 0, 0, 0, 0.5F);
 
-        //Draw Player Name and Health
+        //Draw Player Name Health and Ping
         fr.drawString(nameHealthPing, - (float) (stringWidth / 2),0, 0xFFFFFFFF, false);
 
         GlStateManager.disableBlend();

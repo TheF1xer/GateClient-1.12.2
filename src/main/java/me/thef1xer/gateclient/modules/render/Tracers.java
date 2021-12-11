@@ -56,34 +56,30 @@ public class Tracers extends Module {
             Vec3d playerVector = ActiveRenderInfo.getCameraPosition();
 
             GlStateManager.pushMatrix();
-            GlStateManager.clear(256);
             GlStateManager.disableTexture2D();
-            GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
+            GlStateManager.disableLighting();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.disableDepth();
             GlStateManager.glLineWidth(0.5F);
+            GlStateManager.color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, colorAlpha.getValue());
+
             for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
                 if (isTarget(entity) && entity != Minecraft.getMinecraft().getRenderViewEntity()) {
                     Tessellator tessellator = Tessellator.getInstance();
                     BufferBuilder buffer = tessellator.getBuffer();
                     double[] entityPos = MathUtil.interpolateEntity(entity);
 
-                    buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
-
-                    buffer.pos(playerVector.x, playerVector.y, playerVector.z)
-                            .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, colorAlpha.getValue()).endVertex();
-
-                    buffer.pos(entityPos[0] - rm.viewerPosX, entityPos[1] - rm.viewerPosY, entityPos[2] - rm.viewerPosZ)
-                            .color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, colorAlpha.getValue()).endVertex();
-
+                    buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+                    buffer.pos(playerVector.x, playerVector.y, playerVector.z).endVertex();
+                    buffer.pos(entityPos[0] - rm.viewerPosX, entityPos[1] - rm.viewerPosY, entityPos[2] - rm.viewerPosZ).endVertex();
                     tessellator.draw();
                 }
             }
             GlStateManager.enableDepth();
+            GlStateManager.enableLighting();
             GlStateManager.disableBlend();
             GlStateManager.enableTexture2D();
-            GlStateManager.enableAlpha();
             GlStateManager.popMatrix();
         }
     }
