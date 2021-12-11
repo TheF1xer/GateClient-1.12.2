@@ -60,12 +60,18 @@ public class Nametags extends Module {
 
     private void drawNametag(EntityPlayer player, double x, double y, double z) {
         FontRenderer fr = mc.fontRenderer;
-        double dy = player.height + 0.5F - (player.isSneaking() ? 0.25F : 0.0F);
+        double distance = mc.getRenderViewEntity().getDistance(player);
+        double distanceAbovePlayer = player.height + 0.5F - (player.isSneaking() ? 0.25F : 0.0F);
         boolean isThirdPersonFrontal = mc.gameSettings.thirdPersonView == 2;
 
-        String nameAndHealth = player.getDisplayNameString() + " " + TextFormatting.GREEN + (int) (player.getHealth() + player.getAbsorptionAmount());
-        int stringWidth = fr.getStringWidth(nameAndHealth);
 
+        String nameHealthPing = TextFormatting.GRAY.toString() + mc.getConnection().getPlayerInfo(player.getUniqueID()).getResponseTime() + "ms " +
+                TextFormatting.RESET.toString() + player.getDisplayNameString() + " " +
+                TextFormatting.GREEN.toString() + (int) (player.getHealth() + player.getAbsorptionAmount());
+
+        int stringWidth = fr.getStringWidth(nameHealthPing);
+
+        //Drawing
         GlStateManager.pushMatrix();
 
         GlStateManager.disableDepth();
@@ -74,18 +80,21 @@ public class Nametags extends Module {
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
         //Transformations
-        GlStateManager.translate(x, y + dy, z);
+        GlStateManager.translate(x, y + distanceAbovePlayer, z);
         GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate((isThirdPersonFrontal ? -1 : 1) * mc.getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
-        GlStateManager.scale(-0.025F, -0.025F, 0.025F);
+
+        if (distance > 10) {
+            GlStateManager.scale(-0.025F * distance / 10, -0.025F * distance / 10, 0.025F * distance / 10);
+        } else {
+            GlStateManager.scale(-0.025F, -0.025F, 0.025F);
+        }
 
         //Background Rectangle
-        RenderUtil.draw2DRect(- (float) (stringWidth / 2) - 1, - 1, stringWidth + 1, 10, 0, 0, 0, 0.5F);
-        GlStateManager.glLineWidth(1F);
-        RenderUtil.draw2DRectLines(- (float) (stringWidth / 2) - 1, - 1, stringWidth + 1, 10, 1, 1, 1, 1);
+        RenderUtil.draw2DRect(- (float) (stringWidth / 2) - 2, - 2, stringWidth + 3, 12, 0, 0, 0, 0.5F);
 
-        //Render Player Name and Health
-        fr.drawString(nameAndHealth, - (float) (stringWidth / 2),0, 0xFFFFFFFF, false);
+        //Draw Player Name and Health
+        fr.drawString(nameHealthPing, - (float) (stringWidth / 2),0, 0xFFFFFFFF, false);
 
         GlStateManager.disableBlend();
         GlStateManager.enableDepth();
