@@ -21,6 +21,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 
 
 minecraft {
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     mappings channel: 'snapshot', version: '20171003-1.12'
     runs {
         client {
@@ -41,7 +42,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
 }
 
 jar {
