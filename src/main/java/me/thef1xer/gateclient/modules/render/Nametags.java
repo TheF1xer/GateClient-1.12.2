@@ -102,6 +102,8 @@ public class Nametags extends Module {
         //Draw Player Name Health and Ping
         fr.drawString(nameHealthPing, - (float) (stringWidth / 2),0, 0xFFFFFFFF, false);
 
+        //TODO: Add armor and items in hands
+
         GlStateManager.disableBlend();
         GlStateManager.enableDepth();
         GlStateManager.enableLighting();

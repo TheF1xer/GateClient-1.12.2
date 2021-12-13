@@ -27,8 +27,11 @@ public class Watermark extends Module {
         int nameEnd = fr.drawStringWithShadow(Reference.NAME, 0, 0, rainbowHex);
 
         GlStateManager.scale((float) 2/3, (float) 2/3, 1);
-        GlStateManager.translate(1.5 * nameEnd, 4, 0);
-        fr.drawStringWithShadow(Reference.VERSION, 0, 0, 0x909090);
+        GlStateManager.translate(0, 4, 0);
+        fr.drawStringWithShadow(Reference.VERSION, 1.5F * nameEnd, 0, 0x909090);
+
+        GlStateManager.translate(0, 10, 0);
+        fr.drawStringWithShadow(Minecraft.getMinecraft().player.getDisplayNameString(), 0, 0, 0x909090);
         GlStateManager.popMatrix();
     }
 }
