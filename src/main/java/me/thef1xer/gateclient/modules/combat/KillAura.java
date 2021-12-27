@@ -122,6 +122,7 @@ public class KillAura extends Module {
     }
 
     public boolean isTarget(Entity entity) {
+        //TODO: Settings to select mobs
         return entity != Minecraft.getMinecraft().player &&
                 entity != Minecraft.getMinecraft().getRenderViewEntity() &&
                 Minecraft.getMinecraft().player.getDistanceSq(entity) <= Math.pow(reach.getValue(), 2) &&

@@ -61,6 +61,7 @@ public class Freecam extends Module {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         //TODO: Try to fix weird hand movement that sometimes happens
+        //TODO: Sneaking while on freecam still affects the player
 
         if (mc.world == null || !mc.world.isRemote) {
             camera = null;
