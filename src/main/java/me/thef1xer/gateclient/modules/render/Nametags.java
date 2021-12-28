@@ -83,8 +83,8 @@ public class Nametags extends Module {
         //Drawing
         GlStateManager.pushMatrix();
 
+        GlStateManager.disableAlpha();
         GlStateManager.disableDepth();
-        GlStateManager.disableLighting();
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
@@ -138,7 +138,7 @@ public class Nametags extends Module {
 
         GlStateManager.disableBlend();
         GlStateManager.enableDepth();
-        GlStateManager.enableLighting();
+        GlStateManager.enableAlpha();
 
         GlStateManager.popMatrix();
     }

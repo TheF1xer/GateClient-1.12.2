@@ -46,7 +46,6 @@ public class StorageESP extends Module {
 
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent event) {
-        //TODO: Fix weird interaction with Tracers
         RenderManager rm = Minecraft.getMinecraft().getRenderManager();
 
         GlStateManager.pushMatrix();

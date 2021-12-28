@@ -62,6 +62,7 @@ public class Freecam extends Module {
     public void onTick(TickEvent.ClientTickEvent event) {
         //TODO: Try to fix weird hand movement that sometimes happens
         //TODO: Sneaking while on freecam still affects the player
+        //TODO: This still doesn't work with baritone xd
 
         if (mc.world == null || !mc.world.isRemote) {
             camera = null;
