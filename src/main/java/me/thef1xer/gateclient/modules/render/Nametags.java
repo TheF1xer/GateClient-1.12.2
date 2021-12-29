@@ -129,7 +129,7 @@ public class Nametags extends Module {
 
         //Off Hand
         ItemStack offHand = mc.player.getHeldItemOffhand();
-        if (!mainHand.isEmpty()) {
+        if (!offHand.isEmpty()) {
             renderItem(offHand, 35, -18);
         }
 
