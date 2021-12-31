@@ -61,7 +61,6 @@ public class Freecam extends Module {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         //TODO: Try to fix weird hand movement that sometimes happens
-        //TODO: Sneaking while on freecam still affects the player
         //TODO: This still doesn't work with baritone xd
 
         if (mc.world == null || !mc.world.isRemote) {
@@ -109,6 +108,7 @@ public class Freecam extends Module {
             mc.player.moveStrafing = 0;
             mc.player.moveForward = 0;
             mc.player.setJumping(false);
+            mc.player.movementInput.sneak = false;
         }
     }
 
