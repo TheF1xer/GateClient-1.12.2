@@ -2,20 +2,21 @@ package me.thef1xer.gateclient.modules.combat;
 
 import me.thef1xer.gateclient.events.SendPacketEvent;
 import me.thef1xer.gateclient.modules.Module;
+import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.settings.impl.EnumSetting;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KillAura extends Module {
     public static final KillAura INSTANCE = new KillAura();
@@ -23,13 +24,17 @@ public class KillAura extends Module {
     public final EnumSetting priority = new EnumSetting("Priority", "priority", Priority.values(), Priority.CLOSEST);
     public final FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0F, 6F);
     public final FloatSetting delay = new FloatSetting("Added Delay" , "delay", 0F);
+    public final BooleanSetting players = new BooleanSetting("Players", "players", true);
+    public final BooleanSetting monsters = new BooleanSetting("Monsters", "monsters", true);
+    public final BooleanSetting passives = new BooleanSetting("Passives", "passives", false);
 
     private Entity target;
     private Entity focusTarget;
+    private final Minecraft mc = Minecraft.getMinecraft();
 
     public KillAura() {
         super("Kill Aura", "killaura", Module.ModuleCategory.COMBAT);
-        this.addSettings(priority, reach, delay);
+        this.addSettings(priority, reach, delay, players, monsters, passives);
     }
 
     @Override
@@ -45,29 +50,28 @@ public class KillAura extends Module {
     }
 
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
     public void onTick(TickEvent.ClientTickEvent event) {
         target = null;
-        if (Minecraft.getMinecraft().world == null || !Minecraft.getMinecraft().world.isRemote) {
+        if (mc.world == null || !mc.world.isRemote) {
             return;
         }
 
         //Select target depending on the mode
         if (priority.getCurrentValue() == Priority.CLOSEST) {
-            for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
-                if (isTarget(entity)) {
+            for (Entity entity : mc.world.loadedEntityList) {
+                if (isValidTarget(entity)) {
                     if (target == null) {
                         target = entity;
-                    } else if (Minecraft.getMinecraft().player.getDistanceSq(entity) < Minecraft.getMinecraft().player.getDistanceSq(target)) {
+                    } else if (mc.player.getDistanceSq(entity) < mc.player.getDistanceSq(target)) {
                         target = entity;
                     }
                 }
             }
         } else if (priority.getCurrentValue() == Priority.FOCUS) {
             if (focusTarget != null) {
-                for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
+                for (Entity entity : mc.world.loadedEntityList) {
                     if (entity == focusTarget) {
-                        if (isTarget(entity)) {
+                        if (isValidTarget(entity)) {
                             target = entity;
                         }
                     }
@@ -77,10 +81,10 @@ public class KillAura extends Module {
 
         //Attack the target
         if (target != null) {
-            if (Minecraft.getMinecraft().player.getCooledAttackStrength(-delay.getValue()) == 1.0F) {
-                Minecraft.getMinecraft().player.connection.sendPacket(new CPacketUseEntity(target));
-                Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
-                Minecraft.getMinecraft().player.resetCooldown();
+            if (mc.player.getCooledAttackStrength(-delay.getValue()) == 1.0F) {
+                mc.player.connection.sendPacket(new CPacketUseEntity(target));
+                mc.player.swingArm(EnumHand.MAIN_HAND);
+                mc.player.resetCooldown();
             }
         }
     }
@@ -92,16 +96,16 @@ public class KillAura extends Module {
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
             if (packet.getAction() == CPacketUseEntity.Action.ATTACK) {
-                this.focusTarget = packet.getEntityFromWorld(Minecraft.getMinecraft().world);
+                this.focusTarget = packet.getEntityFromWorld(mc.world);
             }
         }
 
         //Send Rotation
         if (target != null) {
             if (event.getPacket() instanceof CPacketPlayer.PositionRotation || event.getPacket() instanceof CPacketPlayer.Rotation) {
-                double deltaX = target.posX - Minecraft.getMinecraft().player.posX;
-                double deltaY = target.posY + target.height/2 - Minecraft.getMinecraft().player.posY - Minecraft.getMinecraft().player.getEyeHeight();
-                double deltaZ = target.posZ - Minecraft.getMinecraft().player.posZ;
+                double deltaX = target.posX - mc.player.posX;
+                double deltaY = target.posY + target.height/2 - mc.player.posY - mc.player.getEyeHeight();
+                double deltaZ = target.posZ - mc.player.posZ;
                 double deltaGround = Math.sqrt(deltaX*deltaX + deltaZ*deltaZ);
 
                 float pitch = (float) - Math.toDegrees(Math.atan(deltaY/deltaGround));
@@ -115,19 +119,36 @@ public class KillAura extends Module {
                         yaw = yaw + 180F;
                     }
                 }
-                EntityPlayerSP player = Minecraft.getMinecraft().player;
+                EntityPlayerSP player = mc.player;
                 event.setPacket(new CPacketPlayer.PositionRotation(player.posX, player.posY, player.posZ, yaw, pitch, player.onGround));
             }
         }
     }
 
-    public boolean isTarget(Entity entity) {
-        //TODO: Settings to select mobs
-        return entity != Minecraft.getMinecraft().player &&
-                entity != Minecraft.getMinecraft().getRenderViewEntity() &&
-                Minecraft.getMinecraft().player.getDistanceSq(entity) <= Math.pow(reach.getValue(), 2) &&
-                entity instanceof EntityLivingBase &&
-                ((EntityLivingBase) entity).getHealth() > 0.0F;
+    public boolean isValidTarget(Entity entity) {
+        if (entity == mc.player || entity == mc.getRenderViewEntity()) {
+            return false;
+        }
+
+        if (mc.player.getDistanceSq(entity) <= Math.pow(reach.getValue(), 2)) {
+
+            if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() > 0.0F) {
+
+                if (entity instanceof EntityPlayer) {
+                    return players.getValue();
+                }
+
+                if (entity.isCreatureType(EnumCreatureType.MONSTER, false)) {
+                    return monsters.getValue();
+                }
+
+                return passives.getValue();
+
+            }
+
+        }
+
+        return false;
     }
 
     public enum Priority {
