@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "me.thef1xer.gateclient.mixin.impl",
+  "mixins": [],
+  "refmap": "mixins.gateclient.refmap.json"
+
+}

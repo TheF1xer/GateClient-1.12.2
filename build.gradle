@@ -1,15 +1,18 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url 'https://repo.spongepowered.org/maven' }
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:5.1+'
+        classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
@@ -41,15 +44,42 @@ minecraft {
     }
 }
 
+mixin {
+    // MixinGradle Settings
+    add sourceSets.main, 'mixins.gateclient.refmap.json'
+    config 'mixins.gateclient.json'
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spongepowered.org/maven' }
+}
+
+configurations {
+    //Trick to shade dependencies that I copied from cosmos client
+    embed
+    implementation.extendsFrom embed
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
+    //Can't change the mixin version, it won't compile
+    //I don't know enough about gradle to fix it so it will stay like this
+    embed ('org.spongepowered:mixin:0.8.5-SNAPSHOT') {
+        exclude module: 'launchwrapper'
+        exclude module: 'guava'
+        exclude module: 'gson'
+        exclude module: 'commons-io'
+    }
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 jar {
     manifest {
         attributes([
                 'FMLCorePluginContainsFMLMod': 'true',
-                'FMLCorePlugin': 'me.thef1xer.gateclient.asm.GateCoreMod',
+                'FMLCorePlugin': 'me.thef1xer.gateclient.mixin.MixinLoader',
+                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
                 'ForceLoadAsMod': 'true',
                 "Specification-Title": "Gate Client",
                 "Specification-Vendor": "examplemodsareus",
@@ -59,6 +89,10 @@ jar {
                 "Implementation-Vendor" :"examplemodsareus",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
+    }
+
+    from {
+        configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
