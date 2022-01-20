@@ -59,7 +59,6 @@ public class Tracers extends Module {
             GlStateManager.pushMatrix();
             GlStateManager.disableTexture2D();
             GlStateManager.enableBlend();
-            GlStateManager.disableLighting();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.disableDepth();
             GlStateManager.glLineWidth(0.5F);
@@ -78,7 +77,6 @@ public class Tracers extends Module {
                 }
             }
             GlStateManager.enableDepth();
-            GlStateManager.enableLighting();
             GlStateManager.disableBlend();
             GlStateManager.enableTexture2D();
             GlStateManager.popMatrix();
