@@ -1,7 +1,7 @@
 package me.thef1xer.gateclient.modules.render;
 
 import me.thef1xer.gateclient.events.GetAmbientOcclusionLightValueEvent;
-import me.thef1xer.gateclient.events.RenderModelEvent;
+import me.thef1xer.gateclient.events.RenderBlockEvent;
 import me.thef1xer.gateclient.events.SetOpaqueCubeEvent;
 import me.thef1xer.gateclient.events.ShouldSideBeRenderedEvent;
 import me.thef1xer.gateclient.modules.Module;
@@ -41,7 +41,7 @@ public class XRay extends Module {
     }
 
     @SubscribeEvent
-    public void onRenderModel(RenderModelEvent event) {
+    public void onRenderModel(RenderBlockEvent event) {
         if (!isXrayBlock(event.getState().getBlock())) {
             event.setCanceled(true);
         }

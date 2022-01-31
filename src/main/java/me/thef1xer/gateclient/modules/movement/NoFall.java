@@ -30,9 +30,9 @@ public class NoFall extends Module {
     @SubscribeEvent
     public void onSendPacket(SendPacketEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
-        if (event.getPacket() instanceof CPacketPlayer && !((CPacketPlayer) event.getPacket()).isOnGround() && mc.player.fallDistance > 3) {
-            EntityPlayerSP player = Minecraft.getMinecraft().player;
-            event.setPacket(new CPacketPlayer.PositionRotation(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch, true));
+        if (event.getPacket() instanceof CPacketPlayer && mc.player.fallDistance > 3) {
+            CPacketPlayer packet = (CPacketPlayer) event.getPacket();
+            packet.onGround = true;
         }
     }
 }

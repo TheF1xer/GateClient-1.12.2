@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 
 @Cancelable
 public class ReceivePacketEvent extends Event {
-    private Packet<?> packet;
+    private final Packet<?> packet;
 
     public ReceivePacketEvent(Packet<?> packet) {
         this.packet = packet;
@@ -14,9 +14,5 @@ public class ReceivePacketEvent extends Event {
 
     public Packet<?> getPacket() {
         return packet;
-    }
-
-    public void setPacket(Packet<?> packet) {
-        this.packet = packet;
     }
 }

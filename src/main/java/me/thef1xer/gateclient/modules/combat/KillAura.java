@@ -102,7 +102,9 @@ public class KillAura extends Module {
 
         //Send Rotation
         if (target != null) {
-            if (event.getPacket() instanceof CPacketPlayer.PositionRotation || event.getPacket() instanceof CPacketPlayer.Rotation) {
+            if (event.getPacket() instanceof CPacketPlayer) {
+                CPacketPlayer packet = (CPacketPlayer) event.getPacket();
+
                 double deltaX = target.posX - mc.player.posX;
                 double deltaY = target.posY + target.height/2 - mc.player.posY - mc.player.getEyeHeight();
                 double deltaZ = target.posZ - mc.player.posZ;
@@ -119,8 +121,8 @@ public class KillAura extends Module {
                         yaw = yaw + 180F;
                     }
                 }
-                EntityPlayerSP player = mc.player;
-                event.setPacket(new CPacketPlayer.PositionRotation(player.posX, player.posY, player.posZ, yaw, pitch, player.onGround));
+                packet.yaw = yaw;
+                packet.pitch = pitch;
             }
         }
     }

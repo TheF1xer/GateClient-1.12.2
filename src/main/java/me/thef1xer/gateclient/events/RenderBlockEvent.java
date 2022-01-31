@@ -5,10 +5,10 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 @Cancelable
-public class RenderModelEvent extends Event {
+public class RenderBlockEvent extends Event {
     private final IBlockState state;
 
-    public RenderModelEvent(IBlockState state) {
+    public RenderBlockEvent(IBlockState state) {
         this.state = state;
     }
 
