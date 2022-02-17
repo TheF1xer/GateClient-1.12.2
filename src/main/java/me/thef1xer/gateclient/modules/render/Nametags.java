@@ -113,22 +113,22 @@ public class Nametags extends Module {
         RenderHelper.enableGUIStandardItemLighting();
 
         //Main Hand
-        ItemStack mainHand = mc.player.getHeldItemMainhand();
+        ItemStack mainHand = player.getHeldItemMainhand();
         if (!mainHand.isEmpty()) {
             renderItem(mainHand, -51, -18);
         }
 
         //Armor
         int itemPosX = 19;
-        for (ItemStack armorStack : mc.player.inventory.armorInventory) {
+        for (ItemStack armorStack : player.inventory.armorInventory) {
             if (!armorStack.isEmpty()) {
                 renderItem(armorStack, itemPosX, -18);
             }
             itemPosX -= 18;
         }
 
-        //Off Hand
-        ItemStack offHand = mc.player.getHeldItemOffhand();
+        //Offhand
+        ItemStack offHand = player.getHeldItemOffhand();
         if (!offHand.isEmpty()) {
             renderItem(offHand, 35, -18);
         }
