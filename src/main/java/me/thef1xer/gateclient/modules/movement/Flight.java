@@ -49,7 +49,7 @@ public class Flight extends Module {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPlayerMove(PlayerMoveEvent event) {
         if (mode.getCurrentValue() == Mode.PACKET) {
-            //Cancel the movement, it will be calculated later
+            // Cancel the movement, it will be calculated later
             event.x = 0;
             event.y = 0;
             event.z = 0;
@@ -61,7 +61,7 @@ public class Flight extends Module {
         if (mode.getCurrentValue() == Mode.PACKET) {
             double[] moveVec = PlayerUtil.getPlayerMoveVec();
 
-            //Calculate the movement using the Movement Vector
+            // Calculate the movement using the Movement Vector
             double speedX = moveVec[0] * 0.2D;
             double speedZ = moveVec[1] * 0.2D;
             double speedY = 0;
@@ -72,7 +72,7 @@ public class Flight extends Module {
                 speedY = -0.2D;
             }
 
-            //Set new position before sending the packet
+            // Set new position before sending the packet
             mc.player.setPositionAndRotation(mc.player.posX + speedX,
                     mc.player.posY + speedY,
                     mc.player.posZ + speedZ,

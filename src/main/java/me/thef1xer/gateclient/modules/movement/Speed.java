@@ -29,17 +29,17 @@ public class Speed extends Module {
         super.onDisable();
     }
 
-    //Priority must be HIGHEST because this must be the first speed change made
+    // Priority must be HIGHEST because this must be the first speed change made
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onMove(PlayerMoveEvent event) {
-        //Max Velocity = 0.2863436192274094047655691820943506607929515418502202643171
-        //Just Strafe Mode available
+        // Max Velocity = 0.2863436192274094047655691820943506607929515418502202643171
+        // Just Strafe Mode available
 
         if (mc.player.isSneaking() || mc.player.isInWater() || mc.player.isInLava() || mc.player.isOnLadder() || mc.player.isElytraFlying() || mc.player.capabilities.isFlying) {
             return;
         }
 
-        //Max speed calculated with the source code (rounded up)
+        // Max speed calculated with the source code (rounded up)
         float playerSpeed = 0.28634362F;
 
         double[] moveVec = PlayerUtil.getPlayerMoveVec();

@@ -67,7 +67,7 @@ public class Nametags extends Module {
         double distanceAbovePlayer = player.height + 0.5F - (player.isSneaking() ? 0.25F : 0.0F);
         boolean isThirdPersonFrontal = mc.gameSettings.thirdPersonView == 2;
 
-        //Build the Ping - Name - Health String
+        // Build the Ping - Name - Health String
         int ping = 0;
         if (mc.getConnection().getPlayerInfo(player.getUniqueID()) != null) {
             ping = mc.getConnection().getPlayerInfo(player.getUniqueID()).getResponseTime();
@@ -80,7 +80,7 @@ public class Nametags extends Module {
         int stringWidth = fr.getStringWidth(nameHealthPing);
 
 
-        //Drawing
+        // Drawing
         GlStateManager.pushMatrix();
 
         GlStateManager.disableAlpha();
@@ -88,37 +88,37 @@ public class Nametags extends Module {
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
-        //Transformations
+        // Transformations
         GlStateManager.translate(x, y + distanceAbovePlayer, z);
         GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate((isThirdPersonFrontal ? -1 : 1) * mc.getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
 
-        //Scale the name if distance of the entity to the player is more than 10 blocks
+        // Scale the name if distance of the entity to the player is more than 10 blocks
         if (distance > 10) {
             GlStateManager.scale(-0.025F * distance / 10, -0.025F * distance / 10, 0.025F * distance / 10);
         } else {
             GlStateManager.scale(-0.025F, -0.025F, 0.025F);
         }
 
-        //Draw Background Rectangle
+        // Draw Background Rectangle
         RenderUtil.draw2DRect(- (float) (stringWidth / 2) - 2, - 2, stringWidth + 3, 12, 0, 0, 0, 0.5F);
 
-        //Draw Player Name Health and Ping
+        // Draw Player Name Health and Ping
         fr.drawString(nameHealthPing, - (float) (stringWidth / 2),0, 0xFFFFFFFF, false);
 
-        //Draw armor and hands
+        // Draw armor and hands
         GlStateManager.pushMatrix();
         //Weird fix to a rotation bug that was happening
         GlStateManager.scale(1, 1, 0.001F);
         RenderHelper.enableGUIStandardItemLighting();
 
-        //Main Hand
+        // Main Hand
         ItemStack mainHand = player.getHeldItemMainhand();
         if (!mainHand.isEmpty()) {
             renderItem(mainHand, -51, -18);
         }
 
-        //Armor
+        // Armor
         int itemPosX = 19;
         for (ItemStack armorStack : player.inventory.armorInventory) {
             if (!armorStack.isEmpty()) {
@@ -127,7 +127,7 @@ public class Nametags extends Module {
             itemPosX -= 18;
         }
 
-        //Offhand
+        // Offhand
         ItemStack offHand = player.getHeldItemOffhand();
         if (!offHand.isEmpty()) {
             renderItem(offHand, 35, -18);
@@ -144,8 +144,8 @@ public class Nametags extends Module {
     }
 
     private void renderItem(ItemStack item, int posX, int posY) {
-        //TODO: Fix item lighting
-        //This makes the items visible through walls with depth enabled
+        // TODO: Fix item lighting
+        // This makes the items visible through walls with depth enabled
         GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT);
         GlStateManager.enableDepth();
         mc.getRenderItem().renderItemAndEffectIntoGUI(item, posX, posY);

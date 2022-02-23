@@ -56,7 +56,7 @@ public class KillAura extends Module {
             return;
         }
 
-        //Select target depending on the mode
+        // Select target depending on the mode
         if (priority.getCurrentValue() == Priority.CLOSEST) {
             for (Entity entity : mc.world.loadedEntityList) {
                 if (isValidTarget(entity)) {
@@ -79,7 +79,7 @@ public class KillAura extends Module {
             }
         }
 
-        //Attack the target
+        // Attack the target
         if (target != null) {
             if (mc.player.getCooledAttackStrength(-delay.getValue()) == 1.0F) {
                 mc.player.connection.sendPacket(new CPacketUseEntity(target));
@@ -92,7 +92,7 @@ public class KillAura extends Module {
     @SubscribeEvent
     public void onSendPacket(SendPacketEvent event) {
 
-        //Select target if mode if Focus
+        // Select target if mode if Focus
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
             if (packet.getAction() == CPacketUseEntity.Action.ATTACK) {
@@ -100,7 +100,7 @@ public class KillAura extends Module {
             }
         }
 
-        //Send Rotation
+        // Send Rotation
         if (target != null) {
             if (event.getPacket() instanceof CPacketPlayer) {
                 CPacketPlayer packet = (CPacketPlayer) event.getPacket();
@@ -113,7 +113,7 @@ public class KillAura extends Module {
                 float pitch = (float) - Math.toDegrees(Math.atan(deltaY/deltaGround));
                 float yaw = (float) - Math.toDegrees(Math.atan(deltaX/deltaZ));
 
-                //Yaw in Minecraft is weird and this is the only thing I could make to fix it
+                // Yaw in Minecraft is weird and this is the only thing I could make to fix it
                 if (deltaZ <= 0) {
                     if (deltaX > 0) {
                         yaw = yaw - 180F;

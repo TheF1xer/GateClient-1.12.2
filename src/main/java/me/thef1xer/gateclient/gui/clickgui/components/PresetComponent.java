@@ -31,13 +31,13 @@ public class PresetComponent extends ClickComponent {
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
-        //Header
+        // Header
         RenderUtil.draw2DRect(posX, posY, width, height, 0.18F, 0.38F, 0.9F, 1F);
         fontRenderer.drawString("Presets", posX + fontX, posY + padding, 0xFFFFFFFF, true);
 
         if(!expanded) return;
 
-        //Background
+        // Background
         if (createButtonExpanded) {
             RenderUtil.draw2DRect(posX, posY + height, width, 9 * padding + 80, 0.1F, 0.1F, 0.1F, 1F);
         } else {
@@ -56,7 +56,7 @@ public class PresetComponent extends ClickComponent {
 
         renderCreate(mouseX, mouseY);
 
-        //This must go last!
+        // This must go last!
         renderPresetList(mouseX, mouseY);
 
         GlStateManager.glLineWidth(1);
@@ -71,7 +71,7 @@ public class PresetComponent extends ClickComponent {
     }
 
     private void renderLoadButton(int mouseX, int mouseY) {
-        //11 was calculated using ((width - 3 * border) / 2F - fontRenderer.getStringWidth("Load")) / 2 and rounding
+        // 11 was calculated using ((width - 3 * border) / 2F - fontRenderer.getStringWidth("Load")) / 2 and rounding
 
         if (isHovering(mouseX, mouseY, posX + padding, posY + height + 3 * padding + 20, posX + (width - padding) / 2F, posY + height + 3 * padding + 32)) {
             RenderUtil.draw2DRect(posX + padding, posY + height + 3 * padding + 20, (width - 3 * padding) / 2F, 12, 0.2F, 0.2F, 0.2F, 1F);
@@ -82,7 +82,7 @@ public class PresetComponent extends ClickComponent {
     }
 
     private void renderSaveButton(int mouseX, int mouseY) {
-        //35 was calculated using ((width - 3 * border) / 2 + fontRenderer.getStringWidth("Save")) / 2 and rounding
+        // 35 was calculated using ((width - 3 * border) / 2 + fontRenderer.getStringWidth("Save")) / 2 and rounding
 
         if (isHovering(mouseX, mouseY, posX + (width + padding) / 2F, posY + height + 3 * padding + 20,
                 posX + width - padding, posY + height + 3 * padding + 32)) {
@@ -115,11 +115,11 @@ public class PresetComponent extends ClickComponent {
         if (createButtonExpanded) {
             fontRenderer.drawString("Cancel", posX + (width - fontRenderer.getStringWidth("Cancel")) / 2F, posY + height + 6 * padding + 46, 0xFFFFFFFF, true);
 
-            //Text Field
+            // Text Field
             RenderUtil.draw2DRectLines(posX + padding, posY + height + 7 * padding + 56, width - 2 * padding, 12, 0.8F, 0.8F, 0.8F, 1F);
             textField.drawField();
 
-            //Confirm button
+            // Confirm button
             if (isHovering(mouseX, mouseY, posX + padding, posY + height + 8 * padding + 68,
                     posX + width - padding, posY + height + 8 * padding + 80)) {
                 RenderUtil.draw2DRect(posX + padding, posY + height + 8 * padding + 68, width - 2 * padding, 12, 0.2F, 0.2F, 0.2F, 1F);
@@ -144,7 +144,7 @@ public class PresetComponent extends ClickComponent {
             for (File preset : presetManager.PRESET_LIST) {
                 if (preset.equals(presetManager.getActivePreset())) continue;
 
-                //Mouse hovering a preset
+                // Mouse hovering a preset
                 if (isHovering(mouseX, mouseY, posX + padding, posY + height + padding + offset,
                         posX + width - padding, posY + height + padding + 12 + offset)) {
 
@@ -167,12 +167,12 @@ public class PresetComponent extends ClickComponent {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (this.isMouseHover(mouseX, mouseY)) {
-            //Full expand
+            // Full expand
             expanded = !expanded;
 
         } else if (expanded) {
 
-            //Preset selection
+            // Preset selection
             if (this.presetListExpanded) {
                 if (hoveredPreset != null) {
                     presetManager.setActivePreset(hoveredPreset);
@@ -186,22 +186,22 @@ public class PresetComponent extends ClickComponent {
 
             if (isHovering(mouseX, mouseY, posX, posY + height + 2 * padding + 12,
                     posX + width, posY + height + 2 * padding + 20)) {
-                //Auto-Save toggle
+                // Auto-Save toggle
                 presetManager.setAutoSave(!presetManager.isAutoSave());
 
             } else if (isHovering(mouseX, mouseY, posX + padding, posY + height + 3 * padding + 20,
                     posX + (width - padding) / 2F, posY + height + 3 * padding + 32)) {
-                //Load button
+                // Load button
                 presetManager.loadActivePreset();
 
             } else if (isHovering(mouseX, mouseY, posX + (width + padding) / 2F, posY + height + 3 * padding + 20,
                     posX + width - padding, posY + height + 3 * padding + 32)) {
-                //Save button
+                // Save button
                 presetManager.saveActivePreset();
 
             } else if (isHovering(mouseX, mouseY, posX + padding, posY + height + 4 * padding + 32,
                     posX + width - padding, posY + height + 4 * padding + 44)) {
-                //Remove button
+                // Remove button
                 presetManager.removeActivePreset();
 
             } else if (createButtonExpanded) {
@@ -209,14 +209,14 @@ public class PresetComponent extends ClickComponent {
 
                 if (isHovering(mouseX, mouseY, posX + padding, posY + height + 6 * padding + 44,
                         posX + width - padding, posY + height + 6 * padding + 56)) {
-                    //Cancel button
+                    // Cancel button
                     createButtonExpanded = false;
                     textField.setText("");
                     textField.setFocused(false);
 
                 } else if (isHovering(mouseX, mouseY, posX + padding, posY + height + 8 * padding + 68,
                         posX + width - padding, posY + height + 8 * padding + 80)) {
-                    //Confirm button
+                    // Confirm button
                     String newPreset = textField.getText().trim();
                     if (!newPreset.isEmpty() && GateClient.getGate().presetManager.createNewPreset(newPreset + ".json")) {
                         createButtonExpanded = false;
@@ -231,7 +231,7 @@ public class PresetComponent extends ClickComponent {
 
             } else if (isHovering(mouseX, mouseY, posX + padding, posY + height + padding,
                     posX + width - padding, posY + height + padding + 12)) {
-                //Preset List
+                // Preset List
                 presetManager.updatePresetList();
                 this.presetListExpanded = !presetListExpanded;
             }
@@ -242,11 +242,11 @@ public class PresetComponent extends ClickComponent {
     public void keyTyped(char typedChar, int keyCode) {
         if (createButtonExpanded && textField.isFocused()) {
             if (keyCode == 1) {
-                //Close the window
+                // Close the window
                 createButtonExpanded = false;
 
             } else if (keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) {
-                //Create the preset
+                // Create the preset
                 String newPreset = textField.getText().trim();
                 if (!newPreset.isEmpty() && GateClient.getGate().presetManager.createNewPreset(newPreset + ".json")) {
                     createButtonExpanded = false;
@@ -254,7 +254,7 @@ public class PresetComponent extends ClickComponent {
                 }
 
             } else {
-                //Type the character
+                // Type the character
                 textField.keyTyped(typedChar, keyCode);
 
             }

@@ -44,7 +44,7 @@ public class AutoDisconnect extends Module {
             return;
         }
 
-        //Players
+        // Players
         if (players.getValue()) {
             for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
                 if (entity instanceof EntityPlayer && entity != Minecraft.getMinecraft().player && entity != Freecam.INSTANCE.camera) {
@@ -57,12 +57,12 @@ public class AutoDisconnect extends Module {
             }
         }
 
-        //Totems
+        // Totems
         if (!ignoreTotems.getValue() && Minecraft.getMinecraft().player.getHeldItemOffhand().getItem() == Item.getItemById(449)) {
             return;
         }
 
-        //Health
+        // Health
         if (Minecraft.getMinecraft().player.getHealth() <= health.getValue()) {
             Minecraft.getMinecraft().player.connection.onDisconnect(new TextComponentString("Health was " + Minecraft.getMinecraft().player.getHealth()));
             if (disable.getValue()) {

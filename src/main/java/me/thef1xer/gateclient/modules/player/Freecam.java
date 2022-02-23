@@ -60,15 +60,15 @@ public class Freecam extends Module {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        //TODO: Try to fix weird hand movement that sometimes happens
-        //TODO: This still doesn't work with baritone xd
+        // TODO: Try to fix weird hand movement that sometimes happens
+        // TODO: This still doesn't work with baritone xd
 
         if (mc.world == null || !mc.world.isRemote) {
             camera = null;
             return;
         }
 
-        //We use a "camera" entity here so that it doesn't interact with Baritone
+        // We use a "camera" entity here so that it doesn't interact with Baritone
         if (camera == null) {
             lastThirdPerson = mc.gameSettings.thirdPersonView;
 
@@ -102,7 +102,7 @@ public class Freecam extends Module {
         Vec3d vector = new Vec3d(strafe, vertical, forward).rotateYaw((float) -Math.toRadians(camera.rotationYaw));
         camera.setPositionAndRotationDirect(camera.posX + vector.x, camera.posY + vector.y, camera.posZ + vector.z, camera.rotationYaw, camera.rotationPitch, 3, false);
 
-        //This should stop the player from moving if Baritone isn't being used, needs some testing
+        // This should stop the player from moving if Baritone isn't being used, needs some testing
         if (input instanceof MovementInputFromOptions) {
             mc.player.moveVertical = 0;
             mc.player.moveStrafing = 0;
@@ -114,7 +114,7 @@ public class Freecam extends Module {
 
     @SubscribeEvent
     public void onIsUser(PlayerIsUserEvent event) {
-        //Allows you to watch yourself while Freecam is active
+        // Allows you to watch yourself while Freecam is active
         event.setCanceled(true);
     }
 
@@ -125,7 +125,7 @@ public class Freecam extends Module {
 
     @SubscribeEvent
     public void onSendPacket(SendPacketEvent event) {
-        //If you hit yourself you will get disconnected, this prevents that
+        // Prevents the player from hitting themselves
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity useEntity = (CPacketUseEntity) event.getPacket();
             if (useEntity.getEntityFromWorld(mc.world) == mc.player) {

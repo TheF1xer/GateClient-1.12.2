@@ -30,19 +30,19 @@ public class SafeWalk extends Module {
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
-    //Priority must be LOWEST so that this does not interfere with Speed
+    // Priority must be LOWEST so that this does not interfere with Speed
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onMove(PlayerMoveEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.player.onGround) {
             if (this.mode.getCurrentValue() == Mode.STOP) {
 
-                //If already falling return (sometimes this happens)
+                // If already falling return (sometimes this happens)
                 if (mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(0, -1, 0)).isEmpty()) {
                     return;
                 }
 
-                //Almost a copy of the Sneak code in Minecraft
+                // Almost an exact copy of the Sneak code in Minecraft
                 while (mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(event.x, -1, 0)).isEmpty()) {
                     if (event.x < 0.05D && event.x >= -0.05D) {
                         event.x = 0;

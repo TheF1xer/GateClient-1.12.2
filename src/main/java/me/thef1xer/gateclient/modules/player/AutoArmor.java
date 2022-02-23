@@ -32,7 +32,7 @@ public class AutoArmor extends Module {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        //Boots have index 0
+        // Boots have index 0
         if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().player != null) {
             if (Minecraft.getMinecraft().currentScreen instanceof GuiContainer) {
                 return;
@@ -43,8 +43,10 @@ public class AutoArmor extends Module {
             boolean hasChestplate = !Minecraft.getMinecraft().player.inventory.armorInventory.get(2).isEmpty();
             boolean hasHelmet = !Minecraft.getMinecraft().player.inventory.armorInventory.get(3).isEmpty();
 
+            // Only needed if at least one armor piece is missing
             if (!hasBoots || !hasLeggings || !hasChestplate || !hasHelmet) {
                 for (int slot = 0; slot < Minecraft.getMinecraft().player.inventoryContainer.inventorySlots.size(); slot++) {
+
                     Item slotItem = Minecraft.getMinecraft().player.inventoryContainer.inventorySlots.get(slot).getStack().getItem();
                     if (slotItem instanceof ItemArmor) {
                         ItemArmor itemArmor = (ItemArmor) slotItem;

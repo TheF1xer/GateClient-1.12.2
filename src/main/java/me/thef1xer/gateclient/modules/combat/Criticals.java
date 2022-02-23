@@ -35,6 +35,7 @@ public class Criticals extends Module {
             if (packet.getAction() == CPacketUseEntity.Action.ATTACK) {
                 Minecraft mc = Minecraft.getMinecraft();
                 if (packet.getEntityFromWorld(mc.world) instanceof EntityLivingBase && mc.player.onGround) {
+                    // This imitates a jump but in only one tick
                     mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.1D, mc.player.posZ, false));
                     mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY, mc.player.posZ, false));
                 }

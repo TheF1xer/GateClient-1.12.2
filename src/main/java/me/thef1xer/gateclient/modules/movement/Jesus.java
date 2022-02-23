@@ -49,8 +49,8 @@ public class Jesus extends Module {
             return;
         }
 
-        //TODO: Fix bug that causes water to become solid when walking from the side
-        //Makes the liquid act as a solid block (might need testing in some edge cases)
+        // TODO: Fix bug that causes water to become solid when walking from the side
+        // Make the liquid act as a solid block (might need testing in some edge cases)
         event.setCollisionBoundingBox(new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D - offset.getValue(), 1.0D));
     }
 
@@ -70,7 +70,7 @@ public class Jesus extends Module {
 
     @SubscribeEvent
     public void onMove(PlayerMoveEvent event) {
-        //This gets the player out of the water
+        // Get the player out of the water
         if (isInLiquid() && !mc.player.isSneaking()) {
             event.y = 0.1D;
         }

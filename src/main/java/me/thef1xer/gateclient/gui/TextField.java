@@ -31,7 +31,7 @@ public class TextField {
         String trimmedMessage = fr.trimStringToWidth(text, width, true);
         int stringEnd = fr.drawString(trimmedMessage, posX, posY, 0xFFFFFFFF, true);
 
-        //Cursor draw
+        // Cursor draw
         if (focused && tickCounter <= 15) {
             RenderUtil.draw2DRect(stringEnd, posY, 1, 8, 1F, 1F, 1F, 1F);
         }
@@ -42,7 +42,7 @@ public class TextField {
     public void keyTyped(char typedChar, int keyCode) {
         System.out.println(typedChar + " " + keyCode);
         if (keyCode == 14) {
-            //Backspace key
+            // Backspace key
             if (!text.isEmpty()) {
                 text = text.substring(0, text.length() - 1);
             }

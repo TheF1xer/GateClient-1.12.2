@@ -14,7 +14,7 @@ import java.io.*;
 import java.util.*;
 
 public class PresetManager {
-    //This might break and need a rework
+    // This might break and need a rework
 
     public final List<File> PRESET_LIST = new ArrayList<>();
     private File activePreset;
@@ -70,7 +70,7 @@ public class PresetManager {
 
         JsonParser parser = new JsonParser();
         try {
-            //Small optimizations can be done here
+            // Small optimizations can be done here
             JsonObject object = parser.parse(new FileReader(this.getActivePreset())).getAsJsonObject();
             JsonElement autoSave = object.get("auto save");
             setAutoSave(autoSave != null ? autoSave.getAsBoolean() : true);

@@ -18,17 +18,17 @@ public class ModuleManager {
     public final List<Module> MODULE_LIST = new ArrayList<>();
 
     public void init() {
-        //Combat
+        // Combat
         MODULE_LIST.add(AutoTotem.INSTANCE);
         MODULE_LIST.add(Criticals.INSTANCE);
         MODULE_LIST.add(KillAura.INSTANCE);
-        //HUD
+        // HUD
         MODULE_LIST.add(ArmorHUD.INSTANCE);
         MODULE_LIST.add(ClickGuiModule.INSTANCE);
         MODULE_LIST.add(Coords.INSTANCE);
         MODULE_LIST.add(ModuleList.INSTANCE);
         MODULE_LIST.add(Watermark.INSTANCE);
-        //Movement
+        // Movement
         MODULE_LIST.add(Flight.INSTANCE);
         MODULE_LIST.add(GuiMove.INSTANCE);
         MODULE_LIST.add(Jesus.INSTANCE);
@@ -38,11 +38,11 @@ public class ModuleManager {
         MODULE_LIST.add(Speed.INSTANCE);
         MODULE_LIST.add(Sprint.INSTANCE);
         MODULE_LIST.add(Velocity.INSTANCE);
-        //Player
+        // Player
         MODULE_LIST.add(AutoArmor.INSTANCE);
         MODULE_LIST.add(AutoDisconnect.INSTANCE);
         MODULE_LIST.add(Freecam.INSTANCE);
-        //Render
+        // Render
         MODULE_LIST.add(EntityESP.INSTANCE);
         MODULE_LIST.add(StorageESP.INSTANCE);
         MODULE_LIST.add(FullBright.INSTANCE);

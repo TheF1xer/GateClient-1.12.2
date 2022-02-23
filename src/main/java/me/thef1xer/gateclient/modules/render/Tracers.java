@@ -52,7 +52,7 @@ public class Tracers extends Module {
     public void onRender(RenderWorldLastEvent event) {
         if (Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().world != null) {
             RenderManager rm = Minecraft.getMinecraft().getRenderManager();
-            //TODO: Find a better method of doing this
+            // TODO: Find a better method of doing this
             Vec3d playerVector = ActiveRenderInfo.getCameraPosition();
 
             GlStateManager.pushMatrix();

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RGBComponent extends ClickComponent{
-    //TODO: Try to rework someday, this code is a mess (ColorSlider class is unnecessary)
+    // TODO: Try to rework someday, this code is a mess (ColorSlider class is unnecessary)
 
     private final RGBSetting setting;
     private final List<ColorSlider> sliders = new ArrayList<>();
