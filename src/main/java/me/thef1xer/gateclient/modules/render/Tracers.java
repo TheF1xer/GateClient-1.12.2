@@ -50,7 +50,6 @@ public class Tracers extends Module {
 
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent event) {
-        //TODO: Fix weird interaction with Storage ESP and Baritone
         if (Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().world != null) {
             RenderManager rm = Minecraft.getMinecraft().getRenderManager();
             //TODO: Find a better method of doing this

@@ -6,6 +6,7 @@
     "MixinBlockRendererDispatcher",
     "MixinEntityPlayerSP",
     "MixinEntityRenderer",
+    "MixinGuiScreen",
     "MixinNetworkManager",
     "MixinStateImplementation",
     "MixinVisGraph"
