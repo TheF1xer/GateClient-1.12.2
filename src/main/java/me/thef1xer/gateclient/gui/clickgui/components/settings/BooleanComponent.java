@@ -14,8 +14,11 @@ public class BooleanComponent extends ClickComponent {
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
-        RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
+        // Background
+        RenderUtil.draw2DRect(posX, posY, width, height, 0F, 0F, 0F, 0.6F);
         fontRenderer.drawString(setting.getName(), this.posX + this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
+
+        // Boolean button
         if (this.setting.getValue()) {
             RenderUtil.draw2DRect(posX + width - padding - 8, posY + padding, 8, 8, 0.85F, 0.43F, 0F, 1F);
         }

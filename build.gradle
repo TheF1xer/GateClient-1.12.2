@@ -16,7 +16,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.3'
+version = '1.4'
 group = 'me.thef1xer.gateclient'
 archivesBaseName = 'gateclient'
 

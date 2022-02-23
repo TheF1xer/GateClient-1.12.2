@@ -17,7 +17,7 @@ public class SliderComponent extends ClickComponent {
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
         // Background and Name
-        RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
+        RenderUtil.draw2DRect(posX, posY, width, height, 0F, 0F, 0F, 0.6F);
         fontRenderer.drawString(setting.getName(), this.posX + this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
 
         // Slider

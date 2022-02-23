@@ -15,12 +15,6 @@ import java.util.List;
 public class ClickGui extends GuiScreen {
     private final List<ClickComponent> components = new ArrayList<>();
 
-    /*
-    Edit initGui()
-    New move(x, y) function in ClickComponent
-    Update pos inside of initGui()
-     */
-
     public void init() {
         this.components.add(new CategoryComponent(Module.ModuleCategory.COMBAT, 20, 20));
         this.components.add(new CategoryComponent(Module.ModuleCategory.HUD, 146, 20));
@@ -41,7 +35,6 @@ public class ClickGui extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.drawDefaultBackground();
         GlStateManager.pushMatrix();
         GlStateManager.enableTexture2D();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);

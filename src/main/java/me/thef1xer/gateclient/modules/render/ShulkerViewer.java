@@ -65,7 +65,7 @@ public class ShulkerViewer extends Module {
                 GlStateManager.enableDepth();
                 RenderHelper.enableGUIStandardItemLighting();
 
-                //Draw items in Shulker Box
+                // Draw items in Shulker Box
                 for (int y = 0; y < 3; y++) {
                     for (int x = 0; x < 9; x++) {
                         ItemStack itemStack = itemList.get(y * 9 + x);

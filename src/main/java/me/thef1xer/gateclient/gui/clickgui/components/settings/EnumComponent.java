@@ -21,9 +21,11 @@ public class EnumComponent extends ClickComponent {
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
-        RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
+        // Background
+        RenderUtil.draw2DRect(posX, posY, width, height, 0F, 0F, 0F, 0.6F);
         fontRenderer.drawString(setting.getName(), this.posX + this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
 
+        // Enum List
         if (this.expanded) {
             for (Option option: this.options) {
                 option.renderCheck(this.setting.getCurrentValue() == option.getOption());
@@ -79,7 +81,7 @@ public class EnumComponent extends ClickComponent {
         }
 
         public void renderCheck(boolean isCurrent) {
-            RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
+            RenderUtil.draw2DRect(posX, posY, width, height, 0F, 0F, 0F, 0.6F);
             if (isCurrent) {
                 RenderUtil.draw2DRect(posX + 2 * padding, posY + padding, 8, 8, 0.85F, 0.43F, 0F, 1F);
             }

@@ -39,9 +39,9 @@ public class PresetComponent extends ClickComponent {
 
         // Background
         if (createButtonExpanded) {
-            RenderUtil.draw2DRect(posX, posY + height, width, 9 * padding + 80, 0.1F, 0.1F, 0.1F, 1F);
+            RenderUtil.draw2DRect(posX, posY + height, width, 9 * padding + 80, 0F, 0F, 0F, 0.7F);
         } else {
-            RenderUtil.draw2DRect(posX, posY + height, width, 7 * padding + 56, 0.1F, 0.1F, 0.1F, 1F);
+            RenderUtil.draw2DRect(posX, posY + height, width, 7 * padding + 56, 0F, 0F, 0F, 0.7F);
         }
 
         renderAutoSave();
@@ -74,7 +74,7 @@ public class PresetComponent extends ClickComponent {
         // 11 was calculated using ((width - 3 * border) / 2F - fontRenderer.getStringWidth("Load")) / 2 and rounding
 
         if (isHovering(mouseX, mouseY, posX + padding, posY + height + 3 * padding + 20, posX + (width - padding) / 2F, posY + height + 3 * padding + 32)) {
-            RenderUtil.draw2DRect(posX + padding, posY + height + 3 * padding + 20, (width - 3 * padding) / 2F, 12, 0.2F, 0.2F, 0.2F, 1F);
+            RenderUtil.draw2DRect(posX + padding, posY + height + 3 * padding + 20, (width - 3 * padding) / 2F, 12, 0.3F, 0.3F, 0.3F, 1F);
         }
 
         RenderUtil.draw2DRectLines(posX + padding, posY + height + 3 * padding + 20, (width - 3 * padding) / 2F, 12, 0.85F, 0.43F, 0F, 1F);
@@ -86,7 +86,7 @@ public class PresetComponent extends ClickComponent {
 
         if (isHovering(mouseX, mouseY, posX + (width + padding) / 2F, posY + height + 3 * padding + 20,
                 posX + width - padding, posY + height + 3 * padding + 32)) {
-            RenderUtil.draw2DRect(posX + (width + padding) / 2F, posY + height + 3 * padding + 20, (width - 3 * padding) / 2F, 12, 0.2F, 0.2F, 0.2F, 1F);
+            RenderUtil.draw2DRect(posX + (width + padding) / 2F, posY + height + 3 * padding + 20, (width - 3 * padding) / 2F, 12, 0.3F, 0.3F, 0.3F, 1F);
         }
 
         RenderUtil.draw2DRectLines(posX + (width + padding) / 2F, posY + height + 3 * padding + 20, (width - 3 * padding) / 2F, 12, 0.85F, 0.43F, 0F, 1F);
@@ -96,7 +96,7 @@ public class PresetComponent extends ClickComponent {
     private void renderRemoveButton(int mouseX, int mouseY) {
         if (isHovering(mouseX, mouseY, posX + padding, posY + height + 4 * padding + 32,
                 posX + width - padding, posY + height + 4 * padding + 44)) {
-            RenderUtil.draw2DRect(posX + padding, posY + height + 4 * padding + 32, width - 2 * padding, 12, 0.2F, 0.2F, 0.2F, 1F);
+            RenderUtil.draw2DRect(posX + padding, posY + height + 4 * padding + 32, width - 2 * padding, 12, 0.3F, 0.3F, 0.3F, 1F);
         }
 
         RenderUtil.draw2DRectLines(posX + padding, posY + height + 4 * padding + 32, width - 2 * padding, 12, 0.85F, 0.43F, 0F, 1F);
@@ -107,7 +107,7 @@ public class PresetComponent extends ClickComponent {
     private void renderCreate(int mouseX, int mouseY) {
         if (isHovering(mouseX, mouseY, posX + padding, posY + height + 6 * padding + 44,
                 posX + width - padding, posY + height + 6 * padding + 56)) {
-            RenderUtil.draw2DRect(posX + padding, posY + height + 6 * padding + 44, width - 2 * padding, 12, 0.2F, 0.2F, 0.2F, 1F);
+            RenderUtil.draw2DRect(posX + padding, posY + height + 6 * padding + 44, width - 2 * padding, 12, 0.3F, 0.3F, 0.3F, 1F);
         }
 
         RenderUtil.draw2DRectLines(posX + padding, posY + height + 6 * padding + 44, width - 2 * padding, 12, 0.85F, 0.43F, 0F, 1F);
@@ -122,7 +122,7 @@ public class PresetComponent extends ClickComponent {
             // Confirm button
             if (isHovering(mouseX, mouseY, posX + padding, posY + height + 8 * padding + 68,
                     posX + width - padding, posY + height + 8 * padding + 80)) {
-                RenderUtil.draw2DRect(posX + padding, posY + height + 8 * padding + 68, width - 2 * padding, 12, 0.2F, 0.2F, 0.2F, 1F);
+                RenderUtil.draw2DRect(posX + padding, posY + height + 8 * padding + 68, width - 2 * padding, 12, 0.3F, 0.3F, 0.3F, 1F);
             }
 
             RenderUtil.draw2DRectLines(posX + padding, posY + height + 8 * padding + 68, width - 2 * padding, 12, 0.85F, 0.43F, 0F, 1F);

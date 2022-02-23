@@ -36,27 +36,19 @@ public class ModuleComponent extends ClickComponent {
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
-        //Colors
-        float r, g, b;
-        int textColor = 0xFFFFFFFF;
+        // Drawing with different colors in different occasions
         if (this.module.isEnabled()) {
-            r = 0.85F;
-            g = 0.43F;
-            b = 0F;
-        } else if (this.isMouseHover(mouseX, mouseY)) {
-            r = 0.42F;
-            g = 0.21F;
-            b = 0F;
-        } else {
-            r = 0.1F;
-            g = 0.1F;
-            b = 0.1F;
-            textColor = 0xFFAAAAAA;
-        }
+            RenderUtil.draw2DRect(posX, posY, width, height, 0.85F, 0.43F, 0F, 1F);
+            fontRenderer.drawString(module.getName(), this.posX + this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
 
-        //Render
-        RenderUtil.draw2DRect(posX, posY, width, height, r, g, b, 1F);
-        fontRenderer.drawString(module.getName(), this.posX + this.padding, this.posY + this.padding, textColor, true);
+        } else if (this.isMouseHover(mouseX, mouseY)) {
+            RenderUtil.draw2DRect(posX, posY, width, height, 0.85F, 0.43F, 0F, 0.7F);
+            fontRenderer.drawString(module.getName(), this.posX + this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
+
+        } else {
+            RenderUtil.draw2DRect(posX, posY, width, height, 0F, 0F, 0F, 0.7F);
+            fontRenderer.drawString(module.getName(), this.posX + this.padding, this.posY + this.padding, 0xFFAAAAAA, true);
+        }
 
         if (this.expanded) {
             for (ClickComponent setting : this.children) {

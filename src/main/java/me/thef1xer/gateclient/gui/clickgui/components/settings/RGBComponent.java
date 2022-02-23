@@ -23,9 +23,11 @@ public class RGBComponent extends ClickComponent{
 
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
-        RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
+        // Background
+        RenderUtil.draw2DRect(posX, posY, width, height, 0F, 0F, 0F, 0.6F);
         fontRenderer.drawString(setting.getName(), this.posX + this.padding, this.posY + this.padding, 0xFFFFFFFF, true);
 
+        // Color Sliders
         if (this.expanded) {
             RenderUtil.draw2DTriangleRight(posX + width - 2 * padding - 6, posY + padding, 4, height - 2 * padding, 1F, 1F, 1F, 1F);
             this.setting.setRed(this.sliders.get(0).renderSlider("Red", setting.getRed(), setting.getRed(), setting.getGreen(), setting.getBlue(), mouseX));
@@ -84,7 +86,7 @@ public class RGBComponent extends ClickComponent{
 
         public int renderSlider(String color, int slider, int red, int green, int blue, int mouseX){
             //Background
-            RenderUtil.draw2DRect(posX, posY, width, height, 0.15F, 0.15F, 0.15F, 1F);
+            RenderUtil.draw2DRect(posX, posY, width, height, 0F, 0F, 0F, 0.6F);
 
             //Text
             fontRenderer.drawString(color, this.posX + 2 * this.padding, this.posY + this.padding, (red << 16) | (green << 8) | (blue), true);
