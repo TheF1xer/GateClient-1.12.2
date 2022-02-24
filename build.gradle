@@ -24,7 +24,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 
 
 minecraft {
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformer = file('src/main/resources/META-INF/gateclient_at.cfg')
     mappings channel: 'snapshot', version: '20171003-1.12'
     runs {
         client {
@@ -81,13 +81,7 @@ jar {
                 'FMLCorePlugin': 'me.thef1xer.gateclient.mixin.MixinLoader',
                 'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
                 'ForceLoadAsMod': 'true',
-                "Specification-Title": "Gate Client",
-                "Specification-Vendor": "examplemodsareus",
-                "Specification-Version": "1", // We are version 1 of ourselves
-                "Implementation-Title": project.name,
-                "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"examplemodsareus",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                'FMLAT': 'gateclient_at.cfg'
         ])
     }
 
