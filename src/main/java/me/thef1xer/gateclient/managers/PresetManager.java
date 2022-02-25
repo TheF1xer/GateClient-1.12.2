@@ -249,8 +249,8 @@ public class PresetManager {
             setActivePreset(new File(DirectoryUtil.PRESET_FOLDER, "default.json"));
             setAutoSave(true);
             saveActivePreset();
-            GateClient.getGate().configManager.save();
         }
+        GateClient.getGate().configManager.save();
     }
 
     private boolean presetExists(File preset) {

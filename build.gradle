@@ -56,15 +56,15 @@ repositories {
 }
 
 configurations {
-    //Trick to shade dependencies that I copied from cosmos client
+    // Trick to shade dependencies that I copied from cosmos client
     embed
     implementation.extendsFrom embed
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
-    //Can't change the mixin version, it won't compile
-    //I don't know enough about gradle to fix it so it will stay like this
+    // Can't change the mixin version, it won't compile
+    // I don't know enough about gradle to fix it so it will stay like this
     embed ('org.spongepowered:mixin:0.8.5-SNAPSHOT') {
         exclude module: 'launchwrapper'
         exclude module: 'guava'
