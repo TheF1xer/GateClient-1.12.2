@@ -17,7 +17,7 @@ public abstract class MixinBlockLiquid {
 
     @Inject(method = "getCollisionBoundingBox", at = @At("RETURN"), cancellable = true)
     public void getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos, CallbackInfoReturnable<AxisAlignedBB> returnable) {
-        GetLiquidCollisionBoundingBoxEvent event = new GetLiquidCollisionBoundingBoxEvent();
+        GetLiquidCollisionBoundingBoxEvent event = new GetLiquidCollisionBoundingBoxEvent(pos);
         MinecraftForge.EVENT_BUS.post(event);
         returnable.setReturnValue(event.getCollisionBoundingBox());
     }
