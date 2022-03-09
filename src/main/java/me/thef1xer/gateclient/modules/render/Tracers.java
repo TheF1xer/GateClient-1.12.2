@@ -6,10 +6,7 @@ import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import me.thef1xer.gateclient.settings.impl.RGBSetting;
 import me.thef1xer.gateclient.util.MathUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
@@ -31,8 +28,6 @@ public class Tracers extends Module {
 
     public Tracers() {
         super("Tracers", "tracers", Module.ModuleCategory.RENDER);
-        targetPlayer.setParent("Entities to Target");
-        targetHostile.setParent("Entities to Target");
         this.addSettings(targetPlayer, targetHostile, color, colorAlpha);
     }
 
@@ -50,11 +45,10 @@ public class Tracers extends Module {
 
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent event) {
-        if (Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().world != null) {
-            RenderManager rm = Minecraft.getMinecraft().getRenderManager();
-            // TODO: Find a better method of doing this
-            Vec3d playerVector = ActiveRenderInfo.getCameraPosition();
+        Minecraft mc = Minecraft.getMinecraft();
+        EntityRenderer er = mc.entityRenderer;
 
+        if (mc.player != null && mc.world != null) {
             GlStateManager.pushMatrix();
             GlStateManager.disableTexture2D();
             GlStateManager.enableBlend();
@@ -63,18 +57,40 @@ public class Tracers extends Module {
             GlStateManager.glLineWidth(0.5F);
             GlStateManager.color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, colorAlpha.getValue());
 
-            for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
-                if (isTarget(entity) && entity != Minecraft.getMinecraft().getRenderViewEntity()) {
+            // Cancel the player's bobbing
+            boolean bobbing = mc.gameSettings.viewBobbing;
+            mc.gameSettings.viewBobbing = false;
+            GlStateManager.loadIdentity();
+            er.orientCamera(event.getPartialTicks());
+
+            // Loop through all entities
+            for (Entity entity : mc.world.loadedEntityList) {
+                if (isTarget(entity) && entity != mc.getRenderViewEntity()) {
+
+                    RenderManager rm = mc.getRenderManager();
                     Tessellator tessellator = Tessellator.getInstance();
                     BufferBuilder buffer = tessellator.getBuffer();
-                    double[] entityPos = MathUtil.interpolateEntity(entity);
 
+                    // Vector where the tracer starts
+                    Vec3d cameraVector = new Vec3d(0D, 0D, 1D).
+                            rotatePitch((float) - Math.toRadians(mc.getRenderViewEntity().rotationPitch)).
+                            rotateYaw((float) - Math.toRadians(mc.getRenderViewEntity().rotationYaw)).
+                            addVector(0D, mc.getRenderViewEntity().getEyeHeight(), 0D);
+
+                    // Interpolate the target's position
+                    double[] interpolatedEntityPos = MathUtil.interpolateEntity(entity);
+
+                    // Draw the tracer
                     buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-                    buffer.pos(playerVector.x, playerVector.y, playerVector.z).endVertex();
-                    buffer.pos(entityPos[0] - rm.viewerPosX, entityPos[1] - rm.viewerPosY, entityPos[2] - rm.viewerPosZ).endVertex();
+                    buffer.pos(cameraVector.x, cameraVector.y, cameraVector.z).endVertex();
+                    buffer.pos(interpolatedEntityPos[0] - rm.viewerPosX, interpolatedEntityPos[1] - rm.viewerPosY, interpolatedEntityPos[2] - rm.viewerPosZ).endVertex();
                     tessellator.draw();
                 }
             }
+
+            // Restore previous bobbing setting
+            mc.gameSettings.viewBobbing = bobbing;
+
             GlStateManager.enableDepth();
             GlStateManager.disableBlend();
             GlStateManager.enableTexture2D();

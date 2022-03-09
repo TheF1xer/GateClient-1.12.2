@@ -17,12 +17,4 @@ public abstract class Setting {
     public String getId() {
         return id;
     }
-
-    public void setParent(String parent) {
-        this.parent = parent;
-    }
-
-    public String getParent() {
-        return parent;
-    }
 }

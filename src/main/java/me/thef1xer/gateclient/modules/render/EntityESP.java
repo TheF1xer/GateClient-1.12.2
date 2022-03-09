@@ -28,10 +28,6 @@ public class EntityESP extends Module {
 
     public EntityESP() {
         super("Entity ESP", "entityesp", Module.ModuleCategory.RENDER);
-        targetPlayer.setParent("Target");
-        targetHostile.setParent("Target");
-        playerColor.setParent("Color");
-        hostileColor.setParent("Color");
         this.addSettings(targetPlayer, targetHostile, targetPassive, playerColor, hostileColor, passiveColor, colorAlpha);
     }
 
