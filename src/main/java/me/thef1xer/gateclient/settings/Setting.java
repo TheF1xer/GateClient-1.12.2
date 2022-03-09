@@ -3,7 +3,6 @@ package me.thef1xer.gateclient.settings;
 public abstract class Setting {
     private final String name;
     private final String id;
-    private String parent;
 
     public Setting(String name, String id) {
         this.name = name;

@@ -46,7 +46,6 @@ public class Tracers extends Module {
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
-        EntityRenderer er = mc.entityRenderer;
 
         if (mc.player != null && mc.world != null) {
             GlStateManager.pushMatrix();
@@ -61,7 +60,7 @@ public class Tracers extends Module {
             boolean bobbing = mc.gameSettings.viewBobbing;
             mc.gameSettings.viewBobbing = false;
             GlStateManager.loadIdentity();
-            er.orientCamera(event.getPartialTicks());
+            mc.entityRenderer.orientCamera(event.getPartialTicks());
 
             // Loop through all entities
             for (Entity entity : mc.world.loadedEntityList) {
