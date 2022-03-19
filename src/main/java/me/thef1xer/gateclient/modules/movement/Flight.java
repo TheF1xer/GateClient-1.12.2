@@ -73,14 +73,11 @@ public class Flight extends Module {
             }
 
             // Set new position before sending the packet
-            mc.player.setPositionAndRotation(mc.player.posX + speedX,
+            mc.player.setPosition(mc.player.posX + speedX,
                     mc.player.posY + speedY,
-                    mc.player.posZ + speedZ,
-                    mc.player.rotationYaw, mc.player.rotationPitch);
+                    mc.player.posZ + speedZ);
 
-            mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX, mc.player.posY, mc.player.posZ, mc.player.rotationYaw, mc.player.rotationPitch, mc.player.onGround));
             mc.player.setVelocity(0, 0, 0);
-            event.setCanceled(true);
         }
     }
 

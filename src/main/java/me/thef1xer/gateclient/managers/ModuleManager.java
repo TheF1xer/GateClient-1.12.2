@@ -9,6 +9,7 @@ import me.thef1xer.gateclient.modules.combat.AutoTotem;
 import me.thef1xer.gateclient.modules.player.AutoDisconnect;
 import me.thef1xer.gateclient.modules.player.Freecam;
 import me.thef1xer.gateclient.modules.movement.*;
+import me.thef1xer.gateclient.modules.player.Scaffold;
 import me.thef1xer.gateclient.modules.render.*;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class ModuleManager {
         MODULE_LIST.add(AutoArmor.INSTANCE);
         MODULE_LIST.add(AutoDisconnect.INSTANCE);
         MODULE_LIST.add(Freecam.INSTANCE);
+        MODULE_LIST.add(Scaffold.INSTACE);
         // Render
         MODULE_LIST.add(EntityESP.INSTANCE);
         MODULE_LIST.add(StorageESP.INSTANCE);

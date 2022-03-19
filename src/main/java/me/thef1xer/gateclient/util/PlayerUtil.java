@@ -7,38 +7,35 @@ import net.minecraft.network.play.client.CPacketClickWindow;
 
 public class PlayerUtil {
 
-    // Not in use right now
-    public static void swapItems(int slot1, int slot2) {
-        Minecraft.getMinecraft().playerController.windowClick(Minecraft.getMinecraft().player.inventoryContainer.windowId, slot1, 0, ClickType.PICKUP, Minecraft.getMinecraft().player);
-        Minecraft.getMinecraft().playerController.windowClick(Minecraft.getMinecraft().player.inventoryContainer.windowId, slot2, 0, ClickType.PICKUP, Minecraft.getMinecraft().player);
-        Minecraft.getMinecraft().playerController.windowClick(Minecraft.getMinecraft().player.inventoryContainer.windowId, slot1, 0, ClickType.PICKUP, Minecraft.getMinecraft().player);
-        Minecraft.getMinecraft().playerController.updateController();
-    }
+    public static float[] getPlayerFacingRotations(double posX, double posY, double posZ) {
+        Minecraft mc = Minecraft.getMinecraft();
 
-    /*
-    Minecraft.getMinecraft().playerController.windowClick() won't work if you have a container opened, this is the code from that method but it only
-    interacts with the player inventory :D
-     */
+        double deltaX = posX - mc.player.posX;
+        double deltaY = posY - mc.player.posY - mc.player.getEyeHeight();
+        double deltaZ = posZ - mc.player.posZ;
+        double deltaGround = Math.sqrt(deltaX*deltaX + deltaZ*deltaZ);
 
-    public static void swapInventoryItems(int slot1, int slot2) {
-        short short1 = Minecraft.getMinecraft().player.inventoryContainer.getNextTransactionID(Minecraft.getMinecraft().player.inventory);
+        float pitch = (float) - Math.toDegrees(Math.atan(deltaY/deltaGround));
+        float yaw = (float) - Math.toDegrees(Math.atan(deltaX/deltaZ));
 
-        ItemStack itemstack = Minecraft.getMinecraft().player.inventoryContainer.slotClick(slot1, 0, ClickType.PICKUP, Minecraft.getMinecraft().player);
-        Minecraft.getMinecraft().player.connection.sendPacket(new CPacketClickWindow(Minecraft.getMinecraft().player.inventoryContainer.windowId, slot1, 0, ClickType.PICKUP, itemstack, short1));
+        // Yaw in Minecraft is weird and this is the only thing I could make to fix it
+        if (deltaZ <= 0) {
+            if (deltaX > 0) {
+                yaw = yaw - 180F;
+            } else {
+                yaw = yaw + 180F;
+            }
+        }
 
-        itemstack = Minecraft.getMinecraft().player.inventoryContainer.slotClick(slot2, 0, ClickType.PICKUP, Minecraft.getMinecraft().player);
-        Minecraft.getMinecraft().player.connection.sendPacket(new CPacketClickWindow(Minecraft.getMinecraft().player.inventoryContainer.windowId, slot2, 0, ClickType.PICKUP, itemstack, short1));
-
-        itemstack = Minecraft.getMinecraft().player.inventoryContainer.slotClick(slot1, 0, ClickType.PICKUP, Minecraft.getMinecraft().player);
-        Minecraft.getMinecraft().player.connection.sendPacket(new CPacketClickWindow(Minecraft.getMinecraft().player.inventoryContainer.windowId, slot1, 0, ClickType.PICKUP, itemstack, short1));
-
-        Minecraft.getMinecraft().playerController.updateController();
+        return new float[] {pitch, yaw};
     }
 
     public static double[] getPlayerMoveVec() {
-        float yaw = Minecraft.getMinecraft().player.rotationYaw;
-        float forward = Minecraft.getMinecraft().player.moveForward;
-        float strafe = Minecraft.getMinecraft().player.moveStrafing;
+        Minecraft mc = Minecraft.getMinecraft();
+
+        float yaw = mc.player.rotationYaw;
+        float forward = mc.player.moveForward;
+        float strafe = mc.player.moveStrafing;
 
         // If the player is not moving, there is no move vector
         if (forward == 0 && strafe == 0) {
@@ -76,5 +73,32 @@ public class PlayerUtil {
         }
 
         return new double[] {-Math.sin(Math.toRadians(yaw)), Math.cos(Math.toRadians(yaw))};
+    }
+
+    // Not in use right now
+    public static void swapContainerItems(int slot1, int slot2) {
+        Minecraft mc = Minecraft.getMinecraft();
+
+        mc.playerController.windowClick(mc.player.inventoryContainer.windowId, slot1, 0, ClickType.PICKUP, mc.player);
+        mc.playerController.windowClick(mc.player.inventoryContainer.windowId, slot2, 0, ClickType.PICKUP, mc.player);
+        mc.playerController.windowClick(mc.player.inventoryContainer.windowId, slot1, 0, ClickType.PICKUP, mc.player);
+        mc.playerController.updateController();
+    }
+
+    public static void swapInventoryItems(int slot1, int slot2) {
+        Minecraft mc = Minecraft.getMinecraft();
+
+        short short1 = mc.player.inventoryContainer.getNextTransactionID(mc.player.inventory);
+
+        ItemStack itemstack = mc.player.inventoryContainer.slotClick(slot1, 0, ClickType.PICKUP, mc.player);
+        mc.player.connection.sendPacket(new CPacketClickWindow(mc.player.inventoryContainer.windowId, slot1, 0, ClickType.PICKUP, itemstack, short1));
+
+        itemstack = mc.player.inventoryContainer.slotClick(slot2, 0, ClickType.PICKUP, mc.player);
+        mc.player.connection.sendPacket(new CPacketClickWindow(mc.player.inventoryContainer.windowId, slot2, 0, ClickType.PICKUP, itemstack, short1));
+
+        itemstack = mc.player.inventoryContainer.slotClick(slot1, 0, ClickType.PICKUP, mc.player);
+        mc.player.connection.sendPacket(new CPacketClickWindow(mc.player.inventoryContainer.windowId, slot1, 0, ClickType.PICKUP, itemstack, short1));
+
+        mc.playerController.updateController();
     }
 }

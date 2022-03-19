@@ -5,6 +5,7 @@ import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.settings.impl.EnumSetting;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
+import me.thef1xer.gateclient.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
@@ -52,12 +53,15 @@ public class KillAura extends Module {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         target = null;
+
         if (mc.world == null || !mc.world.isRemote) {
             return;
         }
 
         // Select target depending on the mode
         if (priority.getCurrentValue() == Priority.CLOSEST) {
+
+            // Select closest entity
             for (Entity entity : mc.world.loadedEntityList) {
                 if (isValidTarget(entity)) {
                     if (target == null) {
@@ -69,6 +73,8 @@ public class KillAura extends Module {
             }
         } else if (priority.getCurrentValue() == Priority.FOCUS) {
             if (focusTarget != null) {
+
+                // Check if the last entity targeted is still loaded
                 for (Entity entity : mc.world.loadedEntityList) {
                     if (entity == focusTarget) {
                         if (isValidTarget(entity)) {
@@ -92,42 +98,31 @@ public class KillAura extends Module {
     @SubscribeEvent
     public void onSendPacket(SendPacketEvent event) {
 
-        // Select target if mode if Focus
+        // Select target if mode is Focus
         if (event.getPacket() instanceof CPacketUseEntity) {
             CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
+
             if (packet.getAction() == CPacketUseEntity.Action.ATTACK) {
                 this.focusTarget = packet.getEntityFromWorld(mc.world);
             }
         }
 
-        // Send Rotation
+        // Rotate the player towards the target
         if (target != null) {
             if (event.getPacket() instanceof CPacketPlayer) {
                 CPacketPlayer packet = (CPacketPlayer) event.getPacket();
 
-                double deltaX = target.posX - mc.player.posX;
-                double deltaY = target.posY + target.height/2 - mc.player.posY - mc.player.getEyeHeight();
-                double deltaZ = target.posZ - mc.player.posZ;
-                double deltaGround = Math.sqrt(deltaX*deltaX + deltaZ*deltaZ);
+                float[] facingRotations = PlayerUtil.getPlayerFacingRotations(target.posX, target.posY + target.height/2, target.posZ);
 
-                float pitch = (float) - Math.toDegrees(Math.atan(deltaY/deltaGround));
-                float yaw = (float) - Math.toDegrees(Math.atan(deltaX/deltaZ));
-
-                // Yaw in Minecraft is weird and this is the only thing I could make to fix it
-                if (deltaZ <= 0) {
-                    if (deltaX > 0) {
-                        yaw = yaw - 180F;
-                    } else {
-                        yaw = yaw + 180F;
-                    }
-                }
-                packet.yaw = yaw;
-                packet.pitch = pitch;
+                packet.pitch = facingRotations[0];
+                packet.yaw = facingRotations[1];
             }
         }
     }
 
     public boolean isValidTarget(Entity entity) {
+
+        // Stop the player from attacking themselves
         if (entity == mc.player || entity == mc.getRenderViewEntity()) {
             return false;
         }
