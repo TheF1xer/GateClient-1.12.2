@@ -42,6 +42,7 @@ public class Scaffold extends Module {
 
         // Does scaffold if the floor block can be replaced
         if (mc.world.getBlockState(floorPos).getMaterial().isReplaceable()) {
+            // TODO: Fix bug where scaffold will be triggered twice when jumping
 
             // Save previous slot
             int prevSlot = mc.player.inventory.currentItem;
@@ -84,7 +85,7 @@ public class Scaffold extends Module {
 
                     // Rotate the player towards the block
                     float[] facingRotations = PlayerUtil.getPlayerFacingRotations(hitVec.x, hitVec.y, hitVec.z);
-                    mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX, mc.player.posY, mc.player.posZ, facingRotations[0], facingRotations[1], mc.player.onGround));
+                    mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX, mc.player.posY, mc.player.posZ, facingRotations[1], facingRotations[0], mc.player.onGround));
 
                     event.setCanceled(true);
 
