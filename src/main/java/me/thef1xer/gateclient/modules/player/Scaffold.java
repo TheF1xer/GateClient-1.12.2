@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -42,7 +43,6 @@ public class Scaffold extends Module {
 
         // Does scaffold if the floor block can be replaced
         if (mc.world.getBlockState(floorPos).getMaterial().isReplaceable()) {
-            // TODO: Fix bug where scaffold will be triggered twice when jumping
 
             // Save previous slot
             int prevSlot = mc.player.inventory.currentItem;
@@ -79,13 +79,17 @@ public class Scaffold extends Module {
                     Vec3d halfOppositeDirection = (new Vec3d(facing.getOpposite().getDirectionVec())).scale(0.5D);
                     Vec3d hitVec = new Vec3d(offsetBlock).addVector(0.5D + halfOppositeDirection.x, 0.5D + halfOppositeDirection.y, 0.5D + halfOppositeDirection.z);
 
-                    // Right-click the block to place it
-                    mc.playerController.processRightClickBlock(mc.player, mc.world, offsetBlock, facing.getOpposite(), hitVec, EnumHand.MAIN_HAND);
-                    mc.player.swingArm(EnumHand.MAIN_HAND);
-
-                    // Rotate the player towards the block
+                    // Rotate the player towards the block before placing the block
                     float[] facingRotations = PlayerUtil.getPlayerFacingRotations(hitVec.x, hitVec.y, hitVec.z);
                     mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX, mc.player.posY, mc.player.posZ, facingRotations[1], facingRotations[0], mc.player.onGround));
+
+                    // Right-click the block to place it
+                    if (mc.playerController.processRightClickBlock(mc.player, mc.world, offsetBlock, facing.getOpposite(), hitVec, EnumHand.MAIN_HAND) == EnumActionResult.SUCCESS) {
+
+                        // If Right-click was successful, swing arm
+                        mc.player.swingArm(EnumHand.MAIN_HAND);
+
+                    }
 
                     event.setCanceled(true);
 
