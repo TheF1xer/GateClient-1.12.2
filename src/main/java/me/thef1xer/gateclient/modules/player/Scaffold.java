@@ -70,21 +70,21 @@ public class Scaffold extends Module {
 
             // Check all surrounding blocks
             for (EnumFacing facing : EnumFacing.values()) {
-                BlockPos offsetBlock = floorPos.offset(facing);
+                BlockPos offsetPos = floorPos.offset(facing);
 
                 // Check if block is solid
-                if (mc.world.getBlockState(offsetBlock).getMaterial() != Material.AIR) {
+                if (mc.world.getBlockState(offsetPos).getMaterial() != Material.AIR) {
 
                     // Create a hit vector that points to the center of the correct side of the block
                     Vec3d halfOppositeDirection = (new Vec3d(facing.getOpposite().getDirectionVec())).scale(0.5D);
-                    Vec3d hitVec = new Vec3d(offsetBlock).addVector(0.5D + halfOppositeDirection.x, 0.5D + halfOppositeDirection.y, 0.5D + halfOppositeDirection.z);
+                    Vec3d hitVec = new Vec3d(offsetPos).addVector(0.5D + halfOppositeDirection.x, 0.5D + halfOppositeDirection.y, 0.5D + halfOppositeDirection.z);
 
                     // Rotate the player towards the block before placing the block
                     float[] facingRotations = PlayerUtil.getPlayerFacingRotations(hitVec.x, hitVec.y, hitVec.z);
                     mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX, mc.player.posY, mc.player.posZ, facingRotations[1], facingRotations[0], mc.player.onGround));
 
                     // Right-click the block to place it
-                    if (mc.playerController.processRightClickBlock(mc.player, mc.world, offsetBlock, facing.getOpposite(), hitVec, EnumHand.MAIN_HAND) == EnumActionResult.SUCCESS) {
+                    if (mc.playerController.processRightClickBlock(mc.player, mc.world, offsetPos, facing.getOpposite(), hitVec, EnumHand.MAIN_HAND) == EnumActionResult.SUCCESS) {
 
                         // If Right-click was successful, swing arm
                         mc.player.swingArm(EnumHand.MAIN_HAND);
@@ -97,7 +97,7 @@ public class Scaffold extends Module {
                 }
             }
 
-            // Select the previously selected block
+            // Select the previously selected item
             if (prevSlot != mc.player.inventory.currentItem) {
                 mc.player.inventory.currentItem = prevSlot;
                 mc.playerController.updateController();

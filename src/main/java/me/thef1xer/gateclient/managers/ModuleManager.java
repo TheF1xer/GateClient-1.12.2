@@ -3,6 +3,7 @@ package me.thef1xer.gateclient.managers;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.modules.combat.Criticals;
 import me.thef1xer.gateclient.modules.combat.KillAura;
+import me.thef1xer.gateclient.modules.combat.Surround;
 import me.thef1xer.gateclient.modules.hud.*;
 import me.thef1xer.gateclient.modules.player.AutoArmor;
 import me.thef1xer.gateclient.modules.combat.AutoTotem;
@@ -23,6 +24,7 @@ public class ModuleManager {
         MODULE_LIST.add(AutoTotem.INSTANCE);
         MODULE_LIST.add(Criticals.INSTANCE);
         MODULE_LIST.add(KillAura.INSTANCE);
+        MODULE_LIST.add(Surround.INSTANCE);
         // HUD
         MODULE_LIST.add(ArmorHUD.INSTANCE);
         MODULE_LIST.add(ClickGuiModule.INSTANCE);
