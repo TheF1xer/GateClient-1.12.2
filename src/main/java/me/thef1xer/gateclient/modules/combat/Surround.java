@@ -114,10 +114,10 @@ public class Surround extends Module {
 
                             // If Right-click was successful, swing arm
                             mc.player.swingArm(EnumHand.MAIN_HAND);
-
-                            // Increment blocks per tick counter
-                            blocksThisTick++;
                         }
+
+                        // Increment blocks per tick counter
+                        blocksThisTick++;
 
                         event.setCanceled(true);
 
@@ -126,7 +126,7 @@ public class Surround extends Module {
                 }
 
                 // Don't place more blocks if the amount of desired blocks per tick is reached
-                if (blocksThisTick >= (int) blocksPerTick.getValue()) {
+                if (blocksThisTick >= blocksPerTick.getValue()) {
                     break;
                 }
             }
