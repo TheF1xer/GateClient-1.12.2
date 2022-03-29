@@ -49,6 +49,7 @@ public class Flight extends Module {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPlayerMove(PlayerMoveEvent event) {
         if (mode.getCurrentValue() == Mode.PACKET) {
+
             // Cancel the movement, it will be calculated later
             event.x = 0;
             event.y = 0;

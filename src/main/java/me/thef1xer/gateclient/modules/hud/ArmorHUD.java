@@ -36,11 +36,13 @@ public class ArmorHUD extends Module {
             int width = event.getResolution().getScaledWidth();
             int height = event.getResolution().getScaledHeight();
 
+
             GlStateManager.pushMatrix();
             RenderHelper.enableGUIStandardItemLighting();
 
             int x = width / 2 + 74;
 
+            // Render items in armor inventory
             for (ItemStack stack : mc.player.inventory.armorInventory) {
                 if (!stack.isEmpty()) {
                     mc.getRenderItem().renderItemAndEffectIntoGUI(stack, x, height - 58);

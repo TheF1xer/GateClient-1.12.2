@@ -14,6 +14,7 @@ public class Module {
     private boolean enabled = false;
     private int keyBind;
     private final ModuleCategory moduleCategory;
+
     private final List<Setting> settings = new ArrayList<>();
 
     public final BooleanSetting drawOnHud = new BooleanSetting("Draw on Hud", "drawonhud", true);
@@ -50,8 +51,8 @@ public class Module {
         return this.enabled;
     }
 
-    public void setEnabled(boolean set) {
-        if (set) {
+    public void setEnabled(boolean enabled) {
+        if (enabled) {
             this.enabled = true;
             this.onEnable();
         } else {
@@ -64,10 +65,6 @@ public class Module {
         setEnabled(!this.enabled);
     }
 
-    public void addSettings(Setting... settings) {
-        this.settings.addAll(Arrays.asList(settings));
-    }
-
     public int getKeyBind() {
         return this.keyBind;
     }
@@ -78,6 +75,10 @@ public class Module {
 
     public ModuleCategory getModuleCategory() {
         return this.moduleCategory;
+    }
+
+    public void addSettings(Setting... settings) {
+        this.settings.addAll(Arrays.asList(settings));
     }
 
     public List<Setting> getSettings() {

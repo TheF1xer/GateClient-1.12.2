@@ -30,6 +30,8 @@ public class NoFall extends Module {
     @SubscribeEvent
     public void onSendPacket(SendPacketEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
+
+        // If player is falling, make them be "on ground"
         if (event.getPacket() instanceof CPacketPlayer && mc.player.fallDistance > 3) {
             CPacketPlayer packet = (CPacketPlayer) event.getPacket();
             packet.onGround = true;

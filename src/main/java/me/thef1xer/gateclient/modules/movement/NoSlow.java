@@ -33,11 +33,14 @@ public class NoSlow extends Module {
     @SubscribeEvent
     public void onInput(InputUpdateEvent event) {
         if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().player != null) {
+
+            // Cancel the effects of using an item
             if (item.getValue() && Minecraft.getMinecraft().player.isHandActive() && !Minecraft.getMinecraft().player.isRiding()) {
                 Minecraft.getMinecraft().player.movementInput.moveStrafe /= 0.2F;
                 Minecraft.getMinecraft().player.movementInput.moveForward /= 0.2F;
             }
 
+            // Cancel the effects of sneaking
             if (sneak.getValue() && Minecraft.getMinecraft().player.isSneaking()) {
                 Minecraft.getMinecraft().player.movementInput.moveStrafe = (float) ((double) Minecraft.getMinecraft().player.movementInput.moveStrafe / 0.3D);
                 Minecraft.getMinecraft().player.movementInput.moveForward = (float) ((double) Minecraft.getMinecraft().player.movementInput.moveForward / 0.3D);

@@ -27,13 +27,16 @@ public class Sprint extends Module {
 
     @SubscribeEvent
     public void onLivingEvent(LivingEvent.LivingUpdateEvent event) {
-        if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().world.isRemote) {
-            if (Minecraft.getMinecraft().player != null &&
-                    Minecraft.getMinecraft().player.moveForward > 0F &&
-                    !Minecraft.getMinecraft().player.collidedHorizontally &&
-                    !Minecraft.getMinecraft().player.isSprinting() &&
-                    !Minecraft.getMinecraft().player.isSneaking()) {
-                Minecraft.getMinecraft().player.setSprinting(true);
+        Minecraft mc = Minecraft.getMinecraft();
+
+        if (mc.world != null && mc.world.isRemote) {
+            if (mc.player != null &&
+                    mc.player.moveForward > 0F &&
+                    !mc.player.collidedHorizontally &&
+                    !mc.player.isSprinting() &&
+                    !mc.player.isSneaking()) {
+
+                mc.player.setSprinting(true);
             }
         }
     }

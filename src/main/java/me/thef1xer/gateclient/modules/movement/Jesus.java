@@ -71,6 +71,7 @@ public class Jesus extends Module {
 
     @SubscribeEvent
     public void onMove(PlayerMoveEvent event) {
+
         // Get the player out of the water
         if (isInLiquid() && !mc.player.isSneaking()) {
             event.y = 0.1D;
@@ -79,11 +80,15 @@ public class Jesus extends Module {
 
     private boolean isOverLiquid() {
         if (mc.player != null) {
-            AxisAlignedBB bb = mc.player.getEntityBoundingBox().offset(0, - 0.1D, 0);
+            AxisAlignedBB playerBB = mc.player.getEntityBoundingBox();
 
-            for (int x = MathHelper.floor(bb.minX); x < MathHelper.floor(bb.maxX) + 1; x++) {
-                for (int z = MathHelper.floor(bb.minZ); z < MathHelper.floor(bb.minZ) + 1; z++) {
-                    final Block block = mc.world.getBlockState(new BlockPos(x, bb.minY, z)).getBlock();
+            // Check if the player is above some liquid
+            for (int x = MathHelper.floor(playerBB.minX); x < MathHelper.floor(playerBB.maxX) + 1; x++) {
+
+                for (int z = MathHelper.floor(playerBB.minZ); z < MathHelper.floor(playerBB.minZ) + 1; z++) {
+
+                    // Check a little bellow the player's feet
+                    final Block block = mc.world.getBlockState(new BlockPos(x, playerBB.minY - 0.1D, z)).getBlock();
 
                     if (!(block instanceof BlockLiquid)) {
                         return false;
@@ -97,10 +102,14 @@ public class Jesus extends Module {
     }
 
     private boolean isInLiquid() {
-        AxisAlignedBB bb = mc.player.getEntityBoundingBox().offset(0, offset.getValue(), 0);
-        for (int x = MathHelper.floor(bb.minX); x < MathHelper.ceil(bb.maxX); x++) {
-            for (int z = MathHelper.floor(bb.minZ); z < MathHelper.ceil(bb.minZ); z++) {
-                final Block block = mc.world.getBlockState(new BlockPos(x, bb.minY, z)).getBlock();
+        AxisAlignedBB playerBB = mc.player.getEntityBoundingBox().offset(0, offset.getValue(), 0);
+
+        // Check if the player's feet are inside a liquid
+        for (int x = MathHelper.floor(playerBB.minX); x < MathHelper.ceil(playerBB.maxX); x++) {
+
+            for (int z = MathHelper.floor(playerBB.minZ); z < MathHelper.ceil(playerBB.minZ); z++) {
+
+                final Block block = mc.world.getBlockState(new BlockPos(x, playerBB.minY, z)).getBlock();
 
                 if (block instanceof BlockLiquid) {
                     return true;
@@ -111,7 +120,6 @@ public class Jesus extends Module {
     }
 
     private boolean isWaterWalking() {
-        return !isInLiquid()
-                && isOverLiquid();
+        return !isInLiquid() && isOverLiquid();
     }
 }

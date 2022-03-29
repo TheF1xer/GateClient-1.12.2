@@ -51,34 +51,28 @@ public class StorageESP extends Module {
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.disableDepth();
-        for (TileEntity entity : Minecraft.getMinecraft().world.loadedTileEntityList) {
-            AxisAlignedBB bb;
-            if (entity instanceof TileEntityChest) {
-                bb = new AxisAlignedBB(entity.getPos()).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
 
-                RenderGlobal.drawSelectionBoundingBox(bb,
-                        (float) chestColor.getRed()/255, (float) chestColor.getGreen()/255, (float) chestColor.getBlue()/255, colorAlpha.getValue());
-                RenderGlobal.renderFilledBox(bb,
-                        (float) chestColor.getRed()/255, (float) chestColor.getGreen()/255, (float) chestColor.getBlue()/255, colorAlpha.getValue()/3);
+        for (TileEntity entity : Minecraft.getMinecraft().world.loadedTileEntityList) {
+            AxisAlignedBB bb = new AxisAlignedBB(entity.getPos()).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
+
+            if (entity instanceof TileEntityChest) {
+
+                RenderGlobal.drawSelectionBoundingBox(bb,  chestColor.getRed()/255F,  chestColor.getGreen()/255F,  chestColor.getBlue()/255F, colorAlpha.getValue());
+                RenderGlobal.renderFilledBox(bb,chestColor.getRed()/255F,  chestColor.getGreen()/255F,  chestColor.getBlue()/255F, colorAlpha.getValue()/3);
 
             } else if (entity instanceof TileEntityShulkerBox) {
-                bb = new AxisAlignedBB(entity.getPos()).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
 
-                RenderGlobal.drawSelectionBoundingBox(bb,
-                        (float) shulkerColor.getRed()/255, (float) shulkerColor.getGreen()/255, (float) shulkerColor.getBlue()/255, colorAlpha.getValue());
-                RenderGlobal.renderFilledBox(bb,
-                        (float) shulkerColor.getRed()/255, (float) shulkerColor.getGreen()/255, (float) shulkerColor.getBlue()/255, colorAlpha.getValue()/3);
+                RenderGlobal.drawSelectionBoundingBox(bb, shulkerColor.getRed()/255F,  shulkerColor.getGreen()/255F,  shulkerColor.getBlue()/255F, colorAlpha.getValue());
+                RenderGlobal.renderFilledBox(bb, shulkerColor.getRed()/255F,  shulkerColor.getGreen()/255F,  shulkerColor.getBlue()/255F, colorAlpha.getValue()/3);
 
             } else if (entity instanceof TileEntityEnderChest) {
-                bb = new AxisAlignedBB(entity.getPos()).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
 
-                RenderGlobal.drawSelectionBoundingBox(bb,
-                        (float) enderChestColor.getRed()/255, (float) enderChestColor.getGreen()/255, (float) enderChestColor.getBlue()/255, colorAlpha.getValue());
-                RenderGlobal.renderFilledBox(bb,
-                        (float) enderChestColor.getRed()/255, (float) enderChestColor.getGreen()/255, (float) enderChestColor.getBlue()/255, colorAlpha.getValue()/3);
+                RenderGlobal.drawSelectionBoundingBox(bb, enderChestColor.getRed()/255F,  enderChestColor.getGreen()/255F,  enderChestColor.getBlue()/255F, colorAlpha.getValue());
+                RenderGlobal.renderFilledBox(bb, enderChestColor.getRed()/255F,  enderChestColor.getGreen()/255F,  enderChestColor.getBlue()/255F, colorAlpha.getValue()/3);
 
             }
         }
+
         GlStateManager.enableDepth();
         GlStateManager.disableBlend();
         GlStateManager.enableTexture2D();

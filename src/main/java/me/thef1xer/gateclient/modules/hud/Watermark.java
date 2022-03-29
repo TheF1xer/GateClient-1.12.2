@@ -11,6 +11,7 @@ public class Watermark extends Module {
     public static final Watermark INSTANCE = new Watermark();
 
     private final FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+    private final int nameWidth = fr.getStringWidth(Reference.NAME);
 
     public Watermark() {
         super("Watermark", "watermark", ModuleCategory.HUD);
@@ -24,14 +25,21 @@ public class Watermark extends Module {
         GlStateManager.pushMatrix();
         GlStateManager.translate(5, 5, 0);
         GlStateManager.scale(1.5F, 1.5F, 1);
-        int nameEnd = fr.drawStringWithShadow(Reference.NAME, 0, 0, rainbowHex);
+
+        // Draw client name
+        fr.drawStringWithShadow(Reference.NAME, 0, 0, rainbowHex);
 
         GlStateManager.scale((float) 2/3, (float) 2/3, 1);
         GlStateManager.translate(0, 4, 0);
-        fr.drawStringWithShadow(Reference.VERSION, 1.5F * nameEnd, 0, 0x909090);
+
+        // Draw client version
+        fr.drawStringWithShadow(Reference.VERSION, 1.5F * nameWidth, 0, 0x909090);
 
         GlStateManager.translate(0, 10, 0);
+
+        // Draw Player name
         fr.drawStringWithShadow(Minecraft.getMinecraft().player.getDisplayNameString(), 0, 0, 0x909090);
+
         GlStateManager.popMatrix();
     }
 }

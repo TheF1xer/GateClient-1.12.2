@@ -28,31 +28,49 @@ public class ModuleList extends Module {
     }
 
     public void drawList(ScaledResolution sr) {
-        int i = 0;
+        int drawnModules = 0;
         for (Module module : this.modulesSorted) {
+
+            // Check if module should be drawn
             if (module.isEnabled() && module.drawOnHud.getValue()) {
                 int hexColor;
+
                 if (color.getCurrentValue() == Color.RAINBOW) {
-                    int[] rainbow = ColorUtil.getRainbow(5, 0.1F * i);
+
+                    // Get rainbow with offset
+                    int[] rainbow = ColorUtil.getRainbow(5, 0.1F * drawnModules);
                     hexColor = ColorUtil.RGBtoHex(rainbow[0], rainbow[1], rainbow[2]);
+
                 } else if (color.getCurrentValue() == Color.CATEGORY) {
+
+                    // Get color from category
                     hexColor = module.getModuleCategory().getColor();
+
                 } else {
+
+                    // Get color from setting
                     hexColor = ColorUtil.RGBtoHex(staticColor.getRed(), staticColor.getGreen(), staticColor.getBlue());
+
                 }
-                fr.drawStringWithShadow(module.getName(), sr.getScaledWidth() - fr.getStringWidth(module.getName()) - 4, 4 + i * fr.FONT_HEIGHT, hexColor);
-                i++;
+
+                // Draw module name
+                fr.drawStringWithShadow(module.getName(), sr.getScaledWidth() - fr.getStringWidth(module.getName()) - 4, 4 + drawnModules * fr.FONT_HEIGHT, hexColor);
+                drawnModules++;
             }
         }
     }
 
     public void sortList() {
         modulesSorted = new ArrayList<>(GateClient.getGate().moduleManager.MODULE_LIST);
+
+        // Sort module list by name width
         modulesSorted.sort((module1, module2) -> {
             if (fr.getStringWidth(module1.getName()) < fr.getStringWidth(module2.getName())) {
                 return 1;
+
             } else if (fr.getStringWidth(module1.getName()) > fr.getStringWidth(module2.getName())) {
                 return -1;
+
             }
             return 0;
         });
