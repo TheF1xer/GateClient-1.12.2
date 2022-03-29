@@ -5,12 +5,9 @@ import me.thef1xer.gateclient.modules.combat.Criticals;
 import me.thef1xer.gateclient.modules.combat.KillAura;
 import me.thef1xer.gateclient.modules.combat.Surround;
 import me.thef1xer.gateclient.modules.hud.*;
-import me.thef1xer.gateclient.modules.player.AutoArmor;
+import me.thef1xer.gateclient.modules.player.*;
 import me.thef1xer.gateclient.modules.combat.AutoTotem;
-import me.thef1xer.gateclient.modules.player.AutoDisconnect;
-import me.thef1xer.gateclient.modules.player.Freecam;
 import me.thef1xer.gateclient.modules.movement.*;
-import me.thef1xer.gateclient.modules.player.Scaffold;
 import me.thef1xer.gateclient.modules.render.*;
 
 import java.util.ArrayList;
@@ -42,6 +39,7 @@ public class ModuleManager {
         MODULE_LIST.add(Sprint.INSTANCE);
         MODULE_LIST.add(Velocity.INSTANCE);
         // Player
+        MODULE_LIST.add(AntiHunger.INSTANCE);
         MODULE_LIST.add(AutoArmor.INSTANCE);
         MODULE_LIST.add(AutoDisconnect.INSTANCE);
         MODULE_LIST.add(Freecam.INSTANCE);
