@@ -32,18 +32,20 @@ public class NoSlow extends Module {
 
     @SubscribeEvent
     public void onInput(InputUpdateEvent event) {
-        if (Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().player != null) {
+        Minecraft mc = Minecraft.getMinecraft();
+
+        if (mc.world != null && mc.player != null) {
 
             // Cancel the effects of using an item
-            if (item.getValue() && Minecraft.getMinecraft().player.isHandActive() && !Minecraft.getMinecraft().player.isRiding()) {
-                Minecraft.getMinecraft().player.movementInput.moveStrafe /= 0.2F;
-                Minecraft.getMinecraft().player.movementInput.moveForward /= 0.2F;
+            if (item.getValue() && mc.player.isHandActive() && !mc.player.isRiding()) {
+                mc.player.movementInput.moveStrafe /= 0.2F;
+                mc.player.movementInput.moveForward /= 0.2F;
             }
 
             // Cancel the effects of sneaking
-            if (sneak.getValue() && Minecraft.getMinecraft().player.isSneaking()) {
-                Minecraft.getMinecraft().player.movementInput.moveStrafe = (float) ((double) Minecraft.getMinecraft().player.movementInput.moveStrafe / 0.3D);
-                Minecraft.getMinecraft().player.movementInput.moveForward = (float) ((double) Minecraft.getMinecraft().player.movementInput.moveForward / 0.3D);
+            if (sneak.getValue() && mc.player.isSneaking()) {
+                mc.player.movementInput.moveStrafe = (float) ((double) mc.player.movementInput.moveStrafe / 0.3D);
+                mc.player.movementInput.moveForward = (float) ((double) mc.player.movementInput.moveForward / 0.3D);
             }
         }
     }
