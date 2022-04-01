@@ -42,6 +42,7 @@ public class ModuleManager {
         MODULE_LIST.add(AntiHunger.INSTANCE);
         MODULE_LIST.add(AutoArmor.INSTANCE);
         MODULE_LIST.add(AutoDisconnect.INSTANCE);
+        MODULE_LIST.add(FakePlayer.INSTANCE);
         MODULE_LIST.add(Freecam.INSTANCE);
         MODULE_LIST.add(Scaffold.INSTACE);
         // Render
