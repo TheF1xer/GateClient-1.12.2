@@ -1,12 +1,9 @@
 package me.thef1xer.gateclient.managers;
 
 import me.thef1xer.gateclient.modules.Module;
-import me.thef1xer.gateclient.modules.combat.Criticals;
-import me.thef1xer.gateclient.modules.combat.KillAura;
-import me.thef1xer.gateclient.modules.combat.Surround;
+import me.thef1xer.gateclient.modules.combat.*;
 import me.thef1xer.gateclient.modules.hud.*;
 import me.thef1xer.gateclient.modules.player.*;
-import me.thef1xer.gateclient.modules.combat.AutoTotem;
 import me.thef1xer.gateclient.modules.movement.*;
 import me.thef1xer.gateclient.modules.render.*;
 
@@ -20,6 +17,7 @@ public class ModuleManager {
         // Combat
         MODULE_LIST.add(AutoTotem.INSTANCE);
         MODULE_LIST.add(Criticals.INSTANCE);
+        MODULE_LIST.add(CrystalAura.INSTANCE);
         MODULE_LIST.add(KillAura.INSTANCE);
         MODULE_LIST.add(Surround.INSTANCE);
         // HUD
