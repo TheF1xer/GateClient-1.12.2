@@ -2,6 +2,7 @@ package me.thef1xer.gateclient.modules.combat;
 
 import me.thef1xer.gateclient.events.UpdateWalkingPlayerEvent;
 import me.thef1xer.gateclient.modules.Module;
+import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -14,20 +15,21 @@ import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CrystalAura extends Module {
     public static CrystalAura INSTANCE = new CrystalAura();
 
+    private final BooleanSetting placeRaytrace = new BooleanSetting("Place Raytrace", "placeraytrace", false);
+    private final BooleanSetting breakRaytrace = new BooleanSetting("Break Raytrace", "breakraytrace", false);
+
     private final Minecraft mc = Minecraft.getMinecraft();
 
     public CrystalAura() {
         super("Crystal Aura", "crystalaura", ModuleCategory.COMBAT);
+        addSettings(placeRaytrace, breakRaytrace);
     }
 
     @Override
@@ -61,6 +63,7 @@ public class CrystalAura extends Module {
             BlockPos bestCrystalFloorPos = getCrystalPlacePos(target);
 
             // Place Crystal
+
             // Check if a crystal placement pos was found
             if (bestCrystalFloorPos != null) {
 
@@ -83,33 +86,22 @@ public class CrystalAura extends Module {
             }
         }
 
-
         // Break Crystal
-        // Select crystal to attack
-        EntityEnderCrystal enderCrystalToAttack = null;
 
-        for (Entity entity : mc.world.loadedEntityList) {
-            if (entity instanceof EntityEnderCrystal) {
-                EntityEnderCrystal enderCrystal = (EntityEnderCrystal) entity;
+        // Select crystal to break
+        EntityEnderCrystal enderCrystalToBreak = getEnderCrystalToBreak();
 
-                if (enderCrystalToAttack == null) {
-                    enderCrystalToAttack = enderCrystal;
-                }
+        if (enderCrystalToBreak != null) {
 
-                // Check if the crystal is in attack range
-                if (mc.player.getDistanceSq(enderCrystal) <= 36) {
+            // Rotate player towards the crystal
+            float[] facingRotations = PlayerUtil.getPlayerFacingRotations(enderCrystalToBreak.posX, enderCrystalToBreak.posY + enderCrystalToBreak.height/2, enderCrystalToBreak.posZ);
+            mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX, mc.player.posY, mc.player.posZ, facingRotations[1], facingRotations[0], mc.player.onGround));
 
-                    // Attack the newest crystal in reach
-                    if (enderCrystal.ticksExisted < enderCrystalToAttack.ticksExisted) {
-                        enderCrystalToAttack = enderCrystal;
-                    }
-                }
-            }
-        }
-
-        if (enderCrystalToAttack != null) {
-            mc.player.connection.sendPacket(new CPacketUseEntity(enderCrystalToAttack));
+            // Attack the crystal
+            mc.player.connection.sendPacket(new CPacketUseEntity(enderCrystalToBreak));
             mc.player.swingArm(EnumHand.MAIN_HAND);
+
+            event.setCanceled(true);
         }
     }
 
@@ -158,7 +150,6 @@ public class CrystalAura extends Module {
                         // Check if the current block and the block above are empty
                         if (mc.world.getBlockState(crystalPos).getBlock() == Blocks.AIR ||
                                 mc.world.getBlockState(crystalPos.up()).getBlock() == Blocks.AIR) {
-                            // TODO: Check raytracing
 
                             //Check if there would be entities in the crystal AABB
                             boolean entityInBlockAABB = false;
@@ -178,6 +169,18 @@ public class CrystalAura extends Module {
 
                             if (entityInBlockAABB) {
                                 continue;
+                            }
+
+                            // Raytrace check
+                            if (placeRaytrace.getValue()) {
+
+                                // We check a little bellow the top of the block to make sure it collides
+                                RayTraceResult rayTraceResult = mc.world.rayTraceBlocks(mc.player.getPositionEyes(1), new Vec3d(floorPos).addVector(0.5D, 0.9, 0.5D));
+
+                                // Might also need to test the facing
+                                if (rayTraceResult == null || !rayTraceResult.getBlockPos().equals(floorPos)) {
+                                    continue;
+                                }
                             }
 
 
@@ -200,5 +203,32 @@ public class CrystalAura extends Module {
         }
 
         return bestCrystalFloorPos;
+    }
+
+    private EntityEnderCrystal getEnderCrystalToBreak() {
+        EntityEnderCrystal enderCrystalToBreak = null;
+
+        for (Entity entity : mc.world.loadedEntityList) {
+            if (entity instanceof EntityEnderCrystal) {
+                EntityEnderCrystal enderCrystal = (EntityEnderCrystal) entity;
+                int maxDist = 36;
+
+                // Check if entity can be seen (got this from the Minecraft source code)
+                if (breakRaytrace.getValue() && !mc.player.canEntityBeSeen(enderCrystal)) {
+                    maxDist = 9;
+                }
+
+                // Check if the crystal is in attack range
+                if (mc.player.getDistanceSq(enderCrystal) < maxDist) {
+
+                    // Select the newest crystal in reach
+                    if (enderCrystalToBreak == null || enderCrystal.ticksExisted < enderCrystalToBreak.ticksExisted) {
+                        enderCrystalToBreak = enderCrystal;
+                    }
+                }
+            }
+        }
+
+        return enderCrystalToBreak;
     }
 }
