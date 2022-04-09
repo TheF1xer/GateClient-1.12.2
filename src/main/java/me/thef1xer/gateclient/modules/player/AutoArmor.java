@@ -52,7 +52,6 @@ public class AutoArmor extends Module {
                     Item slotItem = mc.player.inventoryContainer.inventorySlots.get(slot).getStack().getItem();
                     if (slotItem instanceof ItemArmor) {
                         ItemArmor itemArmor = (ItemArmor) slotItem;
-                        System.out.println(slot);
 
                         if (!hasHelmet && itemArmor.armorType == EntityEquipmentSlot.HEAD) {
                             PlayerUtil.swapInventoryItems(slot, 5);

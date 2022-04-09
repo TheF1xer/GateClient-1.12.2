@@ -40,7 +40,6 @@ public class TextField {
     }
 
     public void keyTyped(char typedChar, int keyCode) {
-        System.out.println(typedChar + " " + keyCode);
         if (keyCode == 14) {
             // Backspace key
             if (!text.isEmpty()) {
