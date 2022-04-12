@@ -1,14 +1,27 @@
+[![GitHub all releases](https://img.shields.io/github/downloads/TheF1xer/GateClient/total)](https://github.com/TheF1xer/GateClient/releases/latest)
+
+![I need a logo](https://i.imgur.com/r2oloLe.png)
+
 # Gate Client
-Gate Client is a *Forge Mod for Minecraft 1.12.2* developed by **TheF1xer** that started for fun as a way to learn how to code in Java. Right now this Mod is on a very early stage of development but is continuously being updated.
+Gate Client is a free and open-source **Forge Mod for Minecraft 1.12.2** developed by **TheF1xer** since October 2020 for fun.
+This utility mod takes inspiration from many other open-source clients, but **every single line** was written for this mod.
 
-The development of this Mod started in October 2020 and went public in January 2021 when a config system was finally implemented.
+This project is still in an early stage of development and is continuously receiving updates.
 
-## Objective
-This Utility Mod is a Client-Side Mod that is only available for Forge for Minecraft 1.12.2 and takes inspiration from many other open-source clients, but every single line was written for this Mod.
-
-Help will be always well received, so if you find something that could be changed let me know. New Modules will be implemented as soon as possible and the existing ones will be updated regularly.
+## Installation
+- **Forge 1.12.2** is required in order to run **Gate Client**, you can download it from the official [Forge Website](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.12.2.html).
+- You can get a prebuilt **jar file** of the latest version of **Gate Client** in the [Release Page](https://github.com/TheF1xer/GateClient/releases/latest). Scroll down and download the **.jar file** located in the assets section. You can also build the client by yourself.
+- Once you have the **.jar file**, you will have to drag it inside the **mods** folder in the .minecraft directory.
 
 ## Usage
-You can get the latest version of **Gate Client** in the [Release Page](https://github.com/TheF1xer/GateClient/releases/latest). Then you have to download the **.jar** file at the end of that page and run it using *Forge* for Minecraft 1.12.2.
+The **Click GUI** is bound to `Right-Shift` by default. This can be later changed to any key you want.
 
-To actually interact with the Client you have to either press **Right Shift** ingame to open the **Click GUI** or use commands (the default prefix is "**.**"), type "**.help**" to get a list of all of them.
+The default prefix for commands is `.` (this can also be changed) and you can type `.help` to get the full list of commands that can be used.
+
+This client allows for the creations of **Presets**. A preset stores **all of you current client configurations** (such as enabled modules, binds and module settings) and you can create **multiple presets**.
+You can then have as many presets as you wish and load them when you need. You can use this using the **Click GUI** or **commands**.
+
+## Support
+Help will be always well received, if you find something that could be changed let me know. New modules will be implemented as soon as possible and the existing ones will be updated regularly.
+
+If you want to report a bug or make a suggestion, raise an **Issue** on GitHub or contact me via **Discord** (I'm F1xer#4629).
