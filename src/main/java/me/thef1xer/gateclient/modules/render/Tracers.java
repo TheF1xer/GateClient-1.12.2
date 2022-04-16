@@ -31,20 +31,7 @@ public class Tracers extends Module {
         this.addSettings(targetPlayer, targetHostile, color, colorAlpha);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
-    public void onRender(RenderWorldLastEvent event) {
+    public void onRenderWorldLast(RenderWorldLastEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.player != null && mc.world != null) {

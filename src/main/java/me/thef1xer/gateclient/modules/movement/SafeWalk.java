@@ -4,9 +4,6 @@ import me.thef1xer.gateclient.events.PlayerMoveEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.EnumSetting;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class SafeWalk extends Module {
     public static final SafeWalk INSTANCE = new SafeWalk();
@@ -18,21 +15,7 @@ public class SafeWalk extends Module {
         this.addSettings(mode);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    // Priority must be LOWEST so that this does not interfere with Speed
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onMove(PlayerMoveEvent event) {
+    public void onPlayerMove(PlayerMoveEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.player.onGround) {
             if (this.mode.getCurrentValue() == Mode.STOP) {

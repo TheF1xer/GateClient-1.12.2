@@ -16,8 +16,6 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.*;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CrystalAura extends Module {
     public static CrystalAura INSTANCE = new CrystalAura();
@@ -32,19 +30,6 @@ public class CrystalAura extends Module {
         addSettings(placeRaytrace, breakRaytrace);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
     public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
 
         // Only continue if the current held item is an end crystal

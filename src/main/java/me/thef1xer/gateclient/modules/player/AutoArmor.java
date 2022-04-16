@@ -7,9 +7,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class AutoArmor extends Module {
     public static final AutoArmor INSTANCE = new AutoArmor();
@@ -18,20 +15,7 @@ public class AutoArmor extends Module {
         super("Auto Armor", "autoarmor", Module.ModuleCategory.PLAYER);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onClientTick() {
         Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.world != null && mc.player != null) {

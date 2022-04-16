@@ -12,8 +12,6 @@ import net.minecraft.item.ItemShulkerBox;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ShulkerViewer extends Module {
     public static final ShulkerViewer INSTANCE = new ShulkerViewer();
@@ -22,20 +20,7 @@ public class ShulkerViewer extends Module {
         super("ShulkerViewer", "shulkerviewer", ModuleCategory.RENDER);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
-    public void onRenderToolTop(RenderToolTipEvent event) {
+    public void onRenderToolTip(RenderToolTipEvent event) {
         if (event.getItemStack().getItem() instanceof ItemShulkerBox) {
             Minecraft mc = Minecraft.getMinecraft();
             FontRenderer fr = mc.fontRenderer;

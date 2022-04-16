@@ -3,9 +3,6 @@ package me.thef1xer.gateclient.modules.movement;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.event.InputUpdateEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class NoSlow extends Module {
     public static final NoSlow INSTANCE = new NoSlow();
@@ -18,20 +15,7 @@ public class NoSlow extends Module {
         this.addSettings(sneak, item);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
-    public void onInput(InputUpdateEvent event) {
+    public void onInputUpdate() {
         Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.world != null && mc.player != null) {

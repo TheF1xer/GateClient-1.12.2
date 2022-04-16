@@ -5,8 +5,6 @@ import me.thef1xer.gateclient.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class AntiHunger extends Module {
     public static final AntiHunger INSTANCE = new AntiHunger();
@@ -15,19 +13,6 @@ public class AntiHunger extends Module {
         super("Anti Hunger", "antihunger", ModuleCategory.PLAYER);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
     public void onSendPacket(SendPacketEvent event) {
         if (event.getPacket() instanceof CPacketEntityAction) {
             CPacketEntityAction packetEntityAction = (CPacketEntityAction) event.getPacket();

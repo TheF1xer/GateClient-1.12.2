@@ -4,7 +4,6 @@ import me.thef1xer.gateclient.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 
 public class Coords extends Module {
@@ -14,7 +13,7 @@ public class Coords extends Module {
         super("Coords", "coords", Module.ModuleCategory.HUD);
     }
 
-    public void drawCoords(ScaledResolution sr) {
+    public void onRenderGameOverlay(ScaledResolution sr) {
         Minecraft mc = Minecraft.getMinecraft();
         FontRenderer fr = mc.fontRenderer;
 

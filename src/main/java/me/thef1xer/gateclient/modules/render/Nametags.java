@@ -11,9 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
 public class Nametags extends Module {
@@ -25,27 +22,13 @@ public class Nametags extends Module {
         super("Nametags", "nametags", ModuleCategory.RENDER);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
     public void onRenderName(RenderLivingEvent.Specials.Pre<?> event) {
         if (event.getEntity() instanceof EntityPlayer) {
             event.setCanceled(true);
         }
     }
 
-    @SubscribeEvent
-    public void onRenderWorld(RenderWorldLastEvent event) {
+    public void onRenderWorldLast() {
         if (mc.player == null || mc.world == null) {
             return;
         }

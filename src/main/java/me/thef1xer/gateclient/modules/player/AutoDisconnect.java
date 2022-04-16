@@ -6,12 +6,8 @@ import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class AutoDisconnect extends Module {
     public static final AutoDisconnect INSTANCE = new AutoDisconnect();
@@ -23,32 +19,21 @@ public class AutoDisconnect extends Module {
 
     public AutoDisconnect() {
         super("Auto Disconnect", "autodisconnect", Module.ModuleCategory.PLAYER);
-        this.addSettings(players, health, ignoreTotems, disable);
+        addSettings(players, health, ignoreTotems, disable);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
+    public void onClientTick() {
+        Minecraft mc = Minecraft.getMinecraft();
 
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onTick(TickEvent.ClientTickEvent event) {
-        if (Minecraft.getMinecraft().player == null) {
+        if (mc.player == null) {
             return;
         }
 
         // Players
         if (players.getValue()) {
-            for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
-                if (entity instanceof EntityPlayer && entity != Minecraft.getMinecraft().player && entity != Freecam.INSTANCE.camera) {
-                    Minecraft.getMinecraft().player.connection.onDisconnect(new TextComponentString("A Player was found"));
+            for (Entity entity : mc.world.loadedEntityList) {
+                if (entity instanceof EntityPlayer && entity != mc.player && entity != Freecam.INSTANCE.camera) {
+                    mc.player.connection.onDisconnect(new TextComponentString("A Player was found"));
                     if (disable.getValue()) {
                         this.setEnabled(false);
                     }
@@ -58,13 +43,13 @@ public class AutoDisconnect extends Module {
         }
 
         // Totems
-        if (!ignoreTotems.getValue() && Minecraft.getMinecraft().player.getHeldItemOffhand().getItem() == Item.getItemById(449)) {
+        if (!ignoreTotems.getValue() && mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING) {
             return;
         }
 
         // Health
-        if (Minecraft.getMinecraft().player.getHealth() <= health.getValue()) {
-            Minecraft.getMinecraft().player.connection.onDisconnect(new TextComponentString("Health was " + Minecraft.getMinecraft().player.getHealth()));
+        if (mc.player.getHealth() <= health.getValue()) {
+            mc.player.connection.onDisconnect(new TextComponentString("Health was " + mc.player.getHealth()));
             if (disable.getValue()) {
                 this.setEnabled(false);
             }

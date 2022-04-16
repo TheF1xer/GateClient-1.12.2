@@ -7,8 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.network.play.server.SPacketExplosion;
 import net.minecraft.world.Explosion;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Velocity extends Module {
     public static final Velocity INSTANCE = new Velocity();
@@ -21,19 +19,6 @@ public class Velocity extends Module {
         this.addSettings(horizontal, vertical);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
     public void onReceivePacket(ReceivePacketEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
 

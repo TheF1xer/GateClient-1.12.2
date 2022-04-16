@@ -1,9 +1,9 @@
 package me.thef1xer.gateclient;
 
-import me.thef1xer.gateclient.managers.HUDManager;
+import me.thef1xer.gateclient.handlers.ModuleEventHandler;
 import me.thef1xer.gateclient.managers.*;
 import me.thef1xer.gateclient.util.Reference;
-import me.thef1xer.gateclient.handlers.EventHandler;
+import me.thef1xer.gateclient.handlers.CommonEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -11,14 +11,14 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class GateClient {
-    public ModuleManager moduleManager;
     public CommandManager commandManager;
     public ConfigManager configManager;
-    public PresetManager presetManager;
     public GuiManager guiManager;
-    public HUDManager hudManager;
+    public ModuleManager moduleManager;
+    public PresetManager presetManager;
 
-    public EventHandler eventHandler;
+    public CommonEventHandler commonEventHandler;
+    public ModuleEventHandler moduleEventHandler;
 
     @Mod.Instance
     private static GateClient gate;
@@ -29,17 +29,17 @@ public class GateClient {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        moduleManager = new ModuleManager();
         commandManager = new CommandManager();
         configManager = new ConfigManager();
-        presetManager = new PresetManager();
         guiManager = new GuiManager();
-        hudManager = new HUDManager();
+        moduleManager = new ModuleManager();
+        presetManager = new PresetManager();
 
-        eventHandler = new EventHandler();
+        commonEventHandler = new CommonEventHandler();
+        moduleEventHandler = new ModuleEventHandler();
 
-        MinecraftForge.EVENT_BUS.register(eventHandler);
-        MinecraftForge.EVENT_BUS.register(hudManager);
+        MinecraftForge.EVENT_BUS.register(commonEventHandler);
+        MinecraftForge.EVENT_BUS.register(moduleEventHandler);
     }
 
     @Mod.EventHandler
@@ -49,6 +49,5 @@ public class GateClient {
         guiManager.init();
         configManager.init();
         presetManager.init();
-        hudManager.init();
     }
 }

@@ -13,8 +13,6 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Jesus extends Module {
 
@@ -29,18 +27,7 @@ public class Jesus extends Module {
         this.addSettings(offset);
     }
 
-    @Override
-    public void onEnable() {
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
-    public void onLiquidCollision(GetLiquidCollisionBoundingBoxEvent event) {
+    public void onGetLiquidCollisionBoundingBox(GetLiquidCollisionBoundingBoxEvent event) {
         if (mc.world == null || mc.player == null) {
             return;
         }
@@ -55,22 +42,22 @@ public class Jesus extends Module {
         }
     }
 
-    @SubscribeEvent
-    public void onUpdateWalking(UpdateWalkingPlayerEvent event) {
+    public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
         if (isWaterWalking() && !mc.player.isSneaking()) {
 
             //This keeps the player constantly moving up and down to bypass some anticheats
             if (mc.player.ticksExisted % 2 == 0) {
                 EntityPlayerSP player = mc.player;
+
                 mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(player.posX, player.posY + offset.getValue(),
                         player.posZ, player.rotationYaw, player.rotationPitch, player.onGround));
+
                 event.setCanceled(true);
             }
         }
     }
 
-    @SubscribeEvent
-    public void onMove(PlayerMoveEvent event) {
+    public void onPlayerMove(PlayerMoveEvent event) {
 
         // Get the player out of the water
         if (isInLiquid() && !mc.player.isSneaking()) {

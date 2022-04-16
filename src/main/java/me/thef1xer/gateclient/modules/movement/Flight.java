@@ -6,11 +6,6 @@ import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.EnumSetting;
 import me.thef1xer.gateclient.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class Flight extends Module {
     public static final Flight INSTANCE = new Flight();
@@ -25,28 +20,19 @@ public class Flight extends Module {
     }
 
     @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
     public void onDisable() {
         super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
         if (mc.player != null) {
             mc.player.capabilities.isFlying = false;
         }
     }
 
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onClientTick() {
         if (mc.player != null) {
             mc.player.capabilities.isFlying = true;
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPlayerMove(PlayerMoveEvent event) {
         if (mode.getCurrentValue() == Mode.PACKET) {
 
@@ -57,8 +43,7 @@ public class Flight extends Module {
         }
     }
 
-    @SubscribeEvent
-    public void onUpdateWalking(UpdateWalkingPlayerEvent event) {
+    public void onUpdateWalkingPlayer() {
         if (mode.getCurrentValue() == Mode.PACKET) {
             double[] moveVec = PlayerUtil.getPlayerMoveVec();
 

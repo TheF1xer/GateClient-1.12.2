@@ -8,8 +8,6 @@ import me.thef1xer.gateclient.modules.Module;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class XRay extends Module {
     public static final XRay INSTANCE = new XRay();
@@ -24,7 +22,7 @@ public class XRay extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
+
         Minecraft.getMinecraft().renderGlobal.loadRenderers();
         lastGamma = Minecraft.getMinecraft().gameSettings.gammaSetting;
         Minecraft.getMinecraft().gameSettings.gammaSetting = 10000F;
@@ -33,32 +31,28 @@ public class XRay extends Module {
     @Override
     public void onDisable() {
         super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
+
         Minecraft.getMinecraft().renderGlobal.loadRenderers();
         if (!FullBright.INSTANCE.isEnabled()) {
             Minecraft.getMinecraft().gameSettings.gammaSetting = lastGamma;
         }
     }
 
-    @SubscribeEvent
-    public void onRenderModel(RenderBlockEvent event) {
+    public void onRenderBlock(RenderBlockEvent event) {
         if (!isXrayBlock(event.getState().getBlock())) {
             event.setCanceled(true);
         }
     }
 
-    @SubscribeEvent
     public void onSetOpaqueCube(SetOpaqueCubeEvent event) {
         event.setCanceled(true);
     }
 
-    @SubscribeEvent
-    public void onSideRendered(ShouldSideBeRenderedEvent event) {
+    public void onShouldSideBeRendered(ShouldSideBeRenderedEvent event) {
         event.setShouldBeRendered(isXrayBlock(event.getBlockState().getBlock()));
     }
 
-    @SubscribeEvent
-    public void onGetAmbientOcclusion(GetAmbientOcclusionLightValueEvent event) {
+    public void onGetAmbientOcclusionLightValue(GetAmbientOcclusionLightValueEvent event) {
         // If this isn't active, the blocks will look black
         event.setLightValue(1.0F);
     }

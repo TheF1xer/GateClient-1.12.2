@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
-public class EventHandler {
+public class CommonEventHandler {
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
@@ -36,7 +36,7 @@ public class EventHandler {
     public void onMessageSent(ClientChatEvent event) {
         String message = event.getOriginalMessage();
 
-        //Commands
+        // Commands
         if (message.startsWith(GateClient.getGate().commandManager.getPrefix())) {
             Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(message);
             String[] args = message.substring(GateClient.getGate().commandManager.getPrefix().length()).split(" ");

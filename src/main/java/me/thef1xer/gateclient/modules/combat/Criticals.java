@@ -6,8 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Criticals extends Module {
     public static final Criticals INSTANCE = new Criticals();
@@ -16,19 +14,6 @@ public class Criticals extends Module {
         super("Criticals", "criticals", Module.ModuleCategory.COMBAT);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
     public void onSendPacket(SendPacketEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
 

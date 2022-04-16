@@ -18,7 +18,7 @@ public class Watermark extends Module {
         setEnabled(true);
     }
 
-    public void drawWatermark() {
+    public void onRenderGameOverlay() {
         int[] rainbow = ColorUtil.getRainbow(5, 0);
         int rainbowHex = ColorUtil.RGBtoHex(rainbow[0], rainbow[1], rainbow[2]);
 

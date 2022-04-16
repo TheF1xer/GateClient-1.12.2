@@ -16,8 +16,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Surround extends Module {
     public static final Surround INSTANCE = new Surround();
@@ -35,7 +33,6 @@ public class Surround extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
 
         if (center.getValue()) {
             if (mc.player == null || mc.world == null) {
@@ -51,13 +48,6 @@ public class Surround extends Module {
         }
     }
 
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
     public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
         BlockPos playerPos = new BlockPos(mc.player);
         int blocksThisTick = 0;

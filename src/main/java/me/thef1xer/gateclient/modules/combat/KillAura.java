@@ -7,7 +7,6 @@ import me.thef1xer.gateclient.settings.impl.EnumSetting;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import me.thef1xer.gateclient.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
@@ -15,9 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class KillAura extends Module {
     public static final KillAura INSTANCE = new KillAura();
@@ -38,20 +34,7 @@ public class KillAura extends Module {
         this.addSettings(priority, reach, delay, players, monsters, passives);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onClientTick() {
         target = null;
 
         if (mc.world == null || !mc.world.isRemote) {
@@ -95,7 +78,6 @@ public class KillAura extends Module {
         }
     }
 
-    @SubscribeEvent
     public void onSendPacket(SendPacketEvent event) {
 
         // Select target if mode is Focus

@@ -10,7 +10,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class ModuleList extends Module {
@@ -27,7 +26,7 @@ public class ModuleList extends Module {
         addSettings(color, staticColor);
     }
 
-    public void drawList(ScaledResolution sr) {
+    public void onRenderGameOverlay(ScaledResolution sr) {
         int drawnModules = 0;
         for (Module module : this.modulesSorted) {
 

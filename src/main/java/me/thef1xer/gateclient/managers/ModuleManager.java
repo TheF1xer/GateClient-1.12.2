@@ -42,7 +42,7 @@ public class ModuleManager {
         MODULE_LIST.add(AutoDisconnect.INSTANCE);
         MODULE_LIST.add(FakePlayer.INSTANCE);
         MODULE_LIST.add(Freecam.INSTANCE);
-        MODULE_LIST.add(Scaffold.INSTACE);
+        MODULE_LIST.add(Scaffold.INSTANCE);
         // Render
         MODULE_LIST.add(EntityESP.INSTANCE);
         MODULE_LIST.add(StorageESP.INSTANCE);
@@ -52,5 +52,8 @@ public class ModuleManager {
         MODULE_LIST.add(ShulkerViewer.INSTANCE);
         MODULE_LIST.add(Tracers.INSTANCE);
         MODULE_LIST.add(XRay.INSTANCE);
+
+
+        ModuleList.INSTANCE.sortList();
     }
 }

@@ -12,9 +12,6 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.tileentity.TileEntityShulkerBox;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class StorageESP extends Module {
     public static final StorageESP INSTANCE = new StorageESP();
@@ -29,20 +26,7 @@ public class StorageESP extends Module {
         this.addSettings(chestColor, shulkerColor, enderChestColor, colorAlpha);
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
-    @SubscribeEvent
-    public void onRender(RenderWorldLastEvent event) {
+    public void onRenderWorldLast() {
         RenderManager rm = Minecraft.getMinecraft().getRenderManager();
 
         GlStateManager.pushMatrix();

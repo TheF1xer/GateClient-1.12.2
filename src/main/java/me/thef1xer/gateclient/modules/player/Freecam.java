@@ -12,9 +12,6 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.util.MovementInputFromOptions;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.InputUpdateEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class Freecam extends Module {
     public static final Freecam INSTANCE = new Freecam();
@@ -29,14 +26,14 @@ public class Freecam extends Module {
 
     public Freecam() {
         super("Freecam", "freecam", Module.ModuleCategory.PLAYER);
-        this.addSettings(verticalSpeed, horizontalSpeed);
+        addSettings(verticalSpeed, horizontalSpeed);
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
-        MinecraftForge.EVENT_BUS.register(this);
-        this.activeThisSession = true;
+
+        activeThisSession = true;
         mc.renderGlobal.loadRenderers();
     }
 
@@ -44,20 +41,19 @@ public class Freecam extends Module {
     public void onDisable() {
         super.onDisable();
 
-        MinecraftForge.EVENT_BUS.unregister(this);
         if (mc.world != null && mc.world.isRemote) {
             mc.setRenderViewEntity(mc.player);
-            if (this.activeThisSession) {
+            if (activeThisSession) {
                 mc.gameSettings.thirdPersonView = lastThirdPerson;
                 mc.world.removeEntity(camera);
             }
         }
-        this.camera = null;
-        this.activeThisSession = false;
+
+        camera = null;
+        activeThisSession = false;
     }
 
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public void onClientTick() {
         // TODO: Try to fix weird hand movement that sometimes happens
         // TODO: This still doesn't work with baritone xd
 
@@ -82,7 +78,6 @@ public class Freecam extends Module {
         camera.setHealth(mc.player.getHealth());
     }
 
-    @SubscribeEvent
     public void onInputUpdate(InputUpdateEvent event) {
         if (camera == null) {
             return;
@@ -110,18 +105,15 @@ public class Freecam extends Module {
         }
     }
 
-    @SubscribeEvent
-    public void onIsUser(PlayerIsUserEvent event) {
+    public void onPlayerIsUser(PlayerIsUserEvent event) {
         // Allows you to watch yourself while Freecam is active
         event.setCanceled(true);
     }
 
-    @SubscribeEvent
-    public void onOpaqueCube(SetOpaqueCubeEvent event) {
+    public void onSetOpaqueCube(SetOpaqueCubeEvent event) {
         event.setCanceled(true);
     }
 
-    @SubscribeEvent
     public void onSendPacket(SendPacketEvent event) {
         // Prevents the player from hitting themselves
         if (event.getPacket() instanceof CPacketUseEntity) {
@@ -131,5 +123,4 @@ public class Freecam extends Module {
             }
         }
     }
-
 }

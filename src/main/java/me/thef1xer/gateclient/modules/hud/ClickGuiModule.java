@@ -14,7 +14,7 @@ public class ClickGuiModule extends Module {
 
     @Override
     public void onEnable() {
-        Minecraft.getMinecraft().displayGuiScreen(GateClient.getGate().guiManager.CLICK_GUI);
         super.onEnable();
+        Minecraft.getMinecraft().displayGuiScreen(GateClient.getGate().guiManager.CLICK_GUI);
     }
 }
