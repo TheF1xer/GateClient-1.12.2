@@ -3,19 +3,19 @@ package me.thef1xer.gateclient.managers;
 import com.google.gson.*;
 import me.thef1xer.gateclient.GateClient;
 import me.thef1xer.gateclient.modules.Module;
+import me.thef1xer.gateclient.modules.render.XRay;
 import me.thef1xer.gateclient.settings.Setting;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.settings.impl.RGBSetting;
 import me.thef1xer.gateclient.settings.impl.EnumSetting;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import me.thef1xer.gateclient.util.DirectoryUtil;
+import net.minecraft.block.Block;
 
 import java.io.*;
 import java.util.*;
 
 public class PresetManager {
-    // This might break and need a rework
-
     public final List<File> PRESET_LIST = new ArrayList<>();
     private File activePreset;
     private boolean autoSave;
@@ -25,12 +25,16 @@ public class PresetManager {
         this.loadActivePreset();
     }
 
+    public File getActivePreset() {
+        return activePreset;
+    }
+
     public void setActivePreset(File activePreset) {
         this.activePreset = activePreset;
     }
 
-    public File getActivePreset() {
-        return activePreset;
+    public boolean isAutoSave() {
+        return autoSave;
     }
 
     public void setAutoSave(boolean autoSave) {
@@ -38,10 +42,6 @@ public class PresetManager {
             this.autoSave = autoSave;
             this.saveActivePreset();
         }
-    }
-
-    public boolean isAutoSave() {
-        return autoSave;
     }
 
     public void updatePresetList() {
@@ -60,6 +60,7 @@ public class PresetManager {
             setActivePreset(new File(DirectoryUtil.PRESET_FOLDER, "default.json"));
             GateClient.getGate().configManager.save();
 
+            // Create Preset if preset doesn't exist
             if (!presetExists(getActivePreset())) {
                 setAutoSave(true);
                 saveActivePreset();
@@ -68,42 +69,46 @@ public class PresetManager {
 
         JsonParser parser = new JsonParser();
         try {
-            // Small optimizations can be done here
-            JsonObject object = parser.parse(new FileReader(this.getActivePreset())).getAsJsonObject();
-            JsonElement autoSave = object.get("auto save");
-            setAutoSave(autoSave != null ? autoSave.getAsBoolean() : true);
-            JsonArray moduleArray = object.getAsJsonArray("modules");
+            JsonObject presetObject = parser.parse(new FileReader(this.getActivePreset())).getAsJsonObject();
 
+            JsonElement autoSave = presetObject.get("auto save");
+            setAutoSave(autoSave == null || autoSave.getAsBoolean());
+
+            JsonArray moduleArray = presetObject.getAsJsonArray("modules");
+
+            // Read Module information
             for (JsonElement element : moduleArray) {
                 if (!(element instanceof JsonObject)) {
                     continue;
                 }
+
                 JsonObject moduleObject = (JsonObject) element;
                 Set<Map.Entry<String, JsonElement>> moduleSet = moduleObject.entrySet();
 
                 for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
 
-                    if (!this.contains(moduleSet, "name", new JsonPrimitive(module.getName()))) {
+                    // Check if the name key coincides with the module name
+                    if (!containsKeyAndValue(moduleSet, "name", new JsonPrimitive(module.getName()))) {
                         continue;
                     }
 
-                    for (Map.Entry<String, JsonElement> value : moduleSet) {
-                        String key = value.getKey();
-                        JsonElement val = value.getValue();
+                    for (Map.Entry<String, JsonElement> entry : moduleSet) {
+                        String key = entry.getKey();
+                        JsonElement value = entry.getValue();
 
                         if (key.equals("enabled")) {
-                            module.setEnabled(val.getAsBoolean());
+                            module.setEnabled(value.getAsBoolean());
                             continue;
                         }
 
                         if (key.equals("keybind")) {
-                            module.setKeyBind(val.getAsInt());
+                            module.setKeyBind(value.getAsInt());
                             continue;
                         }
 
                         if (key.equals("settings")) {
 
-                            for (JsonElement element1 : val.getAsJsonArray()) {
+                            for (JsonElement element1 : value.getAsJsonArray()) {
                                 if (!(element1 instanceof JsonObject)) {
                                     continue;
                                 }
@@ -112,7 +117,7 @@ public class PresetManager {
                                 Set<Map.Entry<String, JsonElement>> settingSet = settingObject.entrySet();
 
                                 for (Setting setting : module.getSettings()) {
-                                    if (!this.contains(settingSet, "id", new JsonPrimitive(setting.getId()))) {
+                                    if (!this.containsKeyAndValue(settingSet, "id", new JsonPrimitive(setting.getId()))) {
                                         continue;
                                     }
 
@@ -155,6 +160,19 @@ public class PresetManager {
                 }
             }
 
+            // XRay Block List
+            JsonArray xrayBlocks = presetObject.getAsJsonArray("xray");
+
+            if (xrayBlocks != null) {
+                XRay.INSTANCE.XRAY_BLOCKS.clear();
+
+                for (JsonElement blockName : xrayBlocks.getAsJsonArray()) {
+                    Block block = Block.getBlockFromName(blockName.getAsString());
+
+                    XRay.INSTANCE.XRAY_BLOCKS.add(block);
+                }
+            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -166,9 +184,12 @@ public class PresetManager {
         JsonObject presetJson = new JsonObject();
         presetJson.addProperty("auto save", this.isAutoSave());
 
+        // Modules
         JsonArray moduleArray = new JsonArray();
+
         for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
             JsonObject moduleObject = new JsonObject();
+
             moduleObject.addProperty("name", module.getName());
             moduleObject.addProperty("enabled", module.isEnabled());
             moduleObject.addProperty("keybind", module.getKeyBind());
@@ -176,28 +197,43 @@ public class PresetManager {
             JsonArray settingsArray = new JsonArray();
 
             for (Setting setting : module.getSettings()) {
+
                 JsonObject settingObject = new JsonObject();
                 settingObject.addProperty("id", setting.getId());
+
                 if (setting instanceof BooleanSetting) {
                     settingObject.addProperty("value", ((BooleanSetting) setting).getValue());
+
                 } else if (setting instanceof RGBSetting) {
                     settingObject.addProperty("red", ((RGBSetting) setting).getRed());
                     settingObject.addProperty("green", ((RGBSetting) setting).getGreen());
                     settingObject.addProperty("blue", ((RGBSetting) setting).getBlue());
+
                 } else if (setting instanceof EnumSetting) {
                     settingObject.addProperty("value", ((EnumSetting) setting).getCurrentValueName());
+
                 } else if (setting instanceof FloatSetting) {
                     settingObject.addProperty("value", ((FloatSetting) setting).getValue());
+
                 }
+
                 settingsArray.add(settingObject);
             }
 
             moduleObject.add("settings", settingsArray);
-
             moduleArray.add(moduleObject);
         }
 
         presetJson.add("modules", moduleArray);
+
+        // XRay Config
+        JsonArray xrayBlocks = new JsonArray();
+
+        for (Block block : XRay.INSTANCE.XRAY_BLOCKS) {
+            xrayBlocks.add(Block.REGISTRY.getNameForObject(block).toString());
+        }
+
+        presetJson.add("xray", xrayBlocks);
 
         try {
             FileWriter writer = new FileWriter(this.getActivePreset());
@@ -257,7 +293,7 @@ public class PresetManager {
         return false;
     }
 
-    private boolean contains(Set<Map.Entry<String, JsonElement>> set, String key, JsonElement value) {
+    private boolean containsKeyAndValue(Set<Map.Entry<String, JsonElement>> set, String key, JsonElement value) {
 
         for (Map.Entry<String, JsonElement> entry : set) {
             if (entry.getKey().equals(key) && entry.getValue().equals(value)) {

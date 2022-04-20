@@ -9,37 +9,48 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class XRay extends Module {
     public static final XRay INSTANCE = new XRay();
 
+    public final List<Block> XRAY_BLOCKS;
     private float lastGamma;
+
+    private final Minecraft mc = Minecraft.getMinecraft();
 
     public XRay() {
         super("XRay", "xray", Module.ModuleCategory.RENDER);
-        this.lastGamma = Minecraft.getMinecraft().gameSettings.gammaSetting;
+        lastGamma = mc.gameSettings.gammaSetting;
+
+        XRAY_BLOCKS = new ArrayList<>(Arrays.asList(
+                Blocks.DIAMOND_ORE, Blocks.EMERALD_ORE, Blocks.GOLD_ORE, Blocks.IRON_ORE, Blocks.REDSTONE_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.LAPIS_ORE, Blocks.COAL_ORE
+        ));
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
 
-        Minecraft.getMinecraft().renderGlobal.loadRenderers();
-        lastGamma = Minecraft.getMinecraft().gameSettings.gammaSetting;
-        Minecraft.getMinecraft().gameSettings.gammaSetting = 10000F;
+        mc.renderGlobal.loadRenderers();
+        lastGamma = mc.gameSettings.gammaSetting;
+        mc.gameSettings.gammaSetting = 10000;
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
 
-        Minecraft.getMinecraft().renderGlobal.loadRenderers();
+        mc.renderGlobal.loadRenderers();
         if (!FullBright.INSTANCE.isEnabled()) {
-            Minecraft.getMinecraft().gameSettings.gammaSetting = lastGamma;
+            mc.gameSettings.gammaSetting = lastGamma;
         }
     }
 
     public void onRenderBlock(RenderBlockEvent event) {
-        if (!isXrayBlock(event.getState().getBlock())) {
+        if (!XRAY_BLOCKS.contains(event.getState().getBlock())) {
             event.setCanceled(true);
         }
     }
@@ -49,17 +60,11 @@ public class XRay extends Module {
     }
 
     public void onShouldSideBeRendered(ShouldSideBeRenderedEvent event) {
-        event.setShouldBeRendered(isXrayBlock(event.getBlockState().getBlock()));
+        event.setShouldBeRendered(XRAY_BLOCKS.contains(event.getBlockState().getBlock()));
     }
 
     public void onGetAmbientOcclusionLightValue(GetAmbientOcclusionLightValueEvent event) {
         // If this isn't active, the blocks will look black
         event.setLightValue(1.0F);
-    }
-
-    public boolean isXrayBlock(Block block) {
-        // TODO: Let the player choose the blocks
-        return block == Blocks.DIAMOND_ORE || block == Blocks.EMERALD_ORE || block == Blocks.GOLD_BLOCK || block == Blocks.IRON_ORE ||
-                block == Blocks.REDSTONE_ORE || block == Blocks.LIT_REDSTONE_ORE || block == Blocks.LAPIS_ORE || block == Blocks.COAL_ORE;
     }
 }

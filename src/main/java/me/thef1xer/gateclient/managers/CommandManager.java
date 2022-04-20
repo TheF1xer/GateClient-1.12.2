@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandManager {
+    // TODO: Add command autofill
+
     private String prefix = ".";
     public final List<Command> COMMAND_LIST = new ArrayList<>();
 
@@ -20,6 +22,7 @@ public class CommandManager {
         COMMAND_LIST.add(new SayCommand());
         COMMAND_LIST.add(new SetCommand());
         COMMAND_LIST.add(new ToggleCommand());
+        COMMAND_LIST.add(new XrayCommand());
     }
 
     public String getPrefix() {
