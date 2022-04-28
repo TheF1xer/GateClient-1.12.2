@@ -21,27 +21,31 @@ import net.minecraft.util.math.*;
 public class CrystalAura extends Module {
     public static CrystalAura INSTANCE = new CrystalAura();
 
-    private final BooleanSetting placeRaytrace = new BooleanSetting("Place Raytrace", "placeraytrace", false);
-    private final BooleanSetting breakRaytrace = new BooleanSetting("Break Raytrace", "breakraytrace", false);
-    private final FloatSetting placeDelay = new FloatSetting("Place Delay", "placedelay", 1, 1, 10, 1);
-    private final FloatSetting breakDelay = new FloatSetting("Break Delay", "breakdelay", 1, 1, 10, 1);
+    private final BooleanSetting placeCrystal = new BooleanSetting("Place Crystal", "place", true);
+    private final BooleanSetting breakCrystal = new BooleanSetting("Break Crystal", "break", true);
     private final FloatSetting placeDistance = new FloatSetting("Place Distance", "placedistance", 4.5F, 0, 6, 0.1F);
     private final FloatSetting breakDistance = new FloatSetting("Break Distance", "breakdistance", 4.5F, 0, 6, 0.1F);
+    private final FloatSetting placeDelay = new FloatSetting("Place Delay", "placedelay", 1, 1, 10, 1);
+    private final FloatSetting breakDelay = new FloatSetting("Break Delay", "breakdelay", 1, 1, 10, 1);
+    private final BooleanSetting placeRaytrace = new BooleanSetting("Place Raytrace", "placeraytrace", false);
+    private final BooleanSetting breakRaytrace = new BooleanSetting("Break Raytrace", "breakraytrace", false);
 
-    private final Minecraft mc = Minecraft.getMinecraft();
-    private int ticksSinceLastPlace = 0;
-    private int ticksSinceLastBreak = 0;
     private BlockPos lastPlacePos;
     private EntityEnderCrystal lastAttackedCrystal;
+    private int ticksSinceLastPlace = 0;
+    private int ticksSinceLastBreak = 0;
+
+    private final Minecraft mc = Minecraft.getMinecraft();
 
     public CrystalAura() {
         super("Crystal Aura", "crystalaura", ModuleCategory.COMBAT);
-        addSettings(placeRaytrace, breakRaytrace, placeDelay, breakDelay, placeDistance, breakDistance);
+        addSettings(placeCrystal, breakCrystal, placeDistance, breakDistance, placeDelay, breakDelay, placeRaytrace, breakRaytrace);
     }
 
     public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
         ticksSinceLastPlace++;
         ticksSinceLastBreak++;
+        float[] facingRotations = null;
 
         // Only continue if the current held item is an end crystal
         if (mc.player.getHeldItemMainhand().getItem() != Items.END_CRYSTAL) {
@@ -49,7 +53,7 @@ public class CrystalAura extends Module {
         }
 
         // Place Crystal
-        if (ticksSinceLastPlace >= placeDelay.getValue()) {
+        if (placeCrystal.getValue() && ticksSinceLastPlace >= placeDelay.getValue()) {
 
             // Select target player
             EntityPlayer target = getCrystalTarget();
@@ -67,8 +71,7 @@ public class CrystalAura extends Module {
                     Vec3d hitVec = new Vec3d(crystalFloorPos).addVector(0.5D, 1, 0.5D);
 
                     // Rotate the player towards the block before placing the block
-                    float[] facingRotations = PlayerUtil.getPlayerFacingRotations(hitVec.x, hitVec.y, hitVec.z);
-                    mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX, mc.player.posY, mc.player.posZ, facingRotations[1], facingRotations[0], mc.player.onGround));
+                    facingRotations = PlayerUtil.getPlayerFacingRotations(hitVec.x, hitVec.y, hitVec.z);
 
                     // Right-click the block to place it
                     if (mc.playerController.processRightClickBlock(mc.player, mc.world, crystalFloorPos, EnumFacing.UP, hitVec, EnumHand.MAIN_HAND) == EnumActionResult.SUCCESS) {
@@ -85,7 +88,7 @@ public class CrystalAura extends Module {
         }
 
         // Break Crystal
-        if (ticksSinceLastBreak >= breakDelay.getValue()) {
+        if (breakCrystal.getValue() && ticksSinceLastBreak >= breakDelay.getValue()) {
 
             // Select crystal to break
             EntityEnderCrystal enderCrystalToBreak = getEnderCrystalToBreak();
@@ -93,8 +96,7 @@ public class CrystalAura extends Module {
             if (enderCrystalToBreak != null) {
 
                 // Rotate player towards the crystal
-                float[] facingRotations = PlayerUtil.getPlayerFacingRotations(enderCrystalToBreak.posX, enderCrystalToBreak.posY + enderCrystalToBreak.height / 2, enderCrystalToBreak.posZ);
-                mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX, mc.player.posY, mc.player.posZ, facingRotations[1], facingRotations[0], mc.player.onGround));
+                facingRotations = PlayerUtil.getPlayerFacingRotations(enderCrystalToBreak.posX, enderCrystalToBreak.posY + enderCrystalToBreak.height / 2, enderCrystalToBreak.posZ);
 
                 // Attack the crystal
                 mc.player.connection.sendPacket(new CPacketUseEntity(enderCrystalToBreak));
@@ -103,6 +105,14 @@ public class CrystalAura extends Module {
                 ticksSinceLastBreak = 0;
                 event.setCanceled(true);
             }
+        }
+
+        // Rotate Player
+
+        // Some anticheats will not let the client send more than one rotation packet per tick and will break the module
+        // This way only one packet will be sent. Needs more thought though
+        if (facingRotations != null) {
+            mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX, mc.player.posY, mc.player.posZ, facingRotations[1], facingRotations[0], mc.player.onGround));
         }
     }
 
@@ -223,6 +233,7 @@ public class CrystalAura extends Module {
         for (Entity entity : mc.world.loadedEntityList) {
             if (entity instanceof EntityEnderCrystal) {
                 EntityEnderCrystal enderCrystal = (EntityEnderCrystal) entity;
+
                 float maxDist = breakDistance.getValue();
 
                 // Check if we already tried to break this crystal (to avoid spamming packets trying to attack the crystal)
@@ -237,11 +248,11 @@ public class CrystalAura extends Module {
                     }
 
                     // From the Minecraft Source code
-                    maxDist = Math.min(maxDist, 9);
+                    maxDist = Math.min(maxDist, 3);
                 }
 
                 // Check if the crystal is in attack range
-                if (mc.player.getDistanceSq(enderCrystal) < maxDist) {
+                if (mc.player.getDistanceSq(enderCrystal) < maxDist * maxDist) {
 
                     // Select the newest crystal in reach
                     if (enderCrystalToBreak == null || enderCrystal.ticksExisted < enderCrystalToBreak.ticksExisted) {
