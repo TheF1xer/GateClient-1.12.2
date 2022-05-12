@@ -1,6 +1,7 @@
 package me.thef1xer.gateclient.modules.render;
 
 import me.thef1xer.gateclient.modules.Module;
+import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.util.MathUtil;
 import me.thef1xer.gateclient.util.RenderUtil;
 import net.minecraft.client.Minecraft;
@@ -16,10 +17,15 @@ import org.lwjgl.opengl.GL11;
 public class Nametags extends Module {
     public static final Nametags INSTANCE = new Nametags();
 
-    private static final Minecraft mc = Minecraft.getMinecraft();
+    public final BooleanSetting drawHealth = new BooleanSetting("Health", "health", true);
+    public final BooleanSetting drawPing = new BooleanSetting("Ping", "ping", true);
+    public final BooleanSetting drawInventory = new BooleanSetting("inventory", "inventory", true);
+
+    private final Minecraft mc = Minecraft.getMinecraft();
 
     public Nametags() {
         super("Nametags", "nametags", ModuleCategory.RENDER);
+        addSettings(drawHealth, drawPing, drawInventory);
     }
 
     public void onRenderName(RenderLivingEvent.Specials.Pre<?> event) {
@@ -50,15 +56,24 @@ public class Nametags extends Module {
         double distanceAbovePlayer = player.height + 0.5F - (player.isSneaking() ? 0.25F : 0.0F);
         boolean isThirdPersonFrontal = mc.gameSettings.thirdPersonView == 2;
 
+
         // Build the Ping - Name - Health String
-        int ping = 0;
-        if (mc.getConnection().getPlayerInfo(player.getUniqueID()) != null) {
-            ping = mc.getConnection().getPlayerInfo(player.getUniqueID()).getResponseTime();
+        String nameHealthPing = "";
+
+        if (drawPing.getValue()) {
+            int ping = 0;
+            if (mc.getConnection().getPlayerInfo(player.getUniqueID()) != null) {
+                ping = mc.getConnection().getPlayerInfo(player.getUniqueID()).getResponseTime();
+            }
+
+            nameHealthPing = TextFormatting.GRAY.toString() + ping + "ms ";
         }
 
-        String nameHealthPing = TextFormatting.GRAY.toString() + ping + "ms " +
-                TextFormatting.RESET.toString() + player.getDisplayNameString() + " " +
-                TextFormatting.GREEN.toString() + (int) (player.getHealth() + player.getAbsorptionAmount());
+        nameHealthPing = nameHealthPing + TextFormatting.RESET + player.getDisplayNameString();
+
+        if (drawHealth.getValue()) {
+            nameHealthPing = nameHealthPing + " " + TextFormatting.GREEN + (int) (player.getHealth() + player.getAbsorptionAmount());
+        }
 
         int stringWidth = fr.getStringWidth(nameHealthPing);
 
@@ -90,34 +105,37 @@ public class Nametags extends Module {
         fr.drawString(nameHealthPing, - (float) (stringWidth / 2),0, 0xFFFFFFFF, false);
 
         // Draw armor and hands
-        GlStateManager.pushMatrix();
-        //Weird fix to a rotation bug that was happening
-        GlStateManager.scale(1, 1, 0.001F);
-        RenderHelper.enableGUIStandardItemLighting();
+        if (drawInventory.getValue()) {
+            GlStateManager.pushMatrix();
 
-        // Main Hand
-        ItemStack mainHand = player.getHeldItemMainhand();
-        if (!mainHand.isEmpty()) {
-            renderItem(mainHand, -51, -18);
-        }
+            //Weird fix to a rotation bug that was happening
+            GlStateManager.scale(1, 1, 0.001F);
+            RenderHelper.enableGUIStandardItemLighting();
 
-        // Armor
-        int itemPosX = 19;
-        for (ItemStack armorStack : player.inventory.armorInventory) {
-            if (!armorStack.isEmpty()) {
-                renderItem(armorStack, itemPosX, -18);
+            // Main Hand
+            ItemStack mainHand = player.getHeldItemMainhand();
+            if (!mainHand.isEmpty()) {
+                renderItem(mainHand, -51, -18);
             }
-            itemPosX -= 18;
-        }
 
-        // Offhand
-        ItemStack offHand = player.getHeldItemOffhand();
-        if (!offHand.isEmpty()) {
-            renderItem(offHand, 35, -18);
-        }
+            // Armor
+            int itemPosX = 19;
+            for (ItemStack armorStack : player.inventory.armorInventory) {
+                if (!armorStack.isEmpty()) {
+                    renderItem(armorStack, itemPosX, -18);
+                }
+                itemPosX -= 18;
+            }
 
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.popMatrix();
+            // Offhand
+            ItemStack offHand = player.getHeldItemOffhand();
+            if (!offHand.isEmpty()) {
+                renderItem(offHand, 35, -18);
+            }
+
+            RenderHelper.disableStandardItemLighting();
+            GlStateManager.popMatrix();
+        }
 
         GlStateManager.disableBlend();
         GlStateManager.enableDepth();
