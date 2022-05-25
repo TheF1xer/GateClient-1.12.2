@@ -4,6 +4,7 @@
   "mixins": [
     "MixinBlockLiquid",
     "MixinBlockRendererDispatcher",
+    "MixinChunk",
     "MixinEntityPlayerSP",
     "MixinEntityRenderer",
     "MixinGuiScreen",

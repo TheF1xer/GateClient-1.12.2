@@ -20,12 +20,14 @@ public class ModuleManager {
         MODULE_LIST.add(CrystalAura.INSTANCE);
         MODULE_LIST.add(KillAura.INSTANCE);
         MODULE_LIST.add(Surround.INSTANCE);
+
         // HUD
         MODULE_LIST.add(ArmorHUD.INSTANCE);
         MODULE_LIST.add(ClickGuiModule.INSTANCE);
         MODULE_LIST.add(Coords.INSTANCE);
         MODULE_LIST.add(ModuleList.INSTANCE);
         MODULE_LIST.add(Watermark.INSTANCE);
+
         // Movement
         MODULE_LIST.add(Flight.INSTANCE);
         MODULE_LIST.add(GuiMove.INSTANCE);
@@ -36,6 +38,7 @@ public class ModuleManager {
         MODULE_LIST.add(Speed.INSTANCE);
         MODULE_LIST.add(Sprint.INSTANCE);
         MODULE_LIST.add(Velocity.INSTANCE);
+
         // Player
         MODULE_LIST.add(AntiHunger.INSTANCE);
         MODULE_LIST.add(AutoArmor.INSTANCE);
@@ -43,12 +46,14 @@ public class ModuleManager {
         MODULE_LIST.add(FakePlayer.INSTANCE);
         MODULE_LIST.add(Freecam.INSTANCE);
         MODULE_LIST.add(Scaffold.INSTANCE);
+
         // Render
         MODULE_LIST.add(EntityESP.INSTANCE);
         MODULE_LIST.add(StorageESP.INSTANCE);
         MODULE_LIST.add(FullBright.INSTANCE);
         MODULE_LIST.add(Nametags.INSTANCE);
         MODULE_LIST.add(NoOverlay.INSTANCE);
+        MODULE_LIST.add(Search.INSTANCE);
         MODULE_LIST.add(ShulkerViewer.INSTANCE);
         MODULE_LIST.add(Tracers.INSTANCE);
         MODULE_LIST.add(XRay.INSTANCE);

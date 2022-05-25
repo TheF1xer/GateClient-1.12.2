@@ -13,6 +13,7 @@ import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -230,6 +231,10 @@ public class ModuleEventHandler {
         if (Tracers.INSTANCE.isEnabled()) {
             Tracers.INSTANCE.onRenderWorldLast(event);
         }
+
+        if (Search.INSTANCE.isEnabled()) {
+            Search.INSTANCE.onRenderWorldLast(event);
+        }
     }
 
     @SubscribeEvent
@@ -264,6 +269,27 @@ public class ModuleEventHandler {
     public void onGetAmbientOcclusionLightValue(GetAmbientOcclusionLightValueEvent event) {
         if (XRay.INSTANCE.isEnabled()) {
             XRay.INSTANCE.onGetAmbientOcclusionLightValue(event);
+        }
+    }
+
+    @SubscribeEvent
+    public void onSetBlockState(SetBlockStateEvent event) {
+        if (Search.INSTANCE.isEnabled()) {
+            Search.INSTANCE.onSetBlockState(event);
+        }
+    }
+
+    @SubscribeEvent
+    public void onLoadChunk(ChunkEvent.Load event) {
+        if (Search.INSTANCE.isEnabled()) {
+            Search.INSTANCE.onLoadChunk(event);
+        }
+    }
+
+    @SubscribeEvent
+    public void onUnLoadChunk(ChunkEvent.Unload event) {
+        if (Search.INSTANCE.isEnabled()) {
+            Search.INSTANCE.onUnLoadChunk(event);
         }
     }
 }

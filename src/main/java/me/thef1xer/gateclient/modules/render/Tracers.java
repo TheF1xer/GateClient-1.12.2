@@ -5,6 +5,7 @@ import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import me.thef1xer.gateclient.settings.impl.RGBSetting;
 import me.thef1xer.gateclient.util.MathUtil;
+import me.thef1xer.gateclient.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -53,24 +54,9 @@ public class Tracers extends Module {
             for (Entity entity : mc.world.loadedEntityList) {
                 if (isTarget(entity) && entity != mc.getRenderViewEntity()) {
 
-                    RenderManager rm = mc.getRenderManager();
-                    Tessellator tessellator = Tessellator.getInstance();
-                    BufferBuilder buffer = tessellator.getBuffer();
-
-                    // Vector where the tracer starts
-                    Vec3d cameraVector = new Vec3d(0D, 0D, 1D).
-                            rotatePitch((float) - Math.toRadians(mc.getRenderViewEntity().rotationPitch)).
-                            rotateYaw((float) - Math.toRadians(mc.getRenderViewEntity().rotationYaw)).
-                            addVector(0D, mc.getRenderViewEntity().getEyeHeight(), 0D);
-
-                    // Interpolate the target's position
+                    // Draw tracer
                     double[] interpolatedEntityPos = MathUtil.interpolateEntity(entity);
-
-                    // Draw the tracer
-                    buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-                    buffer.pos(cameraVector.x, cameraVector.y, cameraVector.z).endVertex();
-                    buffer.pos(interpolatedEntityPos[0] - rm.viewerPosX, interpolatedEntityPos[1] - rm.viewerPosY, interpolatedEntityPos[2] - rm.viewerPosZ).endVertex();
-                    tessellator.draw();
+                    RenderUtil.drawTracerFromPlayer(interpolatedEntityPos[0], interpolatedEntityPos[1], interpolatedEntityPos[2]);
                 }
             }
 

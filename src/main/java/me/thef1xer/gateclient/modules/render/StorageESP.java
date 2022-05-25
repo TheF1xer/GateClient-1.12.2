@@ -42,7 +42,6 @@ public class StorageESP extends Module {
 
         GlStateManager.pushMatrix();
         GlStateManager.disableTexture2D();
-        GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.disableDepth();
@@ -91,7 +90,6 @@ public class StorageESP extends Module {
         GlStateManager.enableDepth();
         GlStateManager.disableBlend();
         GlStateManager.enableTexture2D();
-        GlStateManager.enableAlpha();
         GlStateManager.popMatrix();
     }
 }

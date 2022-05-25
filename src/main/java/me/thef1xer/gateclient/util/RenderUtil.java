@@ -10,9 +10,29 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
 public class RenderUtil {
+    public static void drawTracerFromPlayer(double x, double y, double z) {
+        Minecraft mc = Minecraft.getMinecraft();
+        RenderManager rm = mc.getRenderManager();
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
+
+        // Vector where the tracer starts
+        Vec3d cameraVector = new Vec3d(0D, 0D, 1D).
+                rotatePitch((float) - Math.toRadians(mc.getRenderViewEntity().rotationPitch)).
+                rotateYaw((float) - Math.toRadians(mc.getRenderViewEntity().rotationYaw)).
+                addVector(0D, mc.getRenderViewEntity().getEyeHeight(), 0D);
+
+        // Draw the tracer
+        buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+        buffer.pos(cameraVector.x, cameraVector.y, cameraVector.z).endVertex();
+        buffer.pos(x - rm.viewerPosX, y - rm.viewerPosY, z - rm.viewerPosZ).endVertex();
+        tessellator.draw();
+    }
+
     public static void renderEntityBoundingBox(Entity entity, float red, float green, float blue, float alpha) {
         RenderManager rm = Minecraft.getMinecraft().getRenderManager();
 
@@ -52,63 +72,75 @@ public class RenderUtil {
     }
 
     public static void draw2DTriangleDown(double x, double y, double width, double height, float red, float green, float blue, float alpha) {
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
+
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
         GlStateManager.color(red, green, blue, alpha);
+
         buffer.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
         buffer.pos(x, y, 0D).endVertex();
         buffer.pos(x + width / 2, y + height, 0D).endVertex();
         buffer.pos(x + width, y, 0D).endVertex();
         tessellator.draw();
+
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
 
     public static void draw2DTriangleRight(double x, double y, double width, double height, float red, float green, float blue, float alpha) {
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
+
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
         GlStateManager.color(red, green, blue, alpha);
+
         buffer.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
         buffer.pos(x, y, 0D).endVertex();
         buffer.pos(x, y + height, 0D).endVertex();
         buffer.pos(x + width, y + height / 2, 0D).endVertex();
         tessellator.draw();
+
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
 
     public static void draw2DRect(double x, double y, double width, double height, float red, float green, float blue, float alpha) {
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
+
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
         GlStateManager.color(red, green, blue, alpha);
+
         buffer.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION);
         buffer.pos(x, y, 0D).endVertex();
         buffer.pos(x, y + height, 0D).endVertex();
         buffer.pos(x + width, y, 0D).endVertex();
         buffer.pos(x + width, y + height, 0D).endVertex();
         tessellator.draw();
+
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
 
     public static void draw2DRectLines(double x, double y, double width, double height, float red, float green, float blue, float alpha) {
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
+
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
         GlStateManager.color(red, green, blue, alpha);
+
         buffer.begin(GL11.GL_LINE_LOOP, DefaultVertexFormats.POSITION);
         buffer.pos(x, y, 0D).endVertex();
         buffer.pos(x, y + height, 0D).endVertex();
         buffer.pos(x + width, y + height, 0D).endVertex();
         buffer.pos(x + width, y, 0D).endVertex();
         tessellator.draw();
+
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
