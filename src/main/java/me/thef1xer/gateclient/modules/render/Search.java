@@ -2,6 +2,7 @@ package me.thef1xer.gateclient.modules.render;
 
 import me.thef1xer.gateclient.events.SetBlockStateEvent;
 import me.thef1xer.gateclient.modules.Module;
+import me.thef1xer.gateclient.settings.impl.BlockListSetting;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import me.thef1xer.gateclient.settings.impl.RGBSetting;
@@ -19,18 +20,19 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Search extends Module {
     public static final Search INSTANCE = new Search();
 
+    public final BlockListSetting searchedBlocks = new BlockListSetting("Search Blocks", "searchblocks", new Block[]{
+            Blocks.PORTAL, Blocks.END_PORTAL
+    });
     public final BooleanSetting box = new BooleanSetting("Box", "box", true);
     public final BooleanSetting tracer = new BooleanSetting("Tracer", "tracer", true);
     public final RGBSetting color = new RGBSetting("Color", "color", 255, 255, 255);
     public final FloatSetting alpha = new FloatSetting("Alpha", "alpha", 1F, 0F, 1F);
 
-    public final List<Block> SEARCHED_BLOCKS;
     private final List<BlockPos> FOUND_BLOCKS_POS = new ArrayList<>();
 
     private final Minecraft mc = Minecraft.getMinecraft();
@@ -38,11 +40,7 @@ public class Search extends Module {
     public Search() {
         super("Search", "search", ModuleCategory.RENDER);
 
-        addSettings(box, tracer, color, alpha);
-
-        SEARCHED_BLOCKS = new ArrayList<>(Arrays.asList(
-                Blocks.PORTAL, Blocks.END_PORTAL
-        ));
+        addSettings(searchedBlocks, box, tracer, color, alpha);
     }
 
     @Override
@@ -68,13 +66,13 @@ public class Search extends Module {
         BlockPos pos = event.getBlockPos();
 
         // Add Block
-        if (SEARCHED_BLOCKS.contains(block) && !FOUND_BLOCKS_POS.contains(pos)) {
+        if (searchedBlocks.getBlockList().contains(block) && !FOUND_BLOCKS_POS.contains(pos)) {
             FOUND_BLOCKS_POS.add(pos);
             return;
         }
 
         // Remove Block
-        if (FOUND_BLOCKS_POS.contains(pos) && !SEARCHED_BLOCKS.contains(block)) {
+        if (FOUND_BLOCKS_POS.contains(pos) && !searchedBlocks.getBlockList().contains(block)) {
             FOUND_BLOCKS_POS.remove(pos);
         }
     }
@@ -160,7 +158,7 @@ public class Search extends Module {
 
                     BlockPos pos = new BlockPos(x, y, z);
 
-                    if (SEARCHED_BLOCKS.contains(chunk.getBlockState(pos).getBlock())) {
+                    if (searchedBlocks.getBlockList().contains(chunk.getBlockState(pos).getBlock())) {
                         FOUND_BLOCKS_POS.add(pos);
                     }
                 }

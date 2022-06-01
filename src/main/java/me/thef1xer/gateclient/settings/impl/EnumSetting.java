@@ -1,6 +1,7 @@
 package me.thef1xer.gateclient.settings.impl;
 
 import me.thef1xer.gateclient.settings.Setting;
+import net.minecraft.util.text.TextFormatting;
 
 public class EnumSetting extends Setting {
     private final Enum<?>[] values;
@@ -36,5 +37,23 @@ public class EnumSetting extends Setting {
 
     public String getCurrentValueName() {
         return currentValue.toString();
+    }
+
+    @Override
+    public String getCommandSyntax() {
+        String valuesToString = " <";
+
+        for (int i = 0; i < values.length; i++) {
+            valuesToString = valuesToString.concat(values[i].toString());
+
+            if (i != values.length - 1) {
+                valuesToString = valuesToString.concat(" / ");
+            }
+        }
+
+        valuesToString = valuesToString.concat("> ");
+
+        return TextFormatting.GOLD.toString() + TextFormatting.ITALIC + getName() + ": " +
+                TextFormatting.RESET + getId() + valuesToString + TextFormatting.GOLD + TextFormatting.ITALIC + "[" + getCurrentValueName() + "]";
     }
 }

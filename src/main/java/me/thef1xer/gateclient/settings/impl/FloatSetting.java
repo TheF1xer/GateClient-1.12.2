@@ -1,6 +1,7 @@
 package me.thef1xer.gateclient.settings.impl;
 
 import me.thef1xer.gateclient.settings.Setting;
+import net.minecraft.util.text.TextFormatting;
 
 public class FloatSetting extends Setting {
     private float value;
@@ -50,5 +51,12 @@ public class FloatSetting extends Setting {
 
     public float getStep() {
         return step;
+    }
+
+    @Override
+    public String getCommandSyntax() {
+        return TextFormatting.GOLD.toString() + TextFormatting.ITALIC + getName() + ": " +
+                TextFormatting.RESET + getId() + " <number between " + getMin() + " and " + getMax() + "> " +
+                TextFormatting.GOLD + TextFormatting.ITALIC + "[" + getValue() + "]";
     }
 }

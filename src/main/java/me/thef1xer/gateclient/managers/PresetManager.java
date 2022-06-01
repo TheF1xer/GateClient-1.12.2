@@ -3,12 +3,8 @@ package me.thef1xer.gateclient.managers;
 import com.google.gson.*;
 import me.thef1xer.gateclient.GateClient;
 import me.thef1xer.gateclient.modules.Module;
-import me.thef1xer.gateclient.modules.render.XRay;
 import me.thef1xer.gateclient.settings.Setting;
-import me.thef1xer.gateclient.settings.impl.BooleanSetting;
-import me.thef1xer.gateclient.settings.impl.RGBSetting;
-import me.thef1xer.gateclient.settings.impl.EnumSetting;
-import me.thef1xer.gateclient.settings.impl.FloatSetting;
+import me.thef1xer.gateclient.settings.impl.*;
 import me.thef1xer.gateclient.util.DirectoryUtil;
 import net.minecraft.block.Block;
 
@@ -77,12 +73,12 @@ public class PresetManager {
             JsonArray moduleArray = presetObject.getAsJsonArray("modules");
 
             // Read Module information
-            for (JsonElement element : moduleArray) {
-                if (!(element instanceof JsonObject)) {
+            for (JsonElement moduleElement : moduleArray) {
+                if (!(moduleElement instanceof JsonObject)) {
                     continue;
                 }
 
-                JsonObject moduleObject = (JsonObject) element;
+                JsonObject moduleObject = (JsonObject) moduleElement;
                 Set<Map.Entry<String, JsonElement>> moduleSet = moduleObject.entrySet();
 
                 for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
@@ -92,40 +88,52 @@ public class PresetManager {
                         continue;
                     }
 
+                    // Loop through entries in module object
                     for (Map.Entry<String, JsonElement> entry : moduleSet) {
-                        String key = entry.getKey();
-                        JsonElement value = entry.getValue();
+                        String moduleKey = entry.getKey();
+                        JsonElement moduleValue = entry.getValue();
 
-                        if (key.equals("enabled")) {
-                            module.setEnabled(value.getAsBoolean());
+                        if (moduleKey.equals("enabled")) {
+                            module.setEnabled(moduleValue.getAsBoolean());
                             continue;
                         }
 
-                        if (key.equals("keybind")) {
-                            module.setKeyBind(value.getAsInt());
+                        if (moduleKey.equals("keybind")) {
+                            module.setKeyBind(moduleValue.getAsInt());
                             continue;
                         }
 
-                        if (key.equals("settings")) {
+                        if (moduleKey.equals("settings")) {
 
-                            for (JsonElement element1 : value.getAsJsonArray()) {
-                                if (!(element1 instanceof JsonObject)) {
+                            for (JsonElement settingElement : moduleValue.getAsJsonArray()) {
+                                if (!(settingElement instanceof JsonObject)) {
                                     continue;
                                 }
 
-                                JsonObject settingObject = (JsonObject) element1;
+                                JsonObject settingObject = (JsonObject) settingElement;
                                 Set<Map.Entry<String, JsonElement>> settingSet = settingObject.entrySet();
 
                                 for (Setting setting : module.getSettings()) {
-                                    if (!this.containsKeyAndValue(settingSet, "id", new JsonPrimitive(setting.getId()))) {
+                                    if (!containsKeyAndValue(settingSet, "id", new JsonPrimitive(setting.getId()))) {
                                         continue;
                                     }
 
-                                    for (Map.Entry<String, JsonElement> value1 : settingSet) {
-                                        String settingKey = value1.getKey();
-                                        JsonElement settingVal = value1.getValue();
+                                    // Loop through entries in setting object
+                                    for (Map.Entry<String, JsonElement> settingEntry : settingSet) {
+                                        String settingKey = settingEntry.getKey();
+                                        JsonElement settingVal = settingEntry.getValue();
 
-                                        if (setting instanceof BooleanSetting) {
+                                        if (setting instanceof BlockListSetting) {
+                                            if (settingKey.equals("list")) {
+                                                ((BlockListSetting) setting).getBlockList().clear();
+
+                                                for (JsonElement blockListElement : settingVal.getAsJsonArray()) {
+                                                    Block block = Block.getBlockFromName(blockListElement.getAsString());
+                                                    ((BlockListSetting) setting).getBlockList().add(block);
+                                                }
+                                            }
+
+                                        } else if (setting instanceof BooleanSetting) {
                                             if (settingKey.equals("value")) {
                                                 ((BooleanSetting) setting).setValue(settingVal.getAsBoolean());
                                             }
@@ -160,19 +168,6 @@ public class PresetManager {
                 }
             }
 
-            // XRay Block List
-            JsonArray xrayBlocks = presetObject.getAsJsonArray("xray");
-
-            if (xrayBlocks != null) {
-                XRay.INSTANCE.XRAY_BLOCKS.clear();
-
-                for (JsonElement blockName : xrayBlocks.getAsJsonArray()) {
-                    Block block = Block.getBlockFromName(blockName.getAsString());
-
-                    XRay.INSTANCE.XRAY_BLOCKS.add(block);
-                }
-            }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -201,19 +196,26 @@ public class PresetManager {
                 JsonObject settingObject = new JsonObject();
                 settingObject.addProperty("id", setting.getId());
 
-                if (setting instanceof BooleanSetting) {
-                    settingObject.addProperty("value", ((BooleanSetting) setting).getValue());
+                if (setting instanceof BlockListSetting) {
+                    JsonArray blockList = new JsonArray();
+                    for (Block block : ((BlockListSetting) setting).getBlockList()) {
+                        blockList.add(Block.REGISTRY.getNameForObject(block).toString());
+                    }
+                    settingObject.add("list", blockList);
 
-                } else if (setting instanceof RGBSetting) {
-                    settingObject.addProperty("red", ((RGBSetting) setting).getRed());
-                    settingObject.addProperty("green", ((RGBSetting) setting).getGreen());
-                    settingObject.addProperty("blue", ((RGBSetting) setting).getBlue());
+                } else if (setting instanceof BooleanSetting) {
+                    settingObject.addProperty("value", ((BooleanSetting) setting).getValue());
 
                 } else if (setting instanceof EnumSetting) {
                     settingObject.addProperty("value", ((EnumSetting) setting).getCurrentValueName());
 
                 } else if (setting instanceof FloatSetting) {
                     settingObject.addProperty("value", ((FloatSetting) setting).getValue());
+
+                } else if (setting instanceof RGBSetting) {
+                    settingObject.addProperty("red", ((RGBSetting) setting).getRed());
+                    settingObject.addProperty("green", ((RGBSetting) setting).getGreen());
+                    settingObject.addProperty("blue", ((RGBSetting) setting).getBlue());
 
                 }
 
@@ -225,15 +227,6 @@ public class PresetManager {
         }
 
         presetJson.add("modules", moduleArray);
-
-        // XRay Config
-        JsonArray xrayBlocks = new JsonArray();
-
-        for (Block block : XRay.INSTANCE.XRAY_BLOCKS) {
-            xrayBlocks.add(Block.REGISTRY.getNameForObject(block).toString());
-        }
-
-        presetJson.add("xray", xrayBlocks);
 
         try {
             FileWriter writer = new FileWriter(this.getActivePreset());

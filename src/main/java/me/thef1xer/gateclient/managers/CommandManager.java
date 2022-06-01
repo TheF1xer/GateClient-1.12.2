@@ -22,7 +22,6 @@ public class CommandManager {
         COMMAND_LIST.add(new SayCommand());
         COMMAND_LIST.add(new SetCommand());
         COMMAND_LIST.add(new ToggleCommand());
-        COMMAND_LIST.add(new XrayCommand());
     }
 
     public String getPrefix() {

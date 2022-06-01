@@ -1,6 +1,7 @@
 package me.thef1xer.gateclient.settings.impl;
 
 import me.thef1xer.gateclient.settings.Setting;
+import net.minecraft.util.text.TextFormatting;
 
 public class RGBSetting extends Setting {
     private int red;
@@ -36,5 +37,12 @@ public class RGBSetting extends Setting {
 
     public void setBlue(int blue) {
         this.blue = blue;
+    }
+
+    @Override
+    public String getCommandSyntax() {
+        return TextFormatting.GOLD.toString() + TextFormatting.ITALIC + getName() + ": " +
+                TextFormatting.RESET + getId() + " <red> <green> <blue> " +
+                TextFormatting.GOLD + TextFormatting.ITALIC + "[" + getRed() + ", " + getGreen() + ", " + getBlue() + "]";
     }
 }

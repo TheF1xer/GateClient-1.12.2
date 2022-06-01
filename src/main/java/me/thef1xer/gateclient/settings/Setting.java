@@ -1,6 +1,6 @@
 package me.thef1xer.gateclient.settings;
 
-public abstract class Setting {
+public class Setting {
     private final String name;
     private final String id;
 
@@ -15,5 +15,9 @@ public abstract class Setting {
 
     public String getId() {
         return id;
+    }
+
+    public String getCommandSyntax() {
+        return "";
     }
 }
