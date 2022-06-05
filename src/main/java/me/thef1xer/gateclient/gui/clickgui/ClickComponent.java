@@ -62,6 +62,6 @@ public class ClickComponent {
     }
 
     protected void updateHierarchy() {
-        GateClient.getGate().guiManager.CLICK_GUI.onUpdate();
+        GateClient.getGate().GUI_MANAGER.CLICK_GUI.onUpdate();
     }
 }

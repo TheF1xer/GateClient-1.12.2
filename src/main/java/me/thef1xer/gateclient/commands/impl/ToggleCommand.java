@@ -24,12 +24,12 @@ public class ToggleCommand extends Command {
     }
 
     public boolean isModule(String name) {
-        for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
+        for (Module module : GateClient.getGate().MODULE_MANAGER.MODULE_LIST) {
             if (module.getId().equalsIgnoreCase(name)) {
                 module.toggle();
                 ChatUtil.clientMessage(module.getName() + " module toggled");
-                if (GateClient.getGate().presetManager.isAutoSave()) {
-                    GateClient.getGate().presetManager.saveActivePreset();
+                if (GateClient.getGate().PRESET_MANAGER.isAutoSave()) {
+                    GateClient.getGate().PRESET_MANAGER.saveActivePreset();
                 }
                 return true;
             }

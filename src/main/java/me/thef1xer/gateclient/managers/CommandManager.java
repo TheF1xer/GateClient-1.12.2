@@ -15,6 +15,7 @@ public class CommandManager {
     public void init() {
         COMMAND_LIST.add(new BindCommand());
         COMMAND_LIST.add(new ClipCommand());
+        COMMAND_LIST.add(new FriendsCommand());
         COMMAND_LIST.add(new HelpCommand());
         COMMAND_LIST.add(new ModuleListCommand());
         COMMAND_LIST.add(new PrefixCommand());

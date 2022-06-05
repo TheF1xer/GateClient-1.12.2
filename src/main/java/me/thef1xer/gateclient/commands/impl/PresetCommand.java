@@ -10,7 +10,7 @@ import net.minecraft.util.text.TextFormatting;
 import java.io.File;
 
 public class PresetCommand extends Command {
-    private final PresetManager presetManager = GateClient.getGate().presetManager;
+    private final PresetManager presetManager = GateClient.getGate().PRESET_MANAGER;
 
     public PresetCommand() {
         super("preset", "Allows you to have multiple configurations", "preset", "preset list", "preset clear", "preset load <name>", "preset create <name>", "preset save", "preset remove <name>", "preset autosave <true/false>");
@@ -61,7 +61,7 @@ public class PresetCommand extends Command {
                 for (File file : presetManager.PRESET_LIST) {
                     if (file.getName().equalsIgnoreCase(args[2] + ".json")) {
                         presetManager.setActivePreset(file);
-                        GateClient.getGate().configManager.save();
+                        GateClient.getGate().CONFIG_MANAGER.save();
                         ChatUtil.clientMessage("Preset " + TextFormatting.GOLD + args[2].toLowerCase() + TextFormatting.RESET + " loaded");
                         return;
                     }

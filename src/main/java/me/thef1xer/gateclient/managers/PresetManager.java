@@ -13,6 +13,7 @@ import java.util.*;
 
 public class PresetManager {
     public final List<File> PRESET_LIST = new ArrayList<>();
+
     private File activePreset;
     private boolean autoSave;
 
@@ -36,30 +37,36 @@ public class PresetManager {
     public void setAutoSave(boolean autoSave) {
         if (this.autoSave != autoSave) {
             this.autoSave = autoSave;
-            this.saveActivePreset();
+            saveActivePreset();
         }
     }
 
     public void updatePresetList() {
-        this.PRESET_LIST.clear();
+        PRESET_LIST.clear();
+
         if (DirectoryUtil.PRESET_FOLDER.listFiles() != null) {
             for (File file : DirectoryUtil.PRESET_FOLDER.listFiles()) {
                 if (!file.isDirectory() && DirectoryUtil.isJson(file)) {
-                    this.PRESET_LIST.add(file);
+                    PRESET_LIST.add(file);
                 }
             }
         }
     }
 
     public void loadActivePreset() {
+
+        // Check if the preset exists
         if (!presetExists(getActivePreset())) {
             setActivePreset(new File(DirectoryUtil.PRESET_FOLDER, "default.json"));
-            GateClient.getGate().configManager.save();
+            GateClient.getGate().CONFIG_MANAGER.save();
 
             // Create Preset if preset doesn't exist
             if (!presetExists(getActivePreset())) {
                 setAutoSave(true);
                 saveActivePreset();
+
+                // Return because we don't need to load a preset that we just saved
+                return;
             }
         }
 
@@ -81,7 +88,7 @@ public class PresetManager {
                 JsonObject moduleObject = (JsonObject) moduleElement;
                 Set<Map.Entry<String, JsonElement>> moduleSet = moduleObject.entrySet();
 
-                for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
+                for (Module module : GateClient.getGate().MODULE_MANAGER.MODULE_LIST) {
 
                     // Check if the name key coincides with the module name
                     if (!containsKeyAndValue(moduleSet, "name", new JsonPrimitive(module.getName()))) {
@@ -182,7 +189,7 @@ public class PresetManager {
         // Modules
         JsonArray moduleArray = new JsonArray();
 
-        for (Module module : GateClient.getGate().moduleManager.MODULE_LIST) {
+        for (Module module : GateClient.getGate().MODULE_MANAGER.MODULE_LIST) {
             JsonObject moduleObject = new JsonObject();
 
             moduleObject.addProperty("name", module.getName());
@@ -249,7 +256,7 @@ public class PresetManager {
         setActivePreset(new File(DirectoryUtil.PRESET_FOLDER, path));
         setAutoSave(true);
         saveActivePreset();
-        GateClient.getGate().configManager.save();
+        GateClient.getGate().CONFIG_MANAGER.save();
         return true;
     }
 
@@ -274,7 +281,7 @@ public class PresetManager {
             setAutoSave(true);
             saveActivePreset();
         }
-        GateClient.getGate().configManager.save();
+        GateClient.getGate().CONFIG_MANAGER.save();
     }
 
     private boolean presetExists(File preset) {

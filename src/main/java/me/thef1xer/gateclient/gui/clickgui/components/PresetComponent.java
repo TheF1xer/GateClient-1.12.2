@@ -14,7 +14,7 @@ import java.io.File;
 public class PresetComponent extends ClickComponent {
 
     private final float fontX = (this.width - fontRenderer.getStringWidth("Presets")) / 2F;
-    private final PresetManager presetManager = GateClient.getGate().presetManager;
+    private final PresetManager presetManager = GateClient.getGate().PRESET_MANAGER;
 
     private File hoveredPreset;
     private final TextField textField;
@@ -177,7 +177,7 @@ public class PresetComponent extends ClickComponent {
                 if (hoveredPreset != null) {
                     presetManager.setActivePreset(hoveredPreset);
                     presetManager.loadActivePreset();
-                    GateClient.getGate().configManager.save();
+                    GateClient.getGate().CONFIG_MANAGER.save();
                     presetListExpanded = false;
                     return;
                 }
@@ -218,7 +218,7 @@ public class PresetComponent extends ClickComponent {
                         posX + width - padding, posY + height + 8 * padding + 80)) {
                     // Confirm button
                     String newPreset = textField.getText().trim();
-                    if (!newPreset.isEmpty() && GateClient.getGate().presetManager.createNewPreset(newPreset + ".json")) {
+                    if (!newPreset.isEmpty() && GateClient.getGate().PRESET_MANAGER.createNewPreset(newPreset + ".json")) {
                         createButtonExpanded = false;
                         textField.setText("");
                     }
@@ -248,7 +248,7 @@ public class PresetComponent extends ClickComponent {
             } else if (keyCode == Keyboard.KEY_RETURN || keyCode == Keyboard.KEY_NUMPADENTER) {
                 // Create the preset
                 String newPreset = textField.getText().trim();
-                if (!newPreset.isEmpty() && GateClient.getGate().presetManager.createNewPreset(newPreset + ".json")) {
+                if (!newPreset.isEmpty() && GateClient.getGate().PRESET_MANAGER.createNewPreset(newPreset + ".json")) {
                     createButtonExpanded = false;
                     textField.setText("");
                 }

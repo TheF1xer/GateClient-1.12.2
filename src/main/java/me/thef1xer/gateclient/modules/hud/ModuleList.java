@@ -60,7 +60,7 @@ public class ModuleList extends Module {
     }
 
     public void sortList() {
-        modulesSorted = new ArrayList<>(GateClient.getGate().moduleManager.MODULE_LIST);
+        modulesSorted = new ArrayList<>(GateClient.getGate().MODULE_MANAGER.MODULE_LIST);
 
         // Sort module list by name width
         modulesSorted.sort((module1, module2) -> {

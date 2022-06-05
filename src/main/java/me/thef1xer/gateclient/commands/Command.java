@@ -23,7 +23,7 @@ public abstract class Command {
     public void syntaxError() {
         ChatUtil.clientMessage("Incorrect Syntax: ");
         for (String syntax : this.getSyntax()) {
-            ChatUtil.clientMessage(TextFormatting.YELLOW + GateClient.getGate().commandManager.getPrefix() + syntax);
+            ChatUtil.clientMessage(TextFormatting.YELLOW + GateClient.getGate().COMMAND_MANAGER.getPrefix() + syntax);
         }
     }
 

@@ -13,8 +13,8 @@ public class PrefixCommand extends Command {
     @Override
     public void onCommand(String[] args) {
         if (args.length == 2) {
-            GateClient.getGate().commandManager.setPrefix(args[1]);
-            GateClient.getGate().configManager.save();
+            GateClient.getGate().COMMAND_MANAGER.setPrefix(args[1]);
+            GateClient.getGate().CONFIG_MANAGER.save();
             ChatUtil.clientMessage("Prefix changed to: " + TextFormatting.GOLD + args[1]);
             return;
         }
