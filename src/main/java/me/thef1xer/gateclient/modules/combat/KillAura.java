@@ -1,6 +1,7 @@
 package me.thef1xer.gateclient.modules.combat;
 
-import me.thef1xer.gateclient.events.SendPacketEvent;
+import me.thef1xer.gateclient.GateClient;
+import me.thef1xer.gateclient.events.UpdateWalkingPlayerEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.settings.impl.EnumSetting;
@@ -14,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 
 public class KillAura extends Module {
     public static final KillAura INSTANCE = new KillAura();
@@ -21,49 +23,45 @@ public class KillAura extends Module {
     public final EnumSetting priority = new EnumSetting("Priority", "priority", Priority.values(), Priority.CLOSEST);
     public final FloatSetting reach = new FloatSetting("Reach", "reach", 3F, 0F, 6F);
     public final FloatSetting delay = new FloatSetting("Added Delay" , "delay", 0F);
+    public final BooleanSetting targetFriends = new BooleanSetting("Target Friends", "targetfriends", false);
     public final BooleanSetting players = new BooleanSetting("Players", "players", true);
     public final BooleanSetting monsters = new BooleanSetting("Monsters", "monsters", true);
     public final BooleanSetting passives = new BooleanSetting("Passives", "passives", false);
 
-    private Entity target;
-    private Entity focusTarget;
+    private Entity lastAttackedEntity;
+
     private final Minecraft mc = Minecraft.getMinecraft();
 
     public KillAura() {
         super("Kill Aura", "killaura", Module.ModuleCategory.COMBAT);
-        this.addSettings(priority, reach, delay, players, monsters, passives);
+        this.addSettings(priority, reach, delay, targetFriends, players, monsters, passives);
     }
 
-    public void onClientTick() {
-        target = null;
+    public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
+        Entity target = null;
 
-        if (mc.world == null || !mc.world.isRemote) {
-            return;
-        }
-
-        // Select target depending on the mode
+        // Select target
         if (priority.getCurrentValue() == Priority.CLOSEST) {
 
-            // Select closest entity
+            // Loop through entities and select the closest valid target
             for (Entity entity : mc.world.loadedEntityList) {
                 if (isValidTarget(entity)) {
                     if (target == null) {
                         target = entity;
-                    } else if (mc.player.getDistanceSq(entity) < mc.player.getDistanceSq(target)) {
+                        continue;
+                    }
+
+                    if (mc.player.getDistanceSq(entity) > mc.player.getDistanceSq(target)) {
                         target = entity;
                     }
                 }
             }
         } else if (priority.getCurrentValue() == Priority.FOCUS) {
-            if (focusTarget != null) {
 
-                // Check if the last entity targeted is still loaded
-                for (Entity entity : mc.world.loadedEntityList) {
-                    if (entity == focusTarget) {
-                        if (isValidTarget(entity)) {
-                            target = entity;
-                        }
-                    }
+            // Check if last attacked entity is loaded
+            if (mc.world.loadedEntityList.contains(lastAttackedEntity)) {
+                if (isValidTarget(lastAttackedEntity)) {
+                    target = lastAttackedEntity;
                 }
             }
         }
@@ -71,35 +69,23 @@ public class KillAura extends Module {
         // Attack the target
         if (target != null) {
             if (mc.player.getCooledAttackStrength(-delay.getValue()) == 1.0F) {
+                float[] facingRotations = PlayerUtil.getPlayerFacingRotations(target.posX, target.posY + target.height/2, target.posZ);
+
                 mc.player.connection.sendPacket(new CPacketUseEntity(target));
+                mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(
+                        mc.player.posX, mc.player.posY, mc.player.posZ,
+                        facingRotations[1], facingRotations[0], mc.player.onGround
+                ));
                 mc.player.swingArm(EnumHand.MAIN_HAND);
                 mc.player.resetCooldown();
+
+                event.setCanceled(true);
             }
         }
     }
 
-    public void onSendPacket(SendPacketEvent event) {
-
-        // Select target if mode is Focus
-        if (event.getPacket() instanceof CPacketUseEntity) {
-            CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
-
-            if (packet.getAction() == CPacketUseEntity.Action.ATTACK) {
-                this.focusTarget = packet.getEntityFromWorld(mc.world);
-            }
-        }
-
-        // Rotate the player towards the target
-        if (target != null) {
-            if (event.getPacket() instanceof CPacketPlayer) {
-                CPacketPlayer packet = (CPacketPlayer) event.getPacket();
-
-                float[] facingRotations = PlayerUtil.getPlayerFacingRotations(target.posX, target.posY + target.height/2, target.posZ);
-
-                packet.pitch = facingRotations[0];
-                packet.yaw = facingRotations[1];
-            }
-        }
+    public void onAttackEntity(AttackEntityEvent event) {
+        lastAttackedEntity = event.getEntity();
     }
 
     public boolean isValidTarget(Entity entity) {
@@ -114,7 +100,15 @@ public class KillAura extends Module {
             if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() > 0.0F) {
 
                 if (entity instanceof EntityPlayer) {
-                    return players.getValue();
+                    if (players.getValue()) {
+                        if (targetFriends.getValue()) {
+                            return true;
+                        }
+
+                        return !GateClient.getGate().FRIENDS_MANAGER.isFriend(entity.getName());
+                    }
+
+                    return false;
                 }
 
                 if (entity.isCreatureType(EnumCreatureType.MONSTER, false)) {
@@ -124,7 +118,6 @@ public class KillAura extends Module {
                 return passives.getValue();
 
             }
-
         }
 
         return false;

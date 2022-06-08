@@ -1,5 +1,6 @@
 package me.thef1xer.gateclient.modules.render;
 
+import me.thef1xer.gateclient.GateClient;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.util.MathUtil;
@@ -102,7 +103,13 @@ public class Nametags extends Module {
         RenderUtil.draw2DRect(- (float) (stringWidth / 2) - 2, - 2, stringWidth + 3, 12, 0, 0, 0, 0.5F);
 
         // Draw Player Name Health and Ping
-        fr.drawString(nameHealthPing, - (float) (stringWidth / 2),0, 0xFFFFFFFF, false);
+        if (GateClient.getGate().FRIENDS_MANAGER.isFriend(player.getName())) {
+            // Friends should have cyan name
+            fr.drawString(nameHealthPing, -(float) (stringWidth / 2), 0, 0x00FFFF, false);
+        } else {
+            // White name for everyone else
+            fr.drawString(nameHealthPing, -(float) (stringWidth / 2), 0, 0xFFFFFF, false);
+        }
 
         // Draw armor and hands
         if (drawInventory.getValue()) {

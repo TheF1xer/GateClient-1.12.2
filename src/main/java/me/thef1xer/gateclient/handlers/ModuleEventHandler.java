@@ -13,6 +13,7 @@ import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -27,10 +28,6 @@ public class ModuleEventHandler {
         if (event.phase == TickEvent.Phase.START) {
             if (AutoTotem.INSTANCE.isEnabled()) {
                 AutoTotem.INSTANCE.onClientTick();
-            }
-
-            if (KillAura.INSTANCE.isEnabled()) {
-                KillAura.INSTANCE.onClientTick();
             }
 
             if (Flight.INSTANCE.isEnabled()) {
@@ -65,10 +62,6 @@ public class ModuleEventHandler {
             Criticals.INSTANCE.onSendPacket(event);
         }
 
-        if (KillAura.INSTANCE.isEnabled()) {
-            KillAura.INSTANCE.onSendPacket(event);
-        }
-
         if (NoFall.INSTANCE.isEnabled()) {
             NoFall.INSTANCE.onSendPacket(event);
         }
@@ -95,6 +88,10 @@ public class ModuleEventHandler {
             CrystalAura.INSTANCE.onUpdateWalkingPlayer(event);
         }
 
+        if (KillAura.INSTANCE.isEnabled()) {
+            KillAura.INSTANCE.onUpdateWalkingPlayer(event);
+        }
+
         if (Surround.INSTANCE.isEnabled()) {
             Surround.INSTANCE.onUpdateWalkingPlayer(event);
         }
@@ -109,6 +106,13 @@ public class ModuleEventHandler {
 
         if (Scaffold.INSTANCE.isEnabled()) {
             Scaffold.INSTANCE.onUpdateWalkingPlayer(event);
+        }
+    }
+
+    @SubscribeEvent
+    public void onAttackEntity(AttackEntityEvent event) {
+        if (KillAura.INSTANCE.isEnabled()) {
+            KillAura.INSTANCE.onAttackEntity(event);
         }
     }
 

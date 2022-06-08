@@ -1,5 +1,6 @@
 package me.thef1xer.gateclient.managers;
 
+import me.thef1xer.gateclient.GateClient;
 import me.thef1xer.gateclient.util.DirectoryUtil;
 
 import java.io.BufferedReader;
@@ -45,5 +46,15 @@ public class FriendsManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isFriend(String name) {
+        for (String friendName : GateClient.getGate().FRIENDS_MANAGER.FRIENDS_NAME_LIST) {
+            if (friendName.equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -37,7 +37,7 @@ public class FriendsCommand extends Command {
             if (args[1].equalsIgnoreCase("add")) {
 
                 // Check if player is already in the list
-                if (isFriend(args[2])) {
+                if (gate.FRIENDS_MANAGER.isFriend(args[2])) {
                     ChatUtil.clientMessage(TextFormatting.GOLD + args[2] + TextFormatting.WHITE + " is already in the Friends List");
                     return;
                 }
@@ -75,15 +75,5 @@ public class FriendsCommand extends Command {
         }
 
         syntaxError();
-    }
-
-    private boolean isFriend(String name) {
-        for (String friendName : gate.FRIENDS_MANAGER.FRIENDS_NAME_LIST) {
-            if (friendName.equalsIgnoreCase(name)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

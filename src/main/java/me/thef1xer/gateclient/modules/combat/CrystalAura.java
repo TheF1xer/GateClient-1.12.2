@@ -1,5 +1,6 @@
 package me.thef1xer.gateclient.modules.combat;
 
+import me.thef1xer.gateclient.GateClient;
 import me.thef1xer.gateclient.events.UpdateWalkingPlayerEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
@@ -21,14 +22,15 @@ import net.minecraft.util.math.*;
 public class CrystalAura extends Module {
     public static CrystalAura INSTANCE = new CrystalAura();
 
-    private final BooleanSetting placeCrystal = new BooleanSetting("Place Crystal", "place", true);
-    private final BooleanSetting breakCrystal = new BooleanSetting("Break Crystal", "break", true);
-    private final FloatSetting placeDistance = new FloatSetting("Place Distance", "placedistance", 4.5F, 0, 6, 0.1F);
-    private final FloatSetting breakDistance = new FloatSetting("Break Distance", "breakdistance", 4.5F, 0, 6, 0.1F);
-    private final FloatSetting placeDelay = new FloatSetting("Place Delay", "placedelay", 1, 1, 10, 1);
-    private final FloatSetting breakDelay = new FloatSetting("Break Delay", "breakdelay", 1, 1, 10, 1);
-    private final BooleanSetting placeRaytrace = new BooleanSetting("Place Raytrace", "placeraytrace", false);
-    private final BooleanSetting breakRaytrace = new BooleanSetting("Break Raytrace", "breakraytrace", false);
+    public final BooleanSetting targetFriends = new BooleanSetting("Target Friends", "targetfriends", false);
+    public final BooleanSetting placeCrystal = new BooleanSetting("Place Crystal", "place", true);
+    public final BooleanSetting breakCrystal = new BooleanSetting("Break Crystal", "break", true);
+    public final FloatSetting placeDistance = new FloatSetting("Place Distance", "placedistance", 4.5F, 0, 6, 0.1F);
+    public final FloatSetting breakDistance = new FloatSetting("Break Distance", "breakdistance", 4.5F, 0, 6, 0.1F);
+    public final FloatSetting placeDelay = new FloatSetting("Place Delay", "placedelay", 1, 1, 10, 1);
+    public final FloatSetting breakDelay = new FloatSetting("Break Delay", "breakdelay", 1, 1, 10, 1);
+    public final BooleanSetting placeRaytrace = new BooleanSetting("Place Raytrace", "placeraytrace", false);
+    public final BooleanSetting breakRaytrace = new BooleanSetting("Break Raytrace", "breakraytrace", false);
 
     private BlockPos lastPlacePos;
     private EntityEnderCrystal lastAttackedCrystal;
@@ -39,7 +41,7 @@ public class CrystalAura extends Module {
 
     public CrystalAura() {
         super("Crystal Aura", "crystalaura", ModuleCategory.COMBAT);
-        addSettings(placeCrystal, breakCrystal, placeDistance, breakDistance, placeDelay, breakDelay, placeRaytrace, breakRaytrace);
+        addSettings(targetFriends ,placeCrystal, breakCrystal, placeDistance, breakDistance, placeDelay, breakDelay, placeRaytrace, breakRaytrace);
     }
 
     public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
@@ -124,6 +126,13 @@ public class CrystalAura extends Module {
             // Don't select the player as a target
             if (player == mc.player || player == mc.getRenderViewEntity()) {
                 continue;
+            }
+
+            // Check friends
+            if (!targetFriends.getValue()) {
+                if (GateClient.getGate().FRIENDS_MANAGER.isFriend(player.getName())) {
+                    continue;
+                }
             }
 
             // Select closest player
