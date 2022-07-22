@@ -45,6 +45,7 @@ public class ModuleManager {
         MODULE_LIST.add(AutoDisconnect.INSTANCE);
         MODULE_LIST.add(FakePlayer.INSTANCE);
         MODULE_LIST.add(Freecam.INSTANCE);
+        MODULE_LIST.add(Notifications.INSTANCE);
         MODULE_LIST.add(Scaffold.INSTANCE);
 
         // Render

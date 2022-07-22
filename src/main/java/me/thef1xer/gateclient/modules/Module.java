@@ -1,7 +1,10 @@
 package me.thef1xer.gateclient.modules;
 
+import me.thef1xer.gateclient.modules.player.Notifications;
 import me.thef1xer.gateclient.settings.Setting;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
+import me.thef1xer.gateclient.util.ChatUtil;
+import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -32,11 +35,15 @@ public class Module {
     }
 
     public void onEnable() {
-
+        if (Notifications.INSTANCE.isEnabled()) {
+            ChatUtil.clientMessage(name + TextFormatting.GRAY + " toggled " + TextFormatting.GREEN + "on");
+        }
     }
 
     public void onDisable() {
-
+        if (Notifications.INSTANCE.isEnabled()) {
+            ChatUtil.clientMessage(name + TextFormatting.GRAY + " toggled " + TextFormatting.RED + "off");
+        }
     }
 
     public String getName() {
