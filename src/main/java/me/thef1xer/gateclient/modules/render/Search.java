@@ -1,5 +1,6 @@
 package me.thef1xer.gateclient.modules.render;
 
+import it.unimi.dsi.fastutil.objects.ObjectCollection;
 import me.thef1xer.gateclient.events.SetBlockStateEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.BlockListSetting;
@@ -33,8 +34,7 @@ public class Search extends Module {
     public final RGBSetting color = new RGBSetting("Color", "color", 255, 255, 255);
     public final FloatSetting alpha = new FloatSetting("Alpha", "alpha", 1F, 0F, 1F);
 
-    private final List<BlockPos> FOUND_BLOCKS_POS = new ArrayList<>();
-
+    private final List<BlockPos> foundBlocksPos = new ArrayList<>();
     private final Minecraft mc = Minecraft.getMinecraft();
 
     public Search() {
@@ -46,19 +46,21 @@ public class Search extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        FOUND_BLOCKS_POS.clear();
+        foundBlocksPos.clear();
 
         if (mc.world != null) {
-            for (Chunk chunk : mc.world.getChunkProvider().chunkMapping.values()) {
-                searchBlocksInChunk(chunk);
-            }
+            SearchBlocksInChunksThread searchBlocksInChunksThread = new SearchBlocksInChunksThread(
+                    mc.world.getChunkProvider().chunkMapping.values(), searchedBlocks.getBlockList(), foundBlocksPos
+            );
+            System.out.println("Thread");
+            searchBlocksInChunksThread.start();
         }
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-        FOUND_BLOCKS_POS.clear();
+        foundBlocksPos.clear();
     }
 
     public void onSetBlockState(SetBlockStateEvent event) {
@@ -66,21 +68,23 @@ public class Search extends Module {
         BlockPos pos = event.getBlockPos();
 
         // Add Block
-        if (searchedBlocks.getBlockList().contains(block) && !FOUND_BLOCKS_POS.contains(pos)) {
-            FOUND_BLOCKS_POS.add(pos);
+        if (searchedBlocks.getBlockList().contains(block) && !foundBlocksPos.contains(pos)) {
+            foundBlocksPos.add(pos);
             return;
         }
 
         // Remove Block
-        if (FOUND_BLOCKS_POS.contains(pos) && !searchedBlocks.getBlockList().contains(block)) {
-            FOUND_BLOCKS_POS.remove(pos);
+        if (foundBlocksPos.contains(pos) && !searchedBlocks.getBlockList().contains(block)) {
+            foundBlocksPos.remove(pos);
         }
     }
 
     public void onLoadChunk(ChunkEvent.Load event) {
-        // Search chunks when they are loaded
-
-        searchBlocksInChunk(event.getChunk());
+        SearchBlocksInChunksThread searchBlocksInChunksThread = new SearchBlocksInChunksThread(
+                new Chunk[] {event.getChunk()}, searchedBlocks.getBlockList(), foundBlocksPos
+        );
+        System.out.println("Thread");
+        searchBlocksInChunksThread.start();
     }
 
     public void onUnLoadChunk(ChunkEvent.Unload event) {
@@ -89,11 +93,11 @@ public class Search extends Module {
         Chunk chunk = event.getChunk();
         int index = 0;
 
-        while (index < FOUND_BLOCKS_POS.size()) {
-            BlockPos foundPos = FOUND_BLOCKS_POS.get(index);
+        while (index < foundBlocksPos.size()) {
+            BlockPos foundPos = foundBlocksPos.get(index);
 
             if (mc.world.getChunkFromBlockCoords(foundPos) == chunk) {
-                FOUND_BLOCKS_POS.remove(index);
+                foundBlocksPos.remove(index);
             } else {
                 index++;
             }
@@ -114,7 +118,7 @@ public class Search extends Module {
 
         boolean bobbing = mc.gameSettings.viewBobbing;
 
-        for (BlockPos pos : FOUND_BLOCKS_POS) {
+        for (BlockPos pos : foundBlocksPos) {
 
             if (tracer.getValue()) {
 
@@ -149,17 +153,41 @@ public class Search extends Module {
         GlStateManager.popMatrix();
     }
 
-    private void searchBlocksInChunk(Chunk chunk) {
+    private static class SearchBlocksInChunksThread extends Thread {
+        private final Chunk[] chunksToSearch;
+        private final List<Block> searchedBlocks;
+        private final List<BlockPos> foundBlocksPos;
 
-        // Loop through every block and add them if they are being searched
-        for (int x = chunk.getPos().getXStart(); x <= chunk.getPos().getXEnd(); x++) {
-            for (int y = 1; y <= 256; y++) {
-                for (int z = chunk.getPos().getZStart(); z <= chunk.getPos().getZEnd(); z++) {
+        public SearchBlocksInChunksThread(Chunk[] chunksToSearch, List<Block> searchedBlocks, List<BlockPos> foundBlocksPos) {
+            this.chunksToSearch = chunksToSearch;
+            this.searchedBlocks = searchedBlocks;
+            this.foundBlocksPos = foundBlocksPos;
+        }
 
-                    BlockPos pos = new BlockPos(x, y, z);
+        public SearchBlocksInChunksThread(ObjectCollection<Chunk> chunksToSearchCollection, List<Block> searchedBlocks, List<BlockPos> foundBlocksPos) {
+            Chunk[] chunksToSearch = new Chunk[chunksToSearchCollection.size()];
+            chunksToSearchCollection.toArray(chunksToSearch);
 
-                    if (searchedBlocks.getBlockList().contains(chunk.getBlockState(pos).getBlock())) {
-                        FOUND_BLOCKS_POS.add(pos);
+            this.chunksToSearch = chunksToSearch;
+            this.searchedBlocks = searchedBlocks;
+            this.foundBlocksPos = foundBlocksPos;
+        }
+
+        @Override
+        public void run() {
+            for (Chunk chunk : chunksToSearch) {
+
+                // Loop through every block and add them if they are being searched
+                for (int x = chunk.getPos().getXStart(); x <= chunk.getPos().getXEnd(); x++) {
+                    for (int y = 1; y <= 256; y++) {
+                        for (int z = chunk.getPos().getZStart(); z <= chunk.getPos().getZEnd(); z++) {
+
+                            BlockPos pos = new BlockPos(x, y, z);
+
+                            if (searchedBlocks.contains(chunk.getBlockState(pos).getBlock())) {
+                                foundBlocksPos.add(pos);
+                            }
+                        }
                     }
                 }
             }
