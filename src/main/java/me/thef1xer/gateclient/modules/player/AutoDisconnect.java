@@ -31,8 +31,8 @@ public class AutoDisconnect extends Module {
 
         // Players
         if (players.getValue()) {
-            for (Entity entity : mc.world.loadedEntityList) {
-                if (entity instanceof EntityPlayer && entity != mc.player && entity != Freecam.INSTANCE.camera) {
+            for (Entity entity : mc.world.playerEntities) {
+                if (entity != mc.player && entity != Freecam.INSTANCE.camera) {
                     mc.player.connection.onDisconnect(new TextComponentString("A Player was found"));
                     if (disable.getValue()) {
                         this.setEnabled(false);

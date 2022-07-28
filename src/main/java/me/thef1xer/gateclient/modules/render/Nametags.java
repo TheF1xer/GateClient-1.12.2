@@ -20,7 +20,7 @@ public class Nametags extends Module {
 
     public final BooleanSetting drawHealth = new BooleanSetting("Health", "health", true);
     public final BooleanSetting drawPing = new BooleanSetting("Ping", "ping", true);
-    public final BooleanSetting drawInventory = new BooleanSetting("inventory", "inventory", true);
+    public final BooleanSetting drawInventory = new BooleanSetting("Inventory", "inventory", true);
 
     private final Minecraft mc = Minecraft.getMinecraft();
 
@@ -82,11 +82,6 @@ public class Nametags extends Module {
         // Drawing
         GlStateManager.pushMatrix();
 
-        GlStateManager.disableAlpha();
-        GlStateManager.disableDepth();
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-
         // Transformations
         GlStateManager.translate(x, y + distanceAbovePlayer, z);
         GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
@@ -101,6 +96,7 @@ public class Nametags extends Module {
 
         // Draw Background Rectangle
         RenderUtil.draw2DRect(- (float) (stringWidth / 2) - 2, - 2, stringWidth + 3, 12, 0, 0, 0, 0.5F);
+        GlStateManager.enableTexture2D();
 
         // Draw Player Name Health and Ping
         if (GateClient.getGate().FRIENDS_MANAGER.isFriend(player.getName())) {
@@ -144,10 +140,7 @@ public class Nametags extends Module {
             GlStateManager.popMatrix();
         }
 
-        GlStateManager.disableBlend();
-        GlStateManager.enableDepth();
-        GlStateManager.enableAlpha();
-
+        GlStateManager.disableTexture2D();
         GlStateManager.popMatrix();
     }
 

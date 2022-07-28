@@ -52,7 +52,6 @@ public class Search extends Module {
             SearchBlocksInChunksThread searchBlocksInChunksThread = new SearchBlocksInChunksThread(
                     mc.world.getChunkProvider().chunkMapping.values(), searchedBlocks.getBlockList(), foundBlocksPos
             );
-            System.out.println("Thread");
             searchBlocksInChunksThread.start();
         }
     }
@@ -83,7 +82,6 @@ public class Search extends Module {
         SearchBlocksInChunksThread searchBlocksInChunksThread = new SearchBlocksInChunksThread(
                 new Chunk[] {event.getChunk()}, searchedBlocks.getBlockList(), foundBlocksPos
         );
-        System.out.println("Thread");
         searchBlocksInChunksThread.start();
     }
 
@@ -106,12 +104,6 @@ public class Search extends Module {
 
     public void onRenderWorldLast(RenderWorldLastEvent event) {
         RenderManager rm = mc.getRenderManager();
-
-        GlStateManager.pushMatrix();
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        GlStateManager.disableDepth();
-        GlStateManager.disableTexture2D();
 
         // Set color for tracer
         GlStateManager.color(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, alpha.getValue());
@@ -146,11 +138,6 @@ public class Search extends Module {
 
         // Restore previous bobbing setting
         mc.gameSettings.viewBobbing = bobbing;
-
-        GlStateManager.enableTexture2D();
-        GlStateManager.enableDepth();
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
     }
 
     private static class SearchBlocksInChunksThread extends Thread {

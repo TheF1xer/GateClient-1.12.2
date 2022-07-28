@@ -8,16 +8,10 @@ import me.thef1xer.gateclient.util.MathUtil;
 import me.thef1xer.gateclient.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.opengl.GL11;
 
 public class Tracers extends Module {
     public static final Tracers INSTANCE = new Tracers();
@@ -36,11 +30,6 @@ public class Tracers extends Module {
         Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.player != null && mc.world != null) {
-            GlStateManager.pushMatrix();
-            GlStateManager.disableTexture2D();
-            GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.disableDepth();
             GlStateManager.glLineWidth(0.5F);
             GlStateManager.color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, colorAlpha.getValue());
 
@@ -62,11 +51,6 @@ public class Tracers extends Module {
 
             // Restore previous bobbing setting
             mc.gameSettings.viewBobbing = bobbing;
-
-            GlStateManager.enableDepth();
-            GlStateManager.disableBlend();
-            GlStateManager.enableTexture2D();
-            GlStateManager.popMatrix();
         }
     }
 

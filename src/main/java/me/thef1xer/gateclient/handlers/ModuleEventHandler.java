@@ -9,6 +9,7 @@ import me.thef1xer.gateclient.modules.hud.Watermark;
 import me.thef1xer.gateclient.modules.movement.*;
 import me.thef1xer.gateclient.modules.player.*;
 import me.thef1xer.gateclient.modules.render.*;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -220,12 +221,15 @@ public class ModuleEventHandler {
 
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent event) {
-        if (EntityESP.INSTANCE.isEnabled()) {
-            EntityESP.INSTANCE.onRenderWorldLast();
-        }
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.disableTexture2D();
+        GlStateManager.disableDepth();
+        GlStateManager.enableRescaleNormal();
 
-        if (Nametags.INSTANCE.isEnabled()) {
-            Nametags.INSTANCE.onRenderWorldLast();
+        if (Search.INSTANCE.isEnabled()) {
+            Search.INSTANCE.onRenderWorldLast(event);
         }
 
         if (StorageESP.INSTANCE.isEnabled()) {
@@ -236,9 +240,19 @@ public class ModuleEventHandler {
             Tracers.INSTANCE.onRenderWorldLast(event);
         }
 
-        if (Search.INSTANCE.isEnabled()) {
-            Search.INSTANCE.onRenderWorldLast(event);
+        if (EntityESP.INSTANCE.isEnabled()) {
+            EntityESP.INSTANCE.onRenderWorldLast();
         }
+
+        if (Nametags.INSTANCE.isEnabled()) {
+            Nametags.INSTANCE.onRenderWorldLast();
+        }
+
+        GlStateManager.enableDepth();
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableAlpha();
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
     }
 
     @SubscribeEvent

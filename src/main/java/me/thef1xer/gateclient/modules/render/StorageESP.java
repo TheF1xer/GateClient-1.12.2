@@ -5,7 +5,6 @@ import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import me.thef1xer.gateclient.settings.impl.RGBSetting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.tileentity.*;
@@ -39,12 +38,6 @@ public class StorageESP extends Module {
 
     public void onRenderWorldLast() {
         RenderManager rm = Minecraft.getMinecraft().getRenderManager();
-
-        GlStateManager.pushMatrix();
-        GlStateManager.disableTexture2D();
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.disableDepth();
 
         for (TileEntity entity : Minecraft.getMinecraft().world.loadedTileEntityList) {
             AxisAlignedBB bb = new AxisAlignedBB(entity.getPos()).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
@@ -86,10 +79,5 @@ public class StorageESP extends Module {
 
             }
         }
-
-        GlStateManager.enableDepth();
-        GlStateManager.disableBlend();
-        GlStateManager.enableTexture2D();
-        GlStateManager.popMatrix();
     }
 }

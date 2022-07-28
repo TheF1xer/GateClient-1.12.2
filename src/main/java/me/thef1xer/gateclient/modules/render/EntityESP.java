@@ -6,13 +6,9 @@ import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import me.thef1xer.gateclient.settings.impl.RGBSetting;
 import me.thef1xer.gateclient.util.RenderUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EntityESP extends Module {
     public static final EntityESP INSTANCE = new EntityESP();
@@ -32,13 +28,6 @@ public class EntityESP extends Module {
     }
 
     public void onRenderWorldLast() {
-        GlStateManager.pushMatrix();
-        GlStateManager.disableTexture2D();
-        GlStateManager.disableAlpha();
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.disableDepth();
-
         for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
 
             if (targetPlayer.getValue() && entity instanceof EntityPlayer && entity != Minecraft.getMinecraft().getRenderViewEntity()) {
@@ -57,11 +46,5 @@ public class EntityESP extends Module {
                 RenderUtil.renderEntityFilledBoundingBox(entity, passiveColor, colorAlpha.getValue()/3);
             }
         }
-
-        GlStateManager.enableDepth();
-        GlStateManager.disableBlend();
-        GlStateManager.enableTexture2D();
-        GlStateManager.enableAlpha();
-        GlStateManager.popMatrix();
     }
 }
