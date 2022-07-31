@@ -29,6 +29,8 @@ public class Tracers extends Module {
     public void onRenderWorldLast(RenderWorldLastEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
 
+        GlStateManager.pushMatrix();
+
         if (mc.player != null && mc.world != null) {
             GlStateManager.glLineWidth(0.5F);
             GlStateManager.color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, colorAlpha.getValue());
@@ -52,6 +54,8 @@ public class Tracers extends Module {
             // Restore previous bobbing setting
             mc.gameSettings.viewBobbing = bobbing;
         }
+
+        GlStateManager.popMatrix();
     }
 
     public boolean isTarget(Entity entity) {

@@ -9,45 +9,49 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 public class CommonEventHandler {
+    private final Minecraft mc = Minecraft.getMinecraft();
+    private final GateClient gate = GateClient.getGate();
 
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public void onKeyPressed(InputEvent.KeyInputEvent event) {
-        if (Keyboard.isCreated() && Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().player != null) {
+    public void onKeyInput(InputEvent.KeyInputEvent event) {
+        if (Keyboard.isCreated() && mc.world != null && mc.player != null) {
             if (Keyboard.getEventKeyState()) {
-                for (Module module : GateClient.getGate().MODULE_MANAGER.MODULE_LIST) {
+
+                for (Module module : gate.MODULE_MANAGER.MODULE_LIST) {
                     if (Keyboard.getEventKey() == module.getKeyBind()) {
+
                         module.toggle();
-                        if (GateClient.getGate().PRESET_MANAGER.isAutoSave()) {
-                            GateClient.getGate().PRESET_MANAGER.saveActivePreset();
+                        if (gate.PRESET_MANAGER.isAutoSave()) {
+                            gate.PRESET_MANAGER.saveActivePreset();
                         }
                     }
                 }
+
             }
+
         }
     }
 
     @SubscribeEvent
-    public void onMessageSent(ClientChatEvent event) {
+    public void onClientChat(ClientChatEvent event) {
         String message = event.getOriginalMessage();
 
         // Commands
-        if (message.startsWith(GateClient.getGate().COMMAND_MANAGER.getPrefix())) {
-            Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(message);
-            String[] args = message.substring(GateClient.getGate().COMMAND_MANAGER.getPrefix().length()).split(" ");
+        if (message.startsWith(gate.COMMAND_MANAGER.getPrefix())) {
+            mc.ingameGUI.getChatGUI().addToSentMessages(message);
+            String[] args = message.substring(gate.COMMAND_MANAGER.getPrefix().length()).split(" ");
             boolean found = false;
 
-            for (Command command: GateClient.getGate().COMMAND_MANAGER.COMMAND_LIST) {
+            for (Command command: gate.COMMAND_MANAGER.COMMAND_LIST) {
                 if (ChatUtil.isCommand(args[0], command)) {
+
                     if (args.length == 2 && args[1].equalsIgnoreCase("help")) {
                         ChatUtil.clientMessage("Syntax for " + TextFormatting.GOLD + command.getName() + TextFormatting.RESET + " command:");
                         for (String syntax : command.getSyntax()) {
-                            ChatUtil.clientMessage(TextFormatting.YELLOW + GateClient.getGate().COMMAND_MANAGER.getPrefix() + syntax);
+                            ChatUtil.clientMessage(TextFormatting.YELLOW + gate.COMMAND_MANAGER.getPrefix() + syntax);
                         }
                     } else {
                         command.onCommand(args);

@@ -1,6 +1,7 @@
 package me.thef1xer.gateclient.handlers;
 
 import me.thef1xer.gateclient.events.*;
+import me.thef1xer.gateclient.util.SearchBlocksInChunksThread;
 import me.thef1xer.gateclient.modules.combat.*;
 import me.thef1xer.gateclient.modules.hud.ArmorHUD;
 import me.thef1xer.gateclient.modules.hud.Coords;
@@ -10,6 +11,8 @@ import me.thef1xer.gateclient.modules.movement.*;
 import me.thef1xer.gateclient.modules.player.*;
 import me.thef1xer.gateclient.modules.render.*;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -232,6 +235,10 @@ public class ModuleEventHandler {
             Search.INSTANCE.onRenderWorldLast(event);
         }
 
+        if (HoleESP.INSTANCE.isEnabled()) {
+            HoleESP.INSTANCE.onRenderWorldLast();
+        }
+
         if (StorageESP.INSTANCE.isEnabled()) {
             StorageESP.INSTANCE.onRenderWorldLast();
         }
@@ -295,12 +302,34 @@ public class ModuleEventHandler {
         if (Search.INSTANCE.isEnabled()) {
             Search.INSTANCE.onSetBlockState(event);
         }
+
+        if (HoleESP.INSTANCE.isEnabled()) {
+            HoleESP.INSTANCE.onSetBlockState(event);
+        }
     }
 
     @SubscribeEvent
     public void onLoadChunk(ChunkEvent.Load event) {
-        if (Search.INSTANCE.isEnabled()) {
-            Search.INSTANCE.onLoadChunk(event);
+
+        // Only create thread if at least one of the modules that require it is enabled
+        if (Search.INSTANCE.isEnabled() || HoleESP.INSTANCE.isEnabled()) {
+
+            // This will be done in a thread since it requires a lot of CPU power
+            SearchBlocksInChunksThread searchBlocksInChunksThread = new SearchBlocksInChunksThread(new Chunk[]{event.getChunk()}) {
+                @Override
+                public void searchBlockInChunk(Chunk chunk, BlockPos pos) {
+                    if (Search.INSTANCE.isEnabled()) {
+                        Search.INSTANCE.searchBlockInChunk(chunk, pos);
+                    }
+
+                    if (HoleESP.INSTANCE.isEnabled()) {
+                        HoleESP.INSTANCE.searchBlockInChunk(chunk, pos);
+                    }
+                }
+            };
+
+            // Start thread
+            searchBlocksInChunksThread.start();
         }
     }
 
@@ -308,6 +337,10 @@ public class ModuleEventHandler {
     public void onUnLoadChunk(ChunkEvent.Unload event) {
         if (Search.INSTANCE.isEnabled()) {
             Search.INSTANCE.onUnLoadChunk(event);
+        }
+
+        if (HoleESP.INSTANCE.isEnabled()) {
+            HoleESP.INSTANCE.onUnLoadChunk(event);
         }
     }
 }

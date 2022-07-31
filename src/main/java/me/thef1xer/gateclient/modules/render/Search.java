@@ -1,8 +1,8 @@
 package me.thef1xer.gateclient.modules.render;
 
-import it.unimi.dsi.fastutil.objects.ObjectCollection;
 import me.thef1xer.gateclient.events.SetBlockStateEvent;
 import me.thef1xer.gateclient.modules.Module;
+import me.thef1xer.gateclient.util.SearchBlocksInChunksThread;
 import me.thef1xer.gateclient.settings.impl.BlockListSetting;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
@@ -49,9 +49,13 @@ public class Search extends Module {
         foundBlocksPos.clear();
 
         if (mc.world != null) {
-            SearchBlocksInChunksThread searchBlocksInChunksThread = new SearchBlocksInChunksThread(
-                    mc.world.getChunkProvider().chunkMapping.values(), searchedBlocks.getBlockList(), foundBlocksPos
-            );
+            SearchBlocksInChunksThread searchBlocksInChunksThread = new SearchBlocksInChunksThread(mc.world.getChunkProvider().chunkMapping.values()) {
+                @Override
+                public void searchBlockInChunk(Chunk chunk, BlockPos pos) {
+                    Search.INSTANCE.searchBlockInChunk(chunk, pos);
+                }
+            };
+
             searchBlocksInChunksThread.start();
         }
     }
@@ -78,11 +82,10 @@ public class Search extends Module {
         }
     }
 
-    public void onLoadChunk(ChunkEvent.Load event) {
-        SearchBlocksInChunksThread searchBlocksInChunksThread = new SearchBlocksInChunksThread(
-                new Chunk[] {event.getChunk()}, searchedBlocks.getBlockList(), foundBlocksPos
-        );
-        searchBlocksInChunksThread.start();
+    public void searchBlockInChunk(Chunk chunk, BlockPos pos) {
+        if (searchedBlocks.getBlockList().contains(chunk.getBlockState(pos).getBlock()) && !foundBlocksPos.contains(pos)) {
+            foundBlocksPos.add(pos);
+        }
     }
 
     public void onUnLoadChunk(ChunkEvent.Unload event) {
@@ -112,6 +115,7 @@ public class Search extends Module {
 
         for (BlockPos pos : foundBlocksPos) {
 
+            GlStateManager.pushMatrix();
             if (tracer.getValue()) {
 
                 // Cancel bobbing
@@ -121,14 +125,9 @@ public class Search extends Module {
 
                 RenderUtil.drawTracerFromPlayer(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F);
             }
+            GlStateManager.popMatrix();
 
             if (box.getValue()) {
-
-                // Re-add bobbing
-                mc.gameSettings.viewBobbing = bobbing;
-                GlStateManager.loadIdentity();
-                mc.entityRenderer.orientCamera(event.getPartialTicks());
-
                 AxisAlignedBB blockBB = new AxisAlignedBB(pos).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
 
                 RenderGlobal.drawSelectionBoundingBox(blockBB, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, alpha.getValue());
@@ -138,46 +137,5 @@ public class Search extends Module {
 
         // Restore previous bobbing setting
         mc.gameSettings.viewBobbing = bobbing;
-    }
-
-    private static class SearchBlocksInChunksThread extends Thread {
-        private final Chunk[] chunksToSearch;
-        private final List<Block> searchedBlocks;
-        private final List<BlockPos> foundBlocksPos;
-
-        public SearchBlocksInChunksThread(Chunk[] chunksToSearch, List<Block> searchedBlocks, List<BlockPos> foundBlocksPos) {
-            this.chunksToSearch = chunksToSearch;
-            this.searchedBlocks = searchedBlocks;
-            this.foundBlocksPos = foundBlocksPos;
-        }
-
-        public SearchBlocksInChunksThread(ObjectCollection<Chunk> chunksToSearchCollection, List<Block> searchedBlocks, List<BlockPos> foundBlocksPos) {
-            Chunk[] chunksToSearch = new Chunk[chunksToSearchCollection.size()];
-            chunksToSearchCollection.toArray(chunksToSearch);
-
-            this.chunksToSearch = chunksToSearch;
-            this.searchedBlocks = searchedBlocks;
-            this.foundBlocksPos = foundBlocksPos;
-        }
-
-        @Override
-        public void run() {
-            for (Chunk chunk : chunksToSearch) {
-
-                // Loop through every block and add them if they are being searched
-                for (int x = chunk.getPos().getXStart(); x <= chunk.getPos().getXEnd(); x++) {
-                    for (int y = 1; y <= 256; y++) {
-                        for (int z = chunk.getPos().getZStart(); z <= chunk.getPos().getZEnd(); z++) {
-
-                            BlockPos pos = new BlockPos(x, y, z);
-
-                            if (searchedBlocks.contains(chunk.getBlockState(pos).getBlock())) {
-                                foundBlocksPos.add(pos);
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }
