@@ -2,6 +2,7 @@ package me.thef1xer.gateclient.modules.render;
 
 import me.thef1xer.gateclient.events.SetBlockStateEvent;
 import me.thef1xer.gateclient.modules.Module;
+import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import me.thef1xer.gateclient.util.SearchBlocksInChunksThread;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -20,11 +21,14 @@ import java.util.List;
 public class HoleESP extends Module {
     public static final HoleESP INSTANCE = new HoleESP();
 
+    public final FloatSetting radius = new FloatSetting("Radius", "radius", 10, 0, 35, 1);
+
     private final Minecraft mc = Minecraft.getMinecraft();
     private final List<Hole> holeList = new ArrayList<>();
 
     public HoleESP() {
         super("Hole ESP", "holeesp", ModuleCategory.RENDER);
+        addSettings(radius);
     }
 
     @Override
@@ -84,6 +88,14 @@ public class HoleESP extends Module {
         RenderManager rm = mc.getRenderManager();
 
         for (Hole hole : holeList) {
+
+            // If radius is 0, don't apply restrictions
+            if (radius.getValue() != 0) {
+                if (mc.player.getDistanceSqToCenter(hole.getPos()) > radius.getValue() * radius.getValue()) {
+                    continue;
+                }
+            }
+
             AxisAlignedBB holeBB = new AxisAlignedBB(hole.pos).offset(-rm.viewerPosX, -rm.viewerPosY, -rm.viewerPosZ);
 
             RenderGlobal.drawSelectionBoundingBox(holeBB, hole.getColorRGB()[0], hole.getColorRGB()[1], hole.getColorRGB()[2], 1F);
