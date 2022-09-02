@@ -1,9 +1,12 @@
 package me.thef1xer.gateclient.modules.render;
 
+import me.thef1xer.gateclient.GateClient;
+import me.thef1xer.gateclient.events.CheckBlockInChunkEvent;
+import me.thef1xer.gateclient.events.CheckUnloadedChunksEvent;
 import me.thef1xer.gateclient.events.SetBlockStateEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
-import me.thef1xer.gateclient.util.SearchBlocksInChunksThread;
+import me.thef1xer.gateclient.util.WorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -13,7 +16,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.event.world.ChunkEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +39,7 @@ public class HoleESP extends Module {
         holeList.clear();
 
         if (mc.world != null) {
-            SearchBlocksInChunksThread searchBlocksInChunksThread = new SearchBlocksInChunksThread(mc.world.getChunkProvider().chunkMapping.values()) {
-                @Override
-                public void searchBlockInChunk(Chunk chunk, BlockPos pos) {
-                    HoleESP.INSTANCE.searchBlockInChunk(chunk, pos);
-                }
-            };
-
-            searchBlocksInChunksThread.start();
+            GateClient.getGate().threadManager.loadedChunksToCheck.addAll(mc.world.getChunkProvider().chunkMapping.values());
         }
     }
 
@@ -63,20 +58,23 @@ public class HoleESP extends Module {
         }
     }
 
-    public void searchBlockInChunk(Chunk chunk, BlockPos pos) {
+    public void onCheckBlockInChunkEvent(CheckBlockInChunkEvent event) {
+        BlockPos pos = event.getBlockPos();
+        Chunk chunk = event.getChunk();
+
         updateHole(chunk.getBlockState(pos).getBlock(), pos);
     }
 
-    public void onUnLoadChunk(ChunkEvent.Unload event) {
+    public void onCheckUnloadedChunks(CheckUnloadedChunksEvent event) {
         // Search chunks when they are unloaded
 
-        Chunk chunk = event.getChunk();
+        List<Chunk> chunks = event.getChunks();
         int index = 0;
 
         while (index < holeList.size()) {
             BlockPos foundPos = holeList.get(index).getPos();
 
-            if (mc.world.getChunkFromBlockCoords(foundPos) == chunk) {
+            if (WorldUtil.isBlockPosInChunks(chunks, foundPos)) {
                 holeList.remove(index);
             } else {
                 index++;
@@ -87,7 +85,9 @@ public class HoleESP extends Module {
     public void onRenderWorldLast() {
         RenderManager rm = mc.getRenderManager();
 
-        for (Hole hole : holeList) {
+        // DO NOT use enhanced for loop
+        for (int i = 0; i < holeList.size(); i++) {
+            Hole hole = holeList.get(i);
 
             // If radius is 0, don't apply restrictions
             if (radius.getValue() != 0) {
@@ -105,6 +105,10 @@ public class HoleESP extends Module {
 
     private void removeHoleIfInList(BlockPos pos) {
         for (int i = 0; i < holeList.size(); i++) {
+            if (holeList.get(i) == null) {
+                continue;
+            }
+
             if (holeList.get(i).getPos().equals(pos)) {
                 holeList.remove(i);
                 return;
@@ -113,8 +117,6 @@ public class HoleESP extends Module {
     }
 
     private void updateHole(Block block, BlockPos pos) {
-        if (mc.world == null) return;
-
         Block blockUp = mc.world.getBlockState(pos.offset(EnumFacing.UP)).getBlock();
         final EnumFacing[] resistantFacings = {
                 EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST

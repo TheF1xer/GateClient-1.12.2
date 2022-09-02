@@ -18,8 +18,8 @@ public class ConfigManager {
 
     public void save() {
         JsonObject config = new JsonObject();
-        config.addProperty("Active Config", GateClient.getGate().PRESET_MANAGER.getActivePreset() != null ? GateClient.getGate().PRESET_MANAGER.getActivePreset().toString() : new File(DirectoryUtil.PRESET_FOLDER, "default.json").toString());
-        config.addProperty("Prefix", GateClient.getGate().COMMAND_MANAGER.getPrefix());
+        config.addProperty("Active Config", GateClient.getGate().presetManager.getActivePreset() != null ? GateClient.getGate().presetManager.getActivePreset().toString() : new File(DirectoryUtil.PRESET_FOLDER, "default.json").toString());
+        config.addProperty("Prefix", GateClient.getGate().commandManager.getPrefix());
         try {
             FileWriter writer = new FileWriter(CONFIG_FILE);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -31,7 +31,7 @@ public class ConfigManager {
     }
 
     public void load() {
-        GateClient.getGate().PRESET_MANAGER.updatePresetList();
+        GateClient.getGate().presetManager.updatePresetList();
         JsonParser parser = new JsonParser();
 
         if (!CONFIG_FILE.exists()) {
@@ -48,12 +48,12 @@ public class ConfigManager {
                 JsonElement val = entry.getValue();
 
                 if (key.equals("Active Config")) {
-                    GateClient.getGate().PRESET_MANAGER.setActivePreset(new File(val.getAsString()));
+                    GateClient.getGate().presetManager.setActivePreset(new File(val.getAsString()));
                     continue;
                 }
 
                 if (key.equals("Prefix")) {
-                    GateClient.getGate().COMMAND_MANAGER.setPrefix(val.getAsString());
+                    GateClient.getGate().commandManager.setPrefix(val.getAsString());
                 }
             }
 

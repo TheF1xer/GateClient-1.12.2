@@ -20,19 +20,19 @@ public class BindCommand extends Command {
 
         if (args.length == 2) {
             if (args[1].equalsIgnoreCase("clear")) {
-                for (Module module : GateClient.getGate().MODULE_MANAGER.MODULE_LIST) {
+                for (Module module : GateClient.getGate().moduleManager.moduleList) {
                     module.setKeyBind(Keyboard.KEY_NONE);
                 }
                 ChatUtil.clientMessage("Key Binds cleared");
-                if (GateClient.getGate().PRESET_MANAGER.isAutoSave()) {
-                    GateClient.getGate().PRESET_MANAGER.saveActivePreset();
+                if (GateClient.getGate().presetManager.isAutoSave()) {
+                    GateClient.getGate().presetManager.saveActivePreset();
                 }
                 return;
             }
 
             if (args[1].equalsIgnoreCase("list")) {
                 ChatUtil.clientMessage(TextFormatting.BOLD + "Key Bind List:");
-                for (Module module : GateClient.getGate().MODULE_MANAGER.MODULE_LIST) {
+                for (Module module : GateClient.getGate().moduleManager.moduleList) {
                     if (module.getKeyBind() != Keyboard.KEY_NONE) {
                         ChatUtil.clientMessage(module.getName() + " is bound to " + Keyboard.getKeyName(module.getKeyBind()));
                     }
@@ -40,7 +40,7 @@ public class BindCommand extends Command {
                 return;
             }
 
-            for (Module module : GateClient.getGate().MODULE_MANAGER.MODULE_LIST) {
+            for (Module module : GateClient.getGate().moduleManager.moduleList) {
                 if (module.getId().equalsIgnoreCase(args[1].toUpperCase())) {
                     ChatUtil.clientMessage(module.getName() + " is bound to " + Keyboard.getKeyName(module.getKeyBind()));
                     return;
@@ -53,12 +53,12 @@ public class BindCommand extends Command {
             return;
         }
 
-        for (Module module : GateClient.getGate().MODULE_MANAGER.MODULE_LIST) {
+        for (Module module : GateClient.getGate().moduleManager.moduleList) {
             if (module.getId().equalsIgnoreCase(args[1])) {
                 module.setKeyBind(Keyboard.getKeyIndex(args[2].toUpperCase()));
                 ChatUtil.clientMessage(module.getName() + " bound to " + args[2].toUpperCase());
-                if (GateClient.getGate().PRESET_MANAGER.isAutoSave()) {
-                    GateClient.getGate().PRESET_MANAGER.saveActivePreset();
+                if (GateClient.getGate().presetManager.isAutoSave()) {
+                    GateClient.getGate().presetManager.saveActivePreset();
                 }
                 return;
             }

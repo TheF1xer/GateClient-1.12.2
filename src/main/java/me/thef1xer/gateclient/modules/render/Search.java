@@ -1,13 +1,16 @@
 package me.thef1xer.gateclient.modules.render;
 
+import me.thef1xer.gateclient.GateClient;
+import me.thef1xer.gateclient.events.CheckBlockInChunkEvent;
+import me.thef1xer.gateclient.events.CheckUnloadedChunksEvent;
 import me.thef1xer.gateclient.events.SetBlockStateEvent;
 import me.thef1xer.gateclient.modules.Module;
-import me.thef1xer.gateclient.util.SearchBlocksInChunksThread;
 import me.thef1xer.gateclient.settings.impl.BlockListSetting;
 import me.thef1xer.gateclient.settings.impl.BooleanSetting;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
 import me.thef1xer.gateclient.settings.impl.RGBSetting;
 import me.thef1xer.gateclient.util.RenderUtil;
+import me.thef1xer.gateclient.util.WorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -18,7 +21,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.event.world.ChunkEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,14 +51,7 @@ public class Search extends Module {
         foundBlocksPos.clear();
 
         if (mc.world != null) {
-            SearchBlocksInChunksThread searchBlocksInChunksThread = new SearchBlocksInChunksThread(mc.world.getChunkProvider().chunkMapping.values()) {
-                @Override
-                public void searchBlockInChunk(Chunk chunk, BlockPos pos) {
-                    Search.INSTANCE.searchBlockInChunk(chunk, pos);
-                }
-            };
-
-            searchBlocksInChunksThread.start();
+            GateClient.getGate().threadManager.loadedChunksToCheck.addAll(mc.world.getChunkProvider().chunkMapping.values());
         }
     }
 
@@ -82,26 +77,30 @@ public class Search extends Module {
         }
     }
 
-    public void searchBlockInChunk(Chunk chunk, BlockPos pos) {
+    public void onCheckBlockInChunkEvent(CheckBlockInChunkEvent event) {
+        BlockPos pos = event.getBlockPos();
+        Chunk chunk = event.getChunk();
+
         if (searchedBlocks.getBlockList().contains(chunk.getBlockState(pos).getBlock()) && !foundBlocksPos.contains(pos)) {
             foundBlocksPos.add(pos);
         }
     }
 
-    public void onUnLoadChunk(ChunkEvent.Unload event) {
+    public void onCheckUnloadedChunks(CheckUnloadedChunksEvent event) {
         // Search chunks when they are unloaded
 
-        Chunk chunk = event.getChunk();
+        List<Chunk> chunks = event.getChunks();
         int index = 0;
 
         while (index < foundBlocksPos.size()) {
             BlockPos foundPos = foundBlocksPos.get(index);
 
-            if (mc.world.getChunkFromBlockCoords(foundPos) == chunk) {
+            if (WorldUtil.isBlockPosInChunks(chunks, foundPos)) {
                 foundBlocksPos.remove(index);
             } else {
                 index++;
             }
+
         }
     }
 
@@ -113,7 +112,9 @@ public class Search extends Module {
 
         boolean bobbing = mc.gameSettings.viewBobbing;
 
-        for (BlockPos pos : foundBlocksPos) {
+        // DO NOT use enhanced for loop
+        for (int i = 0; i < foundBlocksPos.size(); i++) {
+            BlockPos pos = foundBlocksPos.get(i);
 
             GlStateManager.pushMatrix();
             if (tracer.getValue()) {

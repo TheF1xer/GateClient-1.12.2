@@ -15,7 +15,7 @@ public class HelpCommand extends Command {
     public void onCommand(String[] args) {
         if (args.length == 1) {
             ChatUtil.clientMessage(TextFormatting.BOLD + "List of Commands in this Client:");
-            for (Command command : GateClient.getGate().COMMAND_MANAGER.COMMAND_LIST) {
+            for (Command command : GateClient.getGate().commandManager.COMMAND_LIST) {
                 ChatUtil.clientMessage(TextFormatting.GOLD + command.getName() + ": " + TextFormatting.RESET + command.getDesc());
             }
         } else {

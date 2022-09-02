@@ -16,7 +16,7 @@ public class CategoryComponent extends ClickComponent {
         this.expanded = true;
 
         this.displayName = category.getName();
-        for (Module module : GateClient.getGate().MODULE_MANAGER.MODULE_LIST) {
+        for (Module module : GateClient.getGate().moduleManager.moduleList) {
             if (module.getModuleCategory() == category) {
                 this.children.add(new ModuleComponent(module, posX, 0));
             }

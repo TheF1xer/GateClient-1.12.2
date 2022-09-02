@@ -11,12 +11,13 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class GateClient {
-    public CommandManager COMMAND_MANAGER;
-    public ConfigManager CONFIG_MANAGER;
-    public FriendsManager FRIENDS_MANAGER;
-    public GuiManager GUI_MANAGER;
-    public ModuleManager MODULE_MANAGER;
-    public PresetManager PRESET_MANAGER;
+    public CommandManager commandManager;
+    public ConfigManager configManager;
+    public FriendsManager friendsManager;
+    public GuiManager guiManager;
+    public ModuleManager moduleManager;
+    public PresetManager presetManager;
+    public ThreadManager threadManager;
 
     public CommonEventHandler commonEventHandler;
     public ModuleEventHandler moduleEventHandler;
@@ -30,12 +31,13 @@ public class GateClient {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        COMMAND_MANAGER = new CommandManager();
-        CONFIG_MANAGER = new ConfigManager();
-        FRIENDS_MANAGER = new FriendsManager();
-        GUI_MANAGER = new GuiManager();
-        MODULE_MANAGER = new ModuleManager();
-        PRESET_MANAGER = new PresetManager();
+        commandManager = new CommandManager();
+        configManager = new ConfigManager();
+        friendsManager = new FriendsManager();
+        guiManager = new GuiManager();
+        moduleManager = new ModuleManager();
+        presetManager = new PresetManager();
+        threadManager = new ThreadManager();
 
         commonEventHandler = new CommonEventHandler();
         moduleEventHandler = new ModuleEventHandler();
@@ -46,11 +48,12 @@ public class GateClient {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        MODULE_MANAGER.init();
-        COMMAND_MANAGER.init();
-        GUI_MANAGER.init();
-        CONFIG_MANAGER.init();
-        PRESET_MANAGER.init();
-        FRIENDS_MANAGER.init();
+        moduleManager.init();
+        commandManager.init();
+        guiManager.init();
+        configManager.init();
+        presetManager.init();
+        friendsManager.init();
+        threadManager.init();
     }
 }

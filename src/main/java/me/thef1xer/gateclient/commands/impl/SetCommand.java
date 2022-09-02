@@ -115,8 +115,8 @@ public class SetCommand extends Command {
                             ((BlockListSetting) setting).getBlockList().add(blockToAdd);
                             ChatUtil.clientMessage(TextFormatting.GOLD + blockToAdd.getLocalizedName() + TextFormatting.WHITE + " added to the Block List");
 
-                            if (GateClient.getGate().PRESET_MANAGER.isAutoSave()) {
-                                GateClient.getGate().PRESET_MANAGER.saveActivePreset();
+                            if (GateClient.getGate().presetManager.isAutoSave()) {
+                                GateClient.getGate().presetManager.saveActivePreset();
                             }
 
                             return;
@@ -137,8 +137,8 @@ public class SetCommand extends Command {
                                     ((BlockListSetting) setting).getBlockList().remove(blockToRemove);
                                     ChatUtil.clientMessage(TextFormatting.GOLD + blockToRemove.getLocalizedName() + TextFormatting.WHITE + " removed from the Block List");
 
-                                    if (GateClient.getGate().PRESET_MANAGER.isAutoSave()) {
-                                        GateClient.getGate().PRESET_MANAGER.saveActivePreset();
+                                    if (GateClient.getGate().presetManager.isAutoSave()) {
+                                        GateClient.getGate().presetManager.saveActivePreset();
                                     }
 
                                     return;
@@ -167,8 +167,8 @@ public class SetCommand extends Command {
 
                             ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "true");
 
-                            if (GateClient.getGate().PRESET_MANAGER.isAutoSave()) {
-                                GateClient.getGate().PRESET_MANAGER.saveActivePreset();
+                            if (GateClient.getGate().presetManager.isAutoSave()) {
+                                GateClient.getGate().presetManager.saveActivePreset();
                             }
 
                             return;
@@ -180,8 +180,8 @@ public class SetCommand extends Command {
 
                             ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "false");
 
-                            if (GateClient.getGate().PRESET_MANAGER.isAutoSave()) {
-                                GateClient.getGate().PRESET_MANAGER.saveActivePreset();
+                            if (GateClient.getGate().presetManager.isAutoSave()) {
+                                GateClient.getGate().presetManager.saveActivePreset();
                             }
 
                             return;
@@ -204,8 +204,8 @@ public class SetCommand extends Command {
                         if (((EnumSetting) setting).setValueFromName(args[3])) {
                             ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + ((EnumSetting) setting).getCurrentValueName());
 
-                            if (GateClient.getGate().PRESET_MANAGER.isAutoSave()) {
-                                GateClient.getGate().PRESET_MANAGER.saveActivePreset();
+                            if (GateClient.getGate().presetManager.isAutoSave()) {
+                                GateClient.getGate().presetManager.saveActivePreset();
                             }
 
                             return;
@@ -233,8 +233,8 @@ public class SetCommand extends Command {
                             if (((FloatSetting) setting).setValue(floatValue)) {
                                 ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + floatValue);
 
-                                if (GateClient.getGate().PRESET_MANAGER.isAutoSave()) {
-                                    GateClient.getGate().PRESET_MANAGER.saveActivePreset();
+                                if (GateClient.getGate().presetManager.isAutoSave()) {
+                                    GateClient.getGate().presetManager.saveActivePreset();
                                 }
 
                                 return;
@@ -278,8 +278,8 @@ public class SetCommand extends Command {
 
                         ChatUtil.clientMessage(setting.getName() + " set to " + TextFormatting.GOLD + "(" + r + ", " + g + ", " + b + ")");
 
-                        if (GateClient.getGate().PRESET_MANAGER.isAutoSave()) {
-                            GateClient.getGate().PRESET_MANAGER.saveActivePreset();
+                        if (GateClient.getGate().presetManager.isAutoSave()) {
+                            GateClient.getGate().presetManager.saveActivePreset();
                         }
 
                         return;
@@ -297,7 +297,7 @@ public class SetCommand extends Command {
     }
 
     private Module getModuleFromId(String moduleId) {
-        for (Module module : gate.MODULE_MANAGER.MODULE_LIST) {
+        for (Module module : gate.moduleManager.moduleList) {
             if (module.getId().equalsIgnoreCase(moduleId)) {
                 return module;
             }

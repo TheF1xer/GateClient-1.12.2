@@ -11,54 +11,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleManager {
-    public final List<Module> MODULE_LIST = new ArrayList<>();
+    public final List<Module> moduleList = new ArrayList<>();
 
     public void init() {
         // Combat
-        MODULE_LIST.add(AutoTotem.INSTANCE);
-        MODULE_LIST.add(Criticals.INSTANCE);
-        MODULE_LIST.add(CrystalAura.INSTANCE);
-        MODULE_LIST.add(KillAura.INSTANCE);
-        MODULE_LIST.add(Surround.INSTANCE);
+        moduleList.add(AutoTotem.INSTANCE);
+        moduleList.add(Criticals.INSTANCE);
+        moduleList.add(CrystalAura.INSTANCE);
+        moduleList.add(KillAura.INSTANCE);
+        moduleList.add(Surround.INSTANCE);
 
         // HUD
-        MODULE_LIST.add(ArmorHUD.INSTANCE);
-        MODULE_LIST.add(ClickGuiModule.INSTANCE);
-        MODULE_LIST.add(Coords.INSTANCE);
-        MODULE_LIST.add(ModuleList.INSTANCE);
-        MODULE_LIST.add(Watermark.INSTANCE);
+        moduleList.add(ArmorHUD.INSTANCE);
+        moduleList.add(ClickGuiModule.INSTANCE);
+        moduleList.add(Coords.INSTANCE);
+        moduleList.add(ModuleList.INSTANCE);
+        moduleList.add(Watermark.INSTANCE);
 
         // Movement
-        MODULE_LIST.add(Flight.INSTANCE);
-        MODULE_LIST.add(GuiMove.INSTANCE);
-        MODULE_LIST.add(Jesus.INSTANCE);
-        MODULE_LIST.add(NoFall.INSTANCE);
-        MODULE_LIST.add(NoSlow.INSTANCE);
-        MODULE_LIST.add(SafeWalk.INSTANCE);
-        MODULE_LIST.add(Speed.INSTANCE);
-        MODULE_LIST.add(Sprint.INSTANCE);
-        MODULE_LIST.add(Velocity.INSTANCE);
+        moduleList.add(Flight.INSTANCE);
+        moduleList.add(GuiMove.INSTANCE);
+        moduleList.add(Jesus.INSTANCE);
+        moduleList.add(NoFall.INSTANCE);
+        moduleList.add(NoSlow.INSTANCE);
+        moduleList.add(SafeWalk.INSTANCE);
+        moduleList.add(Speed.INSTANCE);
+        moduleList.add(Sprint.INSTANCE);
+        moduleList.add(Velocity.INSTANCE);
 
         // Player
-        MODULE_LIST.add(AntiHunger.INSTANCE);
-        MODULE_LIST.add(AutoArmor.INSTANCE);
-        MODULE_LIST.add(AutoDisconnect.INSTANCE);
-        MODULE_LIST.add(FakePlayer.INSTANCE);
-        MODULE_LIST.add(Freecam.INSTANCE);
-        MODULE_LIST.add(Notifications.INSTANCE);
-        MODULE_LIST.add(Scaffold.INSTANCE);
+        moduleList.add(AntiHunger.INSTANCE);
+        moduleList.add(AutoArmor.INSTANCE);
+        moduleList.add(AutoDisconnect.INSTANCE);
+        moduleList.add(FakePlayer.INSTANCE);
+        moduleList.add(Freecam.INSTANCE);
+        moduleList.add(Notifications.INSTANCE);
+        moduleList.add(Scaffold.INSTANCE);
 
         // Render
-        MODULE_LIST.add(EntityESP.INSTANCE);
-        MODULE_LIST.add(StorageESP.INSTANCE);
-        MODULE_LIST.add(FullBright.INSTANCE);
-        MODULE_LIST.add(HoleESP.INSTANCE);
-        MODULE_LIST.add(Nametags.INSTANCE);
-        MODULE_LIST.add(NoOverlay.INSTANCE);
-        MODULE_LIST.add(Search.INSTANCE);
-        MODULE_LIST.add(ShulkerViewer.INSTANCE);
-        MODULE_LIST.add(Tracers.INSTANCE);
-        MODULE_LIST.add(XRay.INSTANCE);
+        moduleList.add(EntityESP.INSTANCE);
+        moduleList.add(StorageESP.INSTANCE);
+        moduleList.add(FullBright.INSTANCE);
+        moduleList.add(HoleESP.INSTANCE);
+        moduleList.add(Nametags.INSTANCE);
+        moduleList.add(NoOverlay.INSTANCE);
+        moduleList.add(Search.INSTANCE);
+        moduleList.add(ShulkerViewer.INSTANCE);
+        moduleList.add(Tracers.INSTANCE);
+        moduleList.add(XRay.INSTANCE);
 
 
         ModuleList.INSTANCE.sortList();

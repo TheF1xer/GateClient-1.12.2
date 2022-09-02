@@ -105,7 +105,7 @@ public class KillAura extends Module {
                             return true;
                         }
 
-                        return !GateClient.getGate().FRIENDS_MANAGER.isFriend(entity.getName());
+                        return !GateClient.getGate().friendsManager.isFriend(entity.getName());
                     }
 
                     return false;

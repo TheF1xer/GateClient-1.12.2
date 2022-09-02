@@ -130,7 +130,7 @@ public class CrystalAura extends Module {
 
             // Check friends
             if (!targetFriends.getValue()) {
-                if (GateClient.getGate().FRIENDS_MANAGER.isFriend(player.getName())) {
+                if (GateClient.getGate().friendsManager.isFriend(player.getName())) {
                     continue;
                 }
             }

@@ -99,7 +99,7 @@ public class Nametags extends Module {
         GlStateManager.enableTexture2D();
 
         // Draw Player Name Health and Ping
-        if (GateClient.getGate().FRIENDS_MANAGER.isFriend(player.getName())) {
+        if (GateClient.getGate().friendsManager.isFriend(player.getName())) {
             // Friends should have cyan name
             fr.drawString(nameHealthPing, -(float) (stringWidth / 2), 0, 0x00FFFF, false);
         } else {

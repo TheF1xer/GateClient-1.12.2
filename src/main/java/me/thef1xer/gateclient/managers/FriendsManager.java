@@ -49,7 +49,7 @@ public class FriendsManager {
     }
 
     public boolean isFriend(String name) {
-        for (String friendName : GateClient.getGate().FRIENDS_MANAGER.FRIENDS_NAME_LIST) {
+        for (String friendName : GateClient.getGate().friendsManager.FRIENDS_NAME_LIST) {
             if (friendName.equalsIgnoreCase(name)) {
                 return true;
             }
