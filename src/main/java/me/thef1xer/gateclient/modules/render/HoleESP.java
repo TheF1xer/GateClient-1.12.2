@@ -2,7 +2,7 @@ package me.thef1xer.gateclient.modules.render;
 
 import me.thef1xer.gateclient.GateClient;
 import me.thef1xer.gateclient.events.CheckBlockInChunkEvent;
-import me.thef1xer.gateclient.events.CheckUnloadedChunksEvent;
+import me.thef1xer.gateclient.events.CheckChunkEvent;
 import me.thef1xer.gateclient.events.SetBlockStateEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.FloatSetting;
@@ -39,7 +39,7 @@ public class HoleESP extends Module {
         holeList.clear();
 
         if (mc.world != null) {
-            GateClient.getGate().threadManager.loadedChunksToCheck.addAll(mc.world.getChunkProvider().chunkMapping.values());
+            GateClient.getGate().threadManager.chunksToCheck.addAll(mc.world.getChunkProvider().chunkMapping.values());
         }
     }
 
@@ -58,28 +58,39 @@ public class HoleESP extends Module {
         }
     }
 
-    public void onCheckBlockInChunkEvent(CheckBlockInChunkEvent event) {
-        BlockPos pos = event.getBlockPos();
-        Chunk chunk = event.getChunk();
+    public void onCheckChunk(CheckChunkEvent event) {
+        if (event.isChunkLoaded()) {
 
-        updateHole(chunk.getBlockState(pos).getBlock(), pos);
-    }
+            // Check if block is still there
+            for (int i = 0; i < holeList.size(); i++) {
+                BlockPos holePos = holeList.get(i).getPos();
 
-    public void onCheckUnloadedChunks(CheckUnloadedChunksEvent event) {
-        // Search chunks when they are unloaded
+                if (WorldUtil.isBlockPosInChunk(event.getChunk(), holePos)) {
+                    Block holeBlock = mc.world.getBlockState(holePos).getBlock();
+                    updateHole(holeBlock, holePos);
+                }
+            }
 
-        List<Chunk> chunks = event.getChunks();
+            return;
+        }
+
+        // Just remove pos in that chunk
         int index = 0;
-
         while (index < holeList.size()) {
-            BlockPos foundPos = holeList.get(index).getPos();
+            BlockPos holePos = holeList.get(index).getPos();
 
-            if (WorldUtil.isBlockPosInChunks(chunks, foundPos)) {
+            if (WorldUtil.isBlockPosInChunk(event.getChunk(), holePos)) {
                 holeList.remove(index);
             } else {
                 index++;
             }
+
         }
+    }
+
+    public void onCheckBlockInChunkEvent(CheckBlockInChunkEvent event) {
+        BlockPos pos = event.getBlockPos();
+        updateHole(mc.world.getBlockState(pos).getBlock(), pos);
     }
 
     public void onRenderWorldLast() {

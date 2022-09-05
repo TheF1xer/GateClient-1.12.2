@@ -1,7 +1,7 @@
 package me.thef1xer.gateclient.managers;
 
 import me.thef1xer.gateclient.events.CheckBlockInChunkEvent;
-import me.thef1xer.gateclient.events.CheckUnloadedChunksEvent;
+import me.thef1xer.gateclient.events.CheckChunkEvent;
 import me.thef1xer.gateclient.events.ThreadTickEvent;
 import me.thef1xer.gateclient.events.SearchChunksEvent;
 import net.minecraft.client.Minecraft;
@@ -14,9 +14,6 @@ import java.util.List;
 
 public class ThreadManager {
     public final Thread clientThread;
-
-    public List<Chunk> loadedChunksToCheck = new ArrayList<>();
-    public List<Chunk> unloadedChunksToCheck = new ArrayList<>();
     public List<Chunk> chunksToCheck = new ArrayList<>();
 
     private final Minecraft mc = Minecraft.getMinecraft();
@@ -33,21 +30,18 @@ public class ThreadManager {
                 // But other people with more experience than me have done it this way
                 // I think I really hate event systems, they kinda feel unnecessary, can't we do this with methods anyway?
 
-                // Check unloaded Chunks
-                if (mc.world != null && !unloadedChunksToCheck.isEmpty()) {
-
-                    MinecraftForge.EVENT_BUS.post(new CheckUnloadedChunksEvent(unloadedChunksToCheck));
-
-                    unloadedChunksToCheck.clear();
-                }
-
                 // Check loaded Chunks
-                if (!loadedChunksToCheck.isEmpty() && MinecraftForge.EVENT_BUS.post(new SearchChunksEvent())) {
-                    for (int i = 0; i < loadedChunksToCheck.size(); i++) {
-                        Chunk chunk = loadedChunksToCheck.get(i);
+                if (!chunksToCheck.isEmpty() && MinecraftForge.EVENT_BUS.post(new SearchChunksEvent())) {
+                    for (int i = 0; i < chunksToCheck.size(); i++) {
+                        Chunk chunk = chunksToCheck.get(i);
 
                         if (mc.world == null) continue;
-                        if (!mc.world.getChunkProvider().chunkMapping.containsValue(chunk)) continue;
+
+                        boolean isLoaded = mc.world.isChunkGeneratedAt(chunk.x, chunk.z);
+                        MinecraftForge.EVENT_BUS.post(new CheckChunkEvent(chunk, isLoaded));
+
+                        // Don't check blocks in chunk if chunk isn't loaded
+                        if (!isLoaded) continue;
 
                         for (int x = chunk.getPos().getXStart(); x <= chunk.getPos().getXEnd(); x++) {
                             for (int y = 1; y <= 256; y++) {
@@ -61,7 +55,7 @@ public class ThreadManager {
 
                     }
 
-                    loadedChunksToCheck.clear();
+                    chunksToCheck.clear();
                 }
 
             }

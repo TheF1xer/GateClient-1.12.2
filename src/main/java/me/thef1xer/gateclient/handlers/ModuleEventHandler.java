@@ -215,24 +215,22 @@ public class ModuleEventHandler {
 
     @SubscribeEvent
     public void onLoadChunk(ChunkEvent.Load event) {
-        System.out.println("load chunk");
-        GateClient.getGate().threadManager.loadedChunksToCheck.add(event.getChunk());
+        GateClient.getGate().threadManager.chunksToCheck.add(event.getChunk());
     }
 
     @SubscribeEvent
     public void onUnLoadChunk(ChunkEvent.Unload event) {
-        System.out.println("unload chunk");
-        GateClient.getGate().threadManager.unloadedChunksToCheck.add(event.getChunk());
+        GateClient.getGate().threadManager.chunksToCheck.add(event.getChunk());
     }
 
     @SubscribeEvent
-    public void onCheckUnloadedChunks(CheckUnloadedChunksEvent event) {
+    public void onCheckChunk(CheckChunkEvent event) {
         if (Search.INSTANCE.isEnabled()) {
-            Search.INSTANCE.onCheckUnloadedChunks(event);
+            Search.INSTANCE.onCheckChunk(event);
         }
 
         if (HoleESP.INSTANCE.isEnabled()) {
-            HoleESP.INSTANCE.onCheckUnloadedChunks(event);
+            HoleESP.INSTANCE.onCheckChunk(event);
         }
     }
 

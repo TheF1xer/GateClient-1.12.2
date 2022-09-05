@@ -2,7 +2,7 @@ package me.thef1xer.gateclient.modules.render;
 
 import me.thef1xer.gateclient.GateClient;
 import me.thef1xer.gateclient.events.CheckBlockInChunkEvent;
-import me.thef1xer.gateclient.events.CheckUnloadedChunksEvent;
+import me.thef1xer.gateclient.events.CheckChunkEvent;
 import me.thef1xer.gateclient.events.SetBlockStateEvent;
 import me.thef1xer.gateclient.modules.Module;
 import me.thef1xer.gateclient.settings.impl.BlockListSetting;
@@ -51,7 +51,7 @@ public class Search extends Module {
         foundBlocksPos.clear();
 
         if (mc.world != null) {
-            GateClient.getGate().threadManager.loadedChunksToCheck.addAll(mc.world.getChunkProvider().chunkMapping.values());
+            GateClient.getGate().threadManager.chunksToCheck.addAll(mc.world.getChunkProvider().chunkMapping.values());
         }
     }
 
@@ -81,21 +81,38 @@ public class Search extends Module {
         BlockPos pos = event.getBlockPos();
         Chunk chunk = event.getChunk();
 
-        if (searchedBlocks.getBlockList().contains(chunk.getBlockState(pos).getBlock()) && !foundBlocksPos.contains(pos)) {
+        if (searchedBlocks.getBlockList().contains(mc.world.getBlockState(pos).getBlock()) && !foundBlocksPos.contains(pos)) {
             foundBlocksPos.add(pos);
         }
     }
 
-    public void onCheckUnloadedChunks(CheckUnloadedChunksEvent event) {
-        // Search chunks when they are unloaded
+    public void onCheckChunk(CheckChunkEvent event) {
+        if (event.isChunkLoaded()) {
 
-        List<Chunk> chunks = event.getChunks();
+            // Check if block is still there
+            int index = 0;
+            while (index < foundBlocksPos.size()) {
+                BlockPos foundPos = foundBlocksPos.get(index);
+
+                if (WorldUtil.isBlockPosInChunk(event.getChunk(), foundPos)) {
+                    if (!searchedBlocks.getBlockList().contains(mc.world.getBlockState(foundPos).getBlock())) {
+                        foundBlocksPos.remove(index);
+                    }
+                } else {
+                    index++;
+                }
+
+            }
+
+            return;
+        }
+
+        // Just remove pos in that chunk
         int index = 0;
-
         while (index < foundBlocksPos.size()) {
             BlockPos foundPos = foundBlocksPos.get(index);
 
-            if (WorldUtil.isBlockPosInChunks(chunks, foundPos)) {
+            if (WorldUtil.isBlockPosInChunk(event.getChunk(), foundPos)) {
                 foundBlocksPos.remove(index);
             } else {
                 index++;
