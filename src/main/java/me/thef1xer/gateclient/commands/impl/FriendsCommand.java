@@ -20,7 +20,7 @@ public class FriendsCommand extends Command {
             if (args[1].equalsIgnoreCase("list")) {
                 ChatUtil.clientMessage(TextFormatting.BOLD + "Friend List:");
 
-                for (String friendName : gate.friendsManager.FRIENDS_NAME_LIST) {
+                for (String friendName : gate.friendsManager.friendsNameList) {
                     ChatUtil.clientMessage(friendName);
                 }
 
@@ -42,7 +42,7 @@ public class FriendsCommand extends Command {
                     return;
                 }
 
-                gate.friendsManager.FRIENDS_NAME_LIST.add(args[2]);
+                gate.friendsManager.friendsNameList.add(args[2]);
                 gate.friendsManager.saveFriendList();
 
                 ChatUtil.clientMessage(TextFormatting.GOLD + args[2] + TextFormatting.WHITE + " added to the Friends List");
@@ -54,11 +54,11 @@ public class FriendsCommand extends Command {
             if (args[1].equalsIgnoreCase("remove")) {
 
                 // This makes it not case-sensitive
-                for (String friendName : gate.friendsManager.FRIENDS_NAME_LIST) {
+                for (String friendName : gate.friendsManager.friendsNameList) {
 
                     // Remove if friend was found
                     if (friendName.equalsIgnoreCase(args[2])) {
-                        gate.friendsManager.FRIENDS_NAME_LIST.remove(friendName);
+                        gate.friendsManager.friendsNameList.remove(friendName);
                         gate.friendsManager.saveFriendList();
 
                         ChatUtil.clientMessage(TextFormatting.GOLD + args[2] + TextFormatting.WHITE + " removed from the Friends List");
