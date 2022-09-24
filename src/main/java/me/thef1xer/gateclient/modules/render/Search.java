@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 import java.util.ArrayList;
@@ -79,7 +78,6 @@ public class Search extends Module {
 
     public void onCheckBlockInChunkEvent(CheckBlockInChunkEvent event) {
         BlockPos pos = event.getBlockPos();
-        Chunk chunk = event.getChunk();
 
         if (searchedBlocks.getBlockList().contains(mc.world.getBlockState(pos).getBlock()) && !foundBlocksPos.contains(pos)) {
             foundBlocksPos.add(pos);

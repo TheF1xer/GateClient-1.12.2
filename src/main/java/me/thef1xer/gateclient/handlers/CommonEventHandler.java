@@ -9,20 +9,11 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
 public class CommonEventHandler {
     private final Minecraft mc = Minecraft.getMinecraft();
     private final GateClient gate = GateClient.getGate();
-
-
-    @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (!gate.threadManager.clientThread.isAlive()) {
-            ChatUtil.clientMessage("An error occurred with the Client Thread, please restart your Client");
-        }
-    }
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {

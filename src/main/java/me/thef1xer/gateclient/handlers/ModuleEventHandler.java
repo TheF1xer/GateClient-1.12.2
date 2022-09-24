@@ -10,6 +10,7 @@ import me.thef1xer.gateclient.modules.hud.Watermark;
 import me.thef1xer.gateclient.modules.movement.*;
 import me.thef1xer.gateclient.modules.player.*;
 import me.thef1xer.gateclient.modules.render.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -245,6 +246,8 @@ public class ModuleEventHandler {
 
     @SubscribeEvent
     public void onCheckBlockInChunk(CheckBlockInChunkEvent event) {
+        if (Minecraft.getMinecraft().world == null) return;
+
         if (Search.INSTANCE.isEnabled()) {
             Search.INSTANCE.onCheckBlockInChunkEvent(event);
         }

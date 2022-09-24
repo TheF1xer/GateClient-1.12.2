@@ -4,6 +4,7 @@ import me.thef1xer.gateclient.events.CheckBlockInChunkEvent;
 import me.thef1xer.gateclient.events.CheckChunkEvent;
 import me.thef1xer.gateclient.events.ThreadTickEvent;
 import me.thef1xer.gateclient.events.SearchChunksEvent;
+import me.thef1xer.gateclient.util.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
@@ -23,41 +24,48 @@ public class ThreadManager {
 
             // Run method override
             while (true) {
-                // I don't know why, but if I remove this, the Thread won't work anymore
-                MinecraftForge.EVENT_BUS.post(new ThreadTickEvent());
+                try {
 
-                // Do I really need Events to do this? I feel like I'm just using a lot of memory just to make everything more readable
-                // But other people with more experience than me have done it this way
-                // I think I really hate event systems, they kinda feel unnecessary, can't we do this with methods anyway?
+                    // I don't know why, but if I remove this, the Thread won't work anymore
+                    MinecraftForge.EVENT_BUS.post(new ThreadTickEvent());
 
-                // Check loaded Chunks
-                if (!chunksToCheck.isEmpty() && MinecraftForge.EVENT_BUS.post(new SearchChunksEvent())) {
-                    for (int i = 0; i < chunksToCheck.size(); i++) {
-                        Chunk chunk = chunksToCheck.get(i);
+                    // Do I really need Events to do this? I feel like I'm just using a lot of memory just to make everything more readable
+                    // But other people with more experience than me have done it this way
+                    // I think I really hate event systems, they kinda feel unnecessary, can't we do this with methods anyway?
 
-                        if (mc.world == null) continue;
+                    // Check loaded Chunks
+                    if (!chunksToCheck.isEmpty() && MinecraftForge.EVENT_BUS.post(new SearchChunksEvent())) {
+                        for (int i = 0; i < chunksToCheck.size(); i++) {
+                            Chunk chunk = chunksToCheck.get(i);
 
-                        boolean isLoaded = mc.world.isChunkGeneratedAt(chunk.x, chunk.z);
-                        MinecraftForge.EVENT_BUS.post(new CheckChunkEvent(chunk, isLoaded));
+                            if (mc.world == null) continue;
 
-                        // Don't check blocks in chunk if chunk isn't loaded
-                        if (!isLoaded) continue;
+                            boolean isLoaded = mc.world.isChunkGeneratedAt(chunk.x, chunk.z);
+                            MinecraftForge.EVENT_BUS.post(new CheckChunkEvent(chunk, isLoaded));
 
-                        for (int x = chunk.getPos().getXStart(); x <= chunk.getPos().getXEnd(); x++) {
-                            for (int y = 1; y <= 256; y++) {
-                                for (int z = chunk.getPos().getZStart(); z <= chunk.getPos().getZEnd(); z++) {
+                            // Don't check blocks in chunk if chunk isn't loaded
+                            if (!isLoaded) continue;
 
-                                    // Post new event with BlockPos and Chunk, I hate events so much
-                                    MinecraftForge.EVENT_BUS.post(new CheckBlockInChunkEvent(new BlockPos(x, y, z), chunk));
+                            for (int x = chunk.getPos().getXStart(); x <= chunk.getPos().getXEnd(); x++) {
+                                for (int y = 1; y <= 256; y++) {
+                                    for (int z = chunk.getPos().getZStart(); z <= chunk.getPos().getZEnd(); z++) {
+
+                                        // Post new event with BlockPos and Chunk, I hate events so much
+                                        MinecraftForge.EVENT_BUS.post(new CheckBlockInChunkEvent(new BlockPos(x, y, z)));
+                                    }
                                 }
                             }
+
                         }
 
+                        chunksToCheck.clear();
                     }
 
-                    chunksToCheck.clear();
+                } catch (Exception e) {
+                    if (mc.player != null) {
+                        ChatUtil.clientMessage("A small bug occurred, you might want to send your logs to the developer");
+                    }
                 }
-
             }
         });
 
